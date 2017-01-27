@@ -1,0 +1,6 @@
+spring:
+  thymeleaf:
+    mode: HTML5
+
+flyway:
+  enabled: false
