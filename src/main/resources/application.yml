@@ -3,10 +3,13 @@ spring:
     mode: HTML5
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:2215/db_kp
+    url: jdbc:mysql://localhost:2215/sample
     schema: sample
     username: sampleUser
     password: samplePassword
 
 flyway:
   enabled: false
+
+mybatis:
+  mapper-locations: mybatis/sql/*.xml
