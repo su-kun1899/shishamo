@@ -1,6 +1,12 @@
 spring:
   thymeleaf:
     mode: HTML5
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:2215/db_kp
+    schema: sample
+    username: sampleUser
+    password: samplePassword
 
 flyway:
   enabled: false

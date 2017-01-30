@@ -1,6 +1,5 @@
 package red.sukun1899;
 
-import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +20,7 @@ public class MysqlspyApplication {
 				.withPort(2215)
 				.withUser("sampleUser", "samplePassword")
 				.build();
-		EmbeddedMysql embeddedMysql = anEmbeddedMysql(mysqldConfig)
+		anEmbeddedMysql(mysqldConfig)
 				.addSchema("sample", classPathScript("db/sample/001_init.sql"))
 				.start();
 
