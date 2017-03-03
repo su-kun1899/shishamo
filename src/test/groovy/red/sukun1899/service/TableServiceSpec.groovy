@@ -14,7 +14,7 @@ class TableServiceSpec extends Specification {
 
     def 'テーブル一覧の取得'() {
         when:
-        def tables = tableService.get()
+        def tables = tableService.getAll()
 
         then:
         tables.size() == 2
