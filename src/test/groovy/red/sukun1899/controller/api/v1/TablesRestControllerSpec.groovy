@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Unroll
 @SpringBootTest
 @AutoConfigureMockMvc
-class TablesRestControllerTest extends Specification {
+class TablesRestControllerSpec extends Specification {
     @Autowired
     MockMvc mockMvc
 
