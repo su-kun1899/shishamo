@@ -17,7 +17,14 @@ public class TablesRestController {
     @GetMapping
     public List<Table> get() {
         final List<Table> tables = new ArrayList<>();
-        tables.add(new Table());
+        Table table1 = new Table();
+        table1.setName("table1");
+        tables.add(table1);
+
+        Table table2 = new Table();
+        table2.setName("table2");
+        tables.add(table2);
+
         return tables;
     }
 }
