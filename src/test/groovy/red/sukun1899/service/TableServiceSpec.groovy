@@ -1,10 +1,12 @@
 package red.sukun1899.service
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * @author su-kun1899
  */
+@Unroll
 class TableServiceSpec extends Specification {
     TableService tableService
 

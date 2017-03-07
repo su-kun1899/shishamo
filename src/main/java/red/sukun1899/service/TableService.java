@@ -1,6 +1,7 @@
 package red.sukun1899.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import red.sukun1899.model.Table;
 
 import java.util.ArrayList;
@@ -11,8 +12,7 @@ import java.util.List;
  */
 @Service
 public class TableService {
-
-    //@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<Table> getAll() {
         final List<Table> tables = new ArrayList<>();
         Table table1 = new Table();
