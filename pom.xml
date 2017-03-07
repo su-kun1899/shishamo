@@ -39,16 +39,18 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
+		<!-- TODO Wixは開発時やUTでのみ使うようにしたい -->
 		<dependency>
 			<groupId>com.wix</groupId>
 			<artifactId>wix-embedded-mysql</artifactId>
 			<version>2.1.4</version>
+		</dependency>
+
+		<!-- Runtime -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- Testing -->
