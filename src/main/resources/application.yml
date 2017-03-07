@@ -9,7 +9,7 @@ spring:
     password: samplePassword
 
 flyway:
-  enabled: true
+  enabled: false
   locations: db/sample
 
 mybatis:

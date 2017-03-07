@@ -1,7 +1,6 @@
 package red.sukun1899.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import red.sukun1899.model.Table;
 import red.sukun1899.repository.TableRepository;
 
@@ -18,7 +17,7 @@ public class TableService {
         this.tableRepository = tableRepository;
     }
 
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public List<Table> getAll() {
         return tableRepository.find();
     }
