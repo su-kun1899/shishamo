@@ -9,7 +9,8 @@ spring:
     password: samplePassword
 
 flyway:
-  enabled: false
+  enabled: true
+  locations: db/sample
 
 mybatis:
   mapper-locations: mybatis/sql/*.xml

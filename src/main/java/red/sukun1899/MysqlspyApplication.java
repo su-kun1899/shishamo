@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_6_latest;
@@ -21,7 +20,7 @@ public class MysqlspyApplication {
 				.withUser("sampleUser", "samplePassword")
 				.build();
 		anEmbeddedMysql(mysqldConfig)
-				.addSchema("sample", classPathScript("db/sample/001_init.sql"))
+				.addSchema("sample")
 				.start();
 
 		SpringApplication.run(MysqlspyApplication.class, args);
