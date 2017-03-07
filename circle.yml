@@ -1,0 +1,19 @@
+machine:
+  timezone:
+    Asia/Tokyo
+  java:
+    version: oraclejdk8
+  environment:
+    _JAVA_OPTIONS: "-Xms1024m -Xmx3072m"
+general:
+  artifacts:
+    - "target/mysql-visualizer.jar"
+database:
+  post:
+    - mysql -u root --execute "create database if not exists sample character set utf8"
+dependencies:
+  override:
+    - mvn dependency:resolve
+test:
+  override:
+    - mvn integration-test
