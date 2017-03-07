@@ -1,2 +1,2 @@
-# mysqlspy
-Mysql Metadata Viewer
+# mysql-visualizer
+Mysql Metadata Visualizer

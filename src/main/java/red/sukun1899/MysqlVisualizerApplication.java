@@ -10,7 +10,7 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_6_latest;
 
 @SpringBootApplication
-public class MysqlspyApplication {
+public class MysqlVisualizerApplication {
 
 	public static void main(String[] args) {
 		// TODO Sampleの時だけ動かしたい
@@ -23,6 +23,6 @@ public class MysqlspyApplication {
 				.addSchema("sample")
 				.start();
 
-		SpringApplication.run(MysqlspyApplication.class, args);
+		SpringApplication.run(MysqlVisualizerApplication.class, args);
 	}
 }

@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>red.sukun1899</groupId>
-	<artifactId>mysqlspy</artifactId>
+	<artifactId>mysql-visualizer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>mysqlspy</name>
-	<description>Mysql Metadata Viewer</description>
+	<name>mysql-visualizer</name>
+	<description>Mysql Metadata Visualizer</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
