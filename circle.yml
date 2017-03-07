@@ -13,7 +13,7 @@ database:
     - mysql -u root --execute "create database if not exists sample character set utf8"
 dependencies:
   override:
-    - mvn dependency:resolve
+    - ./mvnw dependency:resolve
 test:
   override:
-    - mvn integration-test
+    - ./mvnw test
