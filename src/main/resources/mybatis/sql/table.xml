@@ -7,4 +7,12 @@
     <select id="findAll" resultType="map">
         SHOW TABLES
     </select>
+    <select id="find" resultType="red.sukun1899.model.Table">
+        SELECT
+          `table_name` AS `name`
+        FROM
+          `information_schema`.`tables`
+        WHERE
+          `table_schema` = 'sample'
+    </select>
 </mapper>

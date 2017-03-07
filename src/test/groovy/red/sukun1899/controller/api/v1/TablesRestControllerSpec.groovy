@@ -1,18 +1,22 @@
 package red.sukun1899.controller.api.v1
 
 import org.hamcrest.Matchers
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.SpyBean
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import red.sukun1899.model.Table
+import red.sukun1899.service.TableService
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+
 /**
  * @author su-kun1899
  */
@@ -23,12 +27,18 @@ class TablesRestControllerSpec extends Specification {
     @Autowired
     MockMvc mockMvc
 
+    @SpyBean
+    TableService tableService
+
     def 'テーブル一覧の取得'() {
         setup: '期待値の用意'
         def tables = [
                 new Table(name: 'table1'),
                 new Table(name: 'table2'),
         ]
+
+        and: '取得処理のMock化'
+        Mockito.doReturn(tables).when(tableService).getAll()
 
         and: 'URL'
         def url = '/v1/tables'
