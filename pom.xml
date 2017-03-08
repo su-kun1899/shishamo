@@ -39,6 +39,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+		</dependency>
+
 		<!-- TODO Wixは開発時やUTでのみ使うようにしたい -->
 		<dependency>
 			<groupId>com.wix</groupId>

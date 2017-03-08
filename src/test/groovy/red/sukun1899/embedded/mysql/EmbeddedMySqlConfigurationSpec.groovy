@@ -1,5 +1,6 @@
 package red.sukun1899.embedded.mysql
 
+import org.yaml.snakeyaml.Yaml
 import spock.lang.Specification
 
 /**
@@ -8,7 +9,10 @@ import spock.lang.Specification
 class EmbeddedMySqlConfigurationSpec extends Specification {
     def 'portが設定されていること'() {
         when:
-        def config = new EmbeddedMySqlConfiguration();
+        def config = new Yaml().loadAs(
+                '!!red.sukun1899.embedded.mysql.EmbeddedMySqlConfiguration {port: 2215}',
+                EmbeddedMySqlConfiguration
+        )
 
         then:
         config.getPort() == 2215
