@@ -1,3 +1,7 @@
 !!red.sukun1899.embedded.mysql.EmbeddedMySqlConfiguration {
-  port: 2215
+  port: 2215,
+  version: v5_7_latest,
+  username: sampleUser,
+  password: samplePassword,
+  schemaName: sample
 }
