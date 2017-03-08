@@ -8,9 +8,12 @@ import spock.lang.Specification
  */
 class EmbeddedMySqlConfigurationSpec extends Specification {
     def 'portが設定されていること'() {
+        given:
+        def stream = this.getClass().getClassLoader().getResourceAsStream('embedded-mysql.yml')
+
         when:
         def config = new Yaml().loadAs(
-                '!!red.sukun1899.embedded.mysql.EmbeddedMySqlConfiguration {port: 2215}',
+                stream,
                 EmbeddedMySqlConfiguration
         )
 
