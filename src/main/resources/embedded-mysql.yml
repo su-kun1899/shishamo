@@ -1,4 +1,5 @@
-!!red.sukun1899.embedded.mysql.EmbeddedMySqlConfiguration {
+!!red.sukun1899.embedded.mysql.EmbeddedMySqlConfig {
+  charset: UTF8,
   port: 2215,
   version: v5_7_latest,
   username: sampleUser,

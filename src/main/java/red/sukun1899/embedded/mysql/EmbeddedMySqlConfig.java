@@ -1,18 +1,24 @@
 package red.sukun1899.embedded.mysql;
 
+import com.wix.mysql.config.Charset;
 import com.wix.mysql.distribution.Version;
+
+import static com.wix.mysql.config.Charset.LATIN1;
+import static com.wix.mysql.config.Charset.UTF8;
+import static com.wix.mysql.config.Charset.UTF8MB4;
 
 /**
  * @author su-kun1899
  */
-public class EmbeddedMySqlConfiguration {
+public class EmbeddedMySqlConfig {
     private int port;
     private Version version;
     private String username;
     private String password;
     private String schemaName;
+    private String charset;
 
-    public EmbeddedMySqlConfiguration() {
+    public EmbeddedMySqlConfig() {
         this.port = 3306;
         this.version = Version.v5_7_latest;
         this.username = "root";
@@ -58,5 +64,26 @@ public class EmbeddedMySqlConfiguration {
 
     public void setSchemaName(String schemaName) {
         this.schemaName = schemaName;
+    }
+
+    public Charset getWixCharset() {
+        if (this.charset.equalsIgnoreCase(UTF8.getCharset())) {
+            return UTF8;
+        } else if (this.charset.equalsIgnoreCase(UTF8MB4.getCharset())) {
+            return UTF8MB4;
+        } else if (this.charset.equalsIgnoreCase(LATIN1.getCharset())) {
+            return LATIN1;
+        } else {
+            // default
+            return UTF8;
+        }
+    }
+
+    public String getCharset() {
+        return charset;
+    }
+
+    public void setCharset(String charset) {
+        this.charset = charset;
     }
 }
