@@ -16,7 +16,7 @@ class EmbeddedMySqlUtilSpec extends Specification {
 
         then:
         config.getWixCharset() == Charset.UTF8
-        config.getPort() == 2215
+        config.getPort() == 12215
         config.getVersion() == v5_7_latest
         config.getUsername() == 'sampleUser'
         config.getPassword() == 'samplePassword'

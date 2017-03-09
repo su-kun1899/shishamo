@@ -3,13 +3,13 @@ spring:
     mode: HTML5
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:2215/sample?useSSL=true
+    url: jdbc:mysql://localhost:12215/sample?useSSL=true
     schema: sample
     username: sampleUser
     password: samplePassword
 
 flyway:
-  enabled: true
+  enabled: false
   locations: db/sample
 
 mybatis:

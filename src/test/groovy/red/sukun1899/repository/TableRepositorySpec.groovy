@@ -1,16 +1,12 @@
 package red.sukun1899.repository
 
-import com.wix.mysql.config.MysqldConfig
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql
-import static com.wix.mysql.config.Charset.UTF8
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig
-import static com.wix.mysql.distribution.Version.v5_6_latest
-
+import static red.sukun1899.embedded.mysql.EmbeddedMySqlUtil.loadConfiguration
+import static red.sukun1899.embedded.mysql.EmbeddedMySqlUtil.start
 /**
  * @author su-kun1899
  */
@@ -22,14 +18,7 @@ class TableRepositorySpec extends Specification {
 
     def setupSpec() {
         // TODO 共通化したい
-        MysqldConfig mysqldConfig = aMysqldConfig(v5_6_latest)
-                .withCharset(UTF8)
-                .withPort(2215)
-                .withUser("sampleUser", "samplePassword")
-                .build()
-        anEmbeddedMysql(mysqldConfig)
-                .addSchema("sample")
-                .start()
+        start(loadConfiguration())
     }
 
     def 'テーブル一覧の取得'() {
