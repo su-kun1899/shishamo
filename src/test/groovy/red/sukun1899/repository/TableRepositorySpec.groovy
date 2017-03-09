@@ -17,7 +17,7 @@ class TableRepositorySpec extends Specification {
     TableRepository tableRepository
 
     def setupSpec() {
-        // TODO 共通化したい
+        // TODO CIのときは起動しないようにしたい
         start(loadConfiguration())
     }
 

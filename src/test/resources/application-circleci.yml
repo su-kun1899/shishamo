@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sample?useSSL=true
+    schema: sample
+    username: root
+    password:
+
+flyway:
+  enabled: false
+  locations: db/sample
+
+mybatis:
+  mapper-locations: mybatis/sql/*.xml
