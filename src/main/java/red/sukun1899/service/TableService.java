@@ -17,7 +17,7 @@ public class TableService {
         this.tableRepository = tableRepository;
     }
 
-//    @Transactional(readOnly = true)
+    // @Transactional(readOnly = true)
     public List<Table> getAll() {
         return tableRepository.find();
     }
