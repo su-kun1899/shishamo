@@ -13,9 +13,9 @@ class MysqlVisualizerApplicationSpec extends Specification {
         MysqlVisualizer.enableEmbeddedMysql(args as String[]) == enable
 
         where:
-        args                                     || enable
+        args                                       || enable
         ['--mysqlvisualizer.embedded.mysql=true']  || true
         ['--mysqlvisualizer.embedded.mysql=false'] || false
-        []                                       || false
+        []                                         || false
     }
 }
