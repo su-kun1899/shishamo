@@ -1,5 +1,6 @@
 package red.sukun1899.embedded.mysql;
 
+import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import org.yaml.snakeyaml.Yaml;
 
@@ -16,22 +17,32 @@ public final class EmbeddedMySqlUtil {
         // インスタンス生成禁止
     }
 
-    public static void start(EmbeddedMySqlConfig config) {
-        MysqldConfig mysqldConfig = aMysqldConfig(config.getVersion())
-                .withCharset(config.getWixCharset())
-                .withPort(config.getPort())
-                .withUser(config.getUsername(), config.getPassword())
+    static final EmbeddedMySqlConfig CONFIG;
+    static {
+        CONFIG = loadConfiguration();
+    }
+
+    private static final EmbeddedMysql SINGLETON_INSTANCE;
+    static {
+        MysqldConfig mysqldConfig = aMysqldConfig(CONFIG.getVersion())
+                .withCharset(CONFIG.getWixCharset())
+                .withPort(CONFIG.getPort())
+                .withUser(CONFIG.getUsername(), CONFIG.getPassword())
                 .build();
-        anEmbeddedMysql(mysqldConfig)
-                .addSchema(config.getSchemaName())
+        SINGLETON_INSTANCE = anEmbeddedMysql(mysqldConfig)
+                .addSchema(CONFIG.getSchemaName())
                 .start();
     }
 
-    public static EmbeddedMySqlConfig loadConfiguration() {
+    public static EmbeddedMysql ready() {
+        return SINGLETON_INSTANCE;
+    }
+
+    private static EmbeddedMySqlConfig loadConfiguration() {
         final InputStream configAsStream = EmbeddedMySqlUtil.class.getClassLoader().getResourceAsStream("embedded-mysql.yml");
         if (configAsStream == null) {
             // Config file is not found. Use default.
-            // TODO Untested
+            // FIXME Untested
             return new EmbeddedMySqlConfig();
         }
 

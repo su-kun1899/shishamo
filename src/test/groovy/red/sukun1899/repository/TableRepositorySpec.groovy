@@ -2,11 +2,9 @@ package red.sukun1899.repository
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import red.sukun1899.embedded.mysql.EmbeddedMySqlUtil
 import spock.lang.Specification
 import spock.lang.Unroll
-
-import static red.sukun1899.embedded.mysql.EmbeddedMySqlUtil.loadConfiguration
-import static red.sukun1899.embedded.mysql.EmbeddedMySqlUtil.start
 /**
  * @author su-kun1899
  */
@@ -17,14 +15,13 @@ class TableRepositorySpec extends Specification {
     TableRepository tableRepository
 
     def setupSpec() {
-        // TODO CIのときは起動しないようにしたい
-        start(loadConfiguration())
+        EmbeddedMySqlUtil.ready()
     }
 
     def 'テーブル一覧の取得'() {
         // TODO テストデータ入れて確認
         when:
-        def tables = tableRepository.find()
+        def tables = tableRepository.selectAll()
 
         then:
         tables.isEmpty()

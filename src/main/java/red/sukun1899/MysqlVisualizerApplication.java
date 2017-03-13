@@ -11,7 +11,7 @@ public class MysqlVisualizerApplication {
 
 	public static void main(String[] args) {
 		if (enableEmbeddedMysql(args)) {
-			EmbeddedMySqlUtil.start(EmbeddedMySqlUtil.loadConfiguration());
+			EmbeddedMySqlUtil.ready();
 		}
 
 		SpringApplication.run(MysqlVisualizerApplication.class, args);

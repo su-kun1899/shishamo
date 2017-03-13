@@ -10,13 +10,13 @@ import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import red.sukun1899.embedded.mysql.EmbeddedMySqlUtil
 import red.sukun1899.model.Table
 import red.sukun1899.service.TableService
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-
 /**
  * @author su-kun1899
  */
@@ -30,6 +30,10 @@ class TablesRestControllerSpec extends Specification {
     @SpyBean
     TableService tableService
 
+    def setupSpec() {
+        EmbeddedMySqlUtil.ready()
+    }
+
     def 'テーブル一覧の取得'() {
         setup: '期待値の用意'
         def tables = [
@@ -38,7 +42,7 @@ class TablesRestControllerSpec extends Specification {
         ]
 
         and: '取得処理のMock化'
-        Mockito.doReturn(tables).when(tableService).getAll()
+        Mockito.doReturn(tables).when(tableService).get()
 
         and: 'URL'
         def url = '/v1/tables'

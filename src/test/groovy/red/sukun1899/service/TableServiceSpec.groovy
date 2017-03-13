@@ -20,7 +20,7 @@ class TableServiceSpec extends Specification {
 
     def 'テーブル一覧の取得'() {
         given: 'repositoryのMock化'
-        tableRepository.find() >> {
+        tableRepository.selectAll() >> {
             [
                     new Table(name: 'table1'),
                     new Table(name: 'table2'),
@@ -28,7 +28,7 @@ class TableServiceSpec extends Specification {
         }
 
         when:
-        def tables = tableService.getAll()
+        def tables = tableService.get()
 
         then:
         tables.size() == 2

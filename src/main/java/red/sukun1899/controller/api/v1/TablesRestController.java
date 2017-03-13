@@ -22,6 +22,6 @@ public class TablesRestController {
 
     @GetMapping
     public List<Table> get() {
-        return tableService.getAll();
+        return tableService.get();
     }
 }

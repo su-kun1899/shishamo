@@ -12,7 +12,7 @@ import static com.wix.mysql.distribution.Version.v5_7_latest
 class EmbeddedMySqlUtilSpec extends Specification {
     def 'yamlから設定を取得できること'() {
         when:
-        def config = EmbeddedMySqlUtil.loadConfiguration()
+        def config = EmbeddedMySqlUtil.CONFIG
 
         then:
         config.getWixCharset() == Charset.UTF8
