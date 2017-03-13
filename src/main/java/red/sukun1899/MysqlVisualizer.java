@@ -7,14 +7,14 @@ import red.sukun1899.embedded.mysql.EmbeddedMySqlUtil;
 import java.util.Arrays;
 
 @SpringBootApplication
-public class MysqlVisualizerApplication {
+public class MysqlVisualizer {
 
 	public static void main(String[] args) {
 		if (enableEmbeddedMysql(args)) {
 			EmbeddedMySqlUtil.ready();
 		}
 
-		SpringApplication.run(MysqlVisualizerApplication.class, args);
+		SpringApplication.run(MysqlVisualizer.class, args);
 	}
 
 	static boolean enableEmbeddedMysql(String[] args) {

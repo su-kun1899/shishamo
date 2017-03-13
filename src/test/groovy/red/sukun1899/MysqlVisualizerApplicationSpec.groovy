@@ -10,7 +10,7 @@ import spock.lang.Unroll
 class MysqlVisualizerApplicationSpec extends Specification {
     def 'Enable Embedded Mysql'() {
         expect:
-        MysqlVisualizerApplication.enableEmbeddedMysql(args as String[]) == enable
+        MysqlVisualizer.enableEmbeddedMysql(args as String[]) == enable
 
         where:
         args                                     || enable

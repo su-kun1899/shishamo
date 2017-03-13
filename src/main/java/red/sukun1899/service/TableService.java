@@ -2,6 +2,7 @@ package red.sukun1899.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import red.sukun1899.AppConfig;
 import red.sukun1899.model.Table;
 import red.sukun1899.repository.TableRepository;
 
@@ -12,14 +13,16 @@ import java.util.List;
  */
 @Service
 public class TableService {
+    private final AppConfig appConfig;
     private final TableRepository tableRepository;
 
-    public TableService(TableRepository tableRepository) {
+    public TableService(AppConfig appConfig, TableRepository tableRepository) {
+        this.appConfig = appConfig;
         this.tableRepository = tableRepository;
     }
 
     @Transactional(readOnly = true)
     public List<Table> get() {
-        return tableRepository.selectAll();
+        return tableRepository.selectAll(appConfig.getSchemaName());
     }
 }

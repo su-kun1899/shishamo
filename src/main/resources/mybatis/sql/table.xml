@@ -10,6 +10,6 @@
         FROM
           `information_schema`.`tables`
         WHERE
-          `table_schema` = 'sample'
+          `table_schema` = #{schemaName}
     </select>
 </mapper>

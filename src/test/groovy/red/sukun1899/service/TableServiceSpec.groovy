@@ -1,5 +1,6 @@
 package red.sukun1899.service
 
+import red.sukun1899.AppConfig
 import red.sukun1899.model.Table
 import red.sukun1899.repository.TableRepository
 import spock.lang.Specification
@@ -11,16 +12,18 @@ import spock.lang.Unroll
 @Unroll
 class TableServiceSpec extends Specification {
     TableService tableService
+    AppConfig appConfig
     TableRepository tableRepository
 
     def setup() {
+        appConfig = Mock()
         tableRepository = Mock()
-        tableService = new TableService(tableRepository)
+        tableService = new TableService(appConfig, tableRepository)
     }
 
     def 'テーブル一覧の取得'() {
         given: 'repositoryのMock化'
-        tableRepository.selectAll() >> {
+        tableRepository.selectAll(_) >> {
             [
                     new Table(name: 'table1'),
                     new Table(name: 'table2'),

@@ -21,7 +21,7 @@ class TableRepositorySpec extends Specification {
     def 'テーブル一覧の取得'() {
         // TODO テストデータ入れて確認
         when:
-        def tables = tableRepository.selectAll()
+        def tables = tableRepository.selectAll('sample')
 
         then:
         tables.isEmpty()
