@@ -21,8 +21,8 @@ class TableServiceSpec extends Specification {
         tableService = new TableService(appConfig, tableRepository)
     }
 
-    def 'テーブル一覧の取得'() {
-        given: 'repositoryのMock化'
+    def 'Get table list'() {
+        given: 'Mocking repository'
         tableRepository.selectAll(_) >> {
             [
                     new Table(name: 'table1'),
