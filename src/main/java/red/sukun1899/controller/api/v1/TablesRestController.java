@@ -1,6 +1,7 @@
 package red.sukun1899.controller.api.v1;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import red.sukun1899.model.Table;
@@ -23,5 +24,14 @@ public class TablesRestController {
     @GetMapping
     public List<Table> get() {
         return tableService.get();
+    }
+
+    @GetMapping(path = "{tableName}")
+    public Table get(@PathVariable String tableName) {
+        // FIXME dummy
+        final Table dummy = new Table();
+        dummy.setName(tableName);
+
+        return dummy;
     }
 }

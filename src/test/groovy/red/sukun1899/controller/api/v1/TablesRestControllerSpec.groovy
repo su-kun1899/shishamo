@@ -17,6 +17,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+
 /**
  * @author su-kun1899
  */
@@ -34,7 +35,7 @@ class TablesRestControllerSpec extends Specification {
         EmbeddedMySqlUtil.ready()
     }
 
-    def 'テーブル一覧の取得'() {
+    def 'Get table list'() {
         setup: '期待値の用意'
         def tables = [
                 new Table(name: 'table1'),
@@ -54,5 +55,22 @@ class TablesRestControllerSpec extends Specification {
                 .andExpect(jsonPath('$', Matchers.hasSize(tables.size())))
                 .andExpect(jsonPath('$[0].name').value(tables[0].getName()))
                 .andExpect(jsonPath('$[1].name').value(tables[1].getName()))
+    }
+
+    def 'Get table detail'() {
+        setup: '期待値の用意'
+        def table = new Table(name: tableName)
+
+        and: 'URL'
+        def url = '/v1/tables/' + tableName
+
+        expect:
+        mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(jsonPath('$').isNotEmpty())
+                .andExpect(jsonPath('$.name').value(table.getName()))
+
+        where:
+        tableName      | _
+        'sample_table' | _
     }
 }
