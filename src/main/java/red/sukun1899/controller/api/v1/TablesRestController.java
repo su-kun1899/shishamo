@@ -37,6 +37,10 @@ public class TablesRestController {
         final ArrayList<Column> dummyColumns = new ArrayList<>();
         final Column dummyColumn1 = new Column();
         dummyColumn1.setName("columnA");
+        dummyColumn1.setDefaultValue("default_sample");
+        dummyColumn1.setNullable(true);
+        dummyColumn1.setType("varchar(40)");
+        dummyColumn1.setComment("comment_sample");
         dummyColumns.add(dummyColumn1);
         final Column dummyColumn2 = new Column();
         dummyColumn2.setName("columnB");

@@ -81,4 +81,34 @@ class TablesRestControllerSpec extends Specification {
         tableName      | columnNames
         'sample_table' | ['columnA', 'columnB']
     }
+
+    def 'Get column detail'() {
+        setup: '期待値の用意'
+        def table = new Table(
+                name: 'sample_table',
+                columns: [new Column(
+                        name: name,
+                        defaultValue: defaultValue,
+                        nullable: nullable,
+                        type: type,
+                        comment: comment
+                )]
+        )
+
+        and: 'URL'
+        def url = '/v1/tables/' + table.getName()
+
+        expect:
+        mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(jsonPath('$').isNotEmpty())
+                .andExpect(jsonPath('$.columns[0].name').value(table.getColumns().get(0).getName()))
+                .andExpect(jsonPath('$.columns[0].defaultValue').value(table.getColumns().get(0).getDefaultValue()))
+                .andExpect(jsonPath('$.columns[0].nullable').value(table.getColumns().get(0).isNullable()))
+                .andExpect(jsonPath('$.columns[0].type').value(table.getColumns().get(0).getType()))
+                .andExpect(jsonPath('$.columns[0].comment').value(table.getColumns().get(0).getComment()))
+
+        where:
+        name      | defaultValue     | nullable | type          | comment
+        'columnA' | 'default_sample' | true     | 'varchar(40)' | 'comment_sample'
+    }
 }
