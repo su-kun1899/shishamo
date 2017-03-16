@@ -7,6 +7,9 @@ spring:
     schema: sample
     username: sampleUser
     password: samplePassword
+  jackson:
+      serialization:
+        indent_output: true
 
 flyway:
   enabled: true
