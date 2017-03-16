@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import red.sukun1899.embedded.mysql.EmbeddedMySqlUtil
+import red.sukun1899.model.Column
 import red.sukun1899.model.Table
 import red.sukun1899.service.TableService
 import spock.lang.Specification
@@ -59,7 +60,10 @@ class TablesRestControllerSpec extends Specification {
 
     def 'Get table detail'() {
         setup: '期待値の用意'
-        def table = new Table(name: tableName)
+        def table = new Table(
+                name: tableName,
+                columns: [new Column(name: columnNames[0]), new Column(name: columnNames[1])]
+        )
 
         and: 'URL'
         def url = '/v1/tables/' + tableName
@@ -68,9 +72,13 @@ class TablesRestControllerSpec extends Specification {
         mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(jsonPath('$').isNotEmpty())
                 .andExpect(jsonPath('$.name').value(table.getName()))
+                .andExpect(jsonPath('$.columns').isArray())
+                .andExpect(jsonPath('$.columns', Matchers.hasSize(table.getColumns().size())))
+                .andExpect(jsonPath('$.columns[0].name').value(table.getColumns().get(0).getName()))
+                .andExpect(jsonPath('$.columns[1].name').value(table.getColumns().get(1).getName()))
 
         where:
-        tableName      | _
-        'sample_table' | _
+        tableName      | columnNames
+        'sample_table' | ['columnA', 'columnB']
     }
 }
