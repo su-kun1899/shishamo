@@ -37,13 +37,13 @@ class TablesRestControllerSpec extends Specification {
     }
 
     def 'Get table list'() {
-        setup: '期待値の用意'
+        setup: 'Prepare expected value'
         def tables = [
                 new Table(name: 'table1'),
                 new Table(name: 'table2'),
         ]
 
-        and: '取得処理のMock化'
+        and: 'Mocking service'
         Mockito.doReturn(tables).when(tableService).get()
 
         and: 'URL'
@@ -59,7 +59,7 @@ class TablesRestControllerSpec extends Specification {
     }
 
     def 'Get table detail'() {
-        setup: '期待値の用意'
+        setup: 'Prepare expected value'
         def table = new Table(
                 name: tableName,
                 columns: [new Column(name: columnNames[0]), new Column(name: columnNames[1])]
@@ -83,7 +83,7 @@ class TablesRestControllerSpec extends Specification {
     }
 
     def 'Get column detail'() {
-        setup: '期待値の用意'
+        setup: 'Prepare expected value'
         def table = new Table(
                 name: 'sample_table',
                 columns: [new Column(
