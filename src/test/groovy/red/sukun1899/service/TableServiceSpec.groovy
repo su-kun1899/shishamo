@@ -1,6 +1,7 @@
 package red.sukun1899.service
 
 import red.sukun1899.AppConfig
+import red.sukun1899.model.Column
 import red.sukun1899.model.Table
 import red.sukun1899.repository.TableRepository
 import spock.lang.Specification
@@ -37,5 +38,29 @@ class TableServiceSpec extends Specification {
         tables.size() == 2
         tables[0].getName() == 'table1'
         tables[1].getName() == 'table2'
+    }
+
+    def 'Get table detail'() {
+        given: '期待値'
+        def expected = new Table(
+                name: 'sample_table',
+                columns: [
+                        new Column(name: 'columnA', defaultValue: 'mysql', nullable: false, comment: 'test1'),
+                        new Column(name: 'columnB', defaultValue: 'oracle', nullable: true, comment: 'test2'),
+                ]
+        )
+
+        when:
+        def table = tableService.get(expected.getName())
+
+        then:
+        assert table.getName() == expected.getName()
+        assert table.getColumns().size() == expected.getColumns().size()
+        table.getColumns().eachWithIndex { Column column, int i ->
+            assert column.getName() == expected.getColumns().get(i).getName()
+            assert column.getDefaultValue() == expected.getColumns().get(i).getDefaultValue()
+            assert column.isNullable() == expected.getColumns().get(i).isNullable()
+            assert column.getComment() == expected.getColumns().get(i).getComment()
+        }
     }
 }
