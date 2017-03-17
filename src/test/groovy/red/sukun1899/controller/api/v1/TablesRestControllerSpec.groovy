@@ -100,6 +100,9 @@ class TablesRestControllerSpec extends Specification {
         and: 'URL'
         def url = '/v1/tables/' + table.getName()
 
+        and: 'Mocking service'
+        Mockito.doReturn(table).when(tableService).get(table.getName())
+
         expect:
         mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(jsonPath('$').isNotEmpty())
