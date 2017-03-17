@@ -10,8 +10,11 @@ Defalut branch:
 
 You can use embedded mysql server for demo, testing, development.
 
-Like this:  
-- `java -jar mysql-visualizer.jar --mysqlvisualizer.embedded.mysql=true`
-- `./mvnw spring-boot:run -Drun.arguments="--mysqlvisualizer.embedded.mysql=true"`  
+Example:  
+- `java -jar -Dmysqlvisualizer.embedded.mysql=true mysql-visualizer.jar`
+- `./mvnw spring-boot:run -Dmysqlvisualizer.embedded.mysql=true`  
 
-Also you can custormize the configuration by `src/main/resources/embedded-mysql.yml`
+Also you can custormize the configuration by `src/main/resources/embedded-mysql.yml`  
+
+Notice:
+Command line argument has more priority than configuration file.

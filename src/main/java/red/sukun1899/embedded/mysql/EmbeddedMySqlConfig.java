@@ -11,6 +11,7 @@ import static com.wix.mysql.config.Charset.UTF8MB4;
  * @author su-kun1899
  */
 public class EmbeddedMySqlConfig {
+    private boolean enable;
     private int port;
     private Version version;
     private String username;
@@ -85,5 +86,13 @@ public class EmbeddedMySqlConfig {
 
     public void setCharset(String charset) {
         this.charset = charset;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 }

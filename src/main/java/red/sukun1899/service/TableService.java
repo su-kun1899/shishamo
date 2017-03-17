@@ -25,4 +25,9 @@ public class TableService {
     public List<Table> get() {
         return tableRepository.selectAll(appConfig.getSchemaName());
     }
+
+    @Transactional(readOnly = true)
+    public Table get(String tableName) {
+        return null;
+    }
 }

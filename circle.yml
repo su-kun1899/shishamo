@@ -16,4 +16,4 @@ dependencies:
     - mvn dependency:resolve
 test:
   override:
-    - mvn integration-test -Dspring.profiles.active=circleci
+    - mvn integration-test -Dspring.profiles.active=circleci -Dmysqlvisualizer.embedded.mysql=false

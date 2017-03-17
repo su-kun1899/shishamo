@@ -33,7 +33,9 @@ class TablesRestControllerSpec extends Specification {
     TableService tableService
 
     def setupSpec() {
-        EmbeddedMySqlUtil.ready()
+        if (EmbeddedMySqlUtil.enable()){
+            EmbeddedMySqlUtil.ready()
+        }
     }
 
     def 'Get table list'() {

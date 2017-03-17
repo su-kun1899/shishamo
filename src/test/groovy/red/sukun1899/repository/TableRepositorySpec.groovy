@@ -27,7 +27,9 @@ class TableRepositorySpec extends Specification {
     DataSourceDestination destination
 
     def setupSpec() {
-        EmbeddedMySqlUtil.ready()
+        if (EmbeddedMySqlUtil.enable()){
+            EmbeddedMySqlUtil.ready()
+        }
     }
 
     def 'Get tables'() {

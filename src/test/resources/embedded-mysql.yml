@@ -1,4 +1,5 @@
 !!red.sukun1899.embedded.mysql.EmbeddedMySqlConfig {
+  enable: true,
   charset: UTF8,
   port: 12215,
   version: v5_7_latest,

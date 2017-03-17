@@ -10,11 +10,12 @@ import static com.wix.mysql.distribution.Version.v5_7_latest
  */
 @Unroll
 class EmbeddedMySqlUtilSpec extends Specification {
-    def 'yamlから設定を取得できること'() {
+    def 'Get configuration'() {
         when:
-        def config = EmbeddedMySqlUtil.CONFIG
+        def config = EmbeddedMySqlUtil.getConfig()
 
         then:
+        config.isEnable()
         config.getWixCharset() == Charset.UTF8
         config.getPort() == 12215
         config.getVersion() == v5_7_latest

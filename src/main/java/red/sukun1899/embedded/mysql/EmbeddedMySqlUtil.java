@@ -17,25 +17,45 @@ public final class EmbeddedMySqlUtil {
         // インスタンス生成禁止
     }
 
-    static final EmbeddedMySqlConfig CONFIG;
+    private static final EmbeddedMySqlConfig CONFIG;
     static {
         CONFIG = loadConfiguration();
     }
 
     private static final EmbeddedMysql SINGLETON_INSTANCE;
     static {
-        MysqldConfig mysqldConfig = aMysqldConfig(CONFIG.getVersion())
-                .withCharset(CONFIG.getWixCharset())
-                .withPort(CONFIG.getPort())
-                .withUser(CONFIG.getUsername(), CONFIG.getPassword())
-                .build();
-        SINGLETON_INSTANCE = anEmbeddedMysql(mysqldConfig)
-                .addSchema(CONFIG.getSchemaName())
-                .start();
+        if (enable()) {
+            MysqldConfig mysqldConfig = aMysqldConfig(CONFIG.getVersion())
+                    .withCharset(CONFIG.getWixCharset())
+                    .withPort(CONFIG.getPort())
+                    .withUser(CONFIG.getUsername(), CONFIG.getPassword())
+                    .build();
+            SINGLETON_INSTANCE = anEmbeddedMysql(mysqldConfig)
+                    .addSchema(CONFIG.getSchemaName())
+                    .start();
+        } else {
+            SINGLETON_INSTANCE = null;
+        }
     }
 
     public static EmbeddedMysql ready() {
+        if (!enable()) {
+            throw new IllegalStateException("Embedded MySQL is disabled. " +
+                    "Check your configuration file in embedded-mysql.yml");
+        }
         return SINGLETON_INSTANCE;
+    }
+
+    public static boolean enable() {
+        final String property = System.getProperty("mysqlvisualizer.embedded.mysql");
+        if (property != null){
+            return Boolean.valueOf(property);
+        }
+        return CONFIG.isEnable();
+    }
+
+    public static EmbeddedMySqlConfig getConfig() {
+        return CONFIG;
     }
 
     private static EmbeddedMySqlConfig loadConfiguration() {
