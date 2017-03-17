@@ -4,12 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="red.sukun1899.repository.TableRepository">
-    <select id="selectAll" resultType="red.sukun1899.model.Table">
+    <select id="selectAll">
         SELECT
           `table_name` AS `name`
         FROM
           `information_schema`.`tables`
         WHERE
           `table_schema` = #{schemaName}
+    </select>
+
+    <select id="select" resultType="red.sukun1899.model.Table">
+        SELECT
+          `table_name` AS `name`
+        FROM
+          `information_schema`.`tables`
+        WHERE
+          `table_schema` = #{schemaName}
+          AND
+          `table_name` = #{name}
     </select>
 </mapper>
