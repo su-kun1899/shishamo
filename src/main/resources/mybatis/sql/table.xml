@@ -4,7 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="red.sukun1899.repository.TableRepository">
-    <select id="selectAll">
+    <resultMap id="tableMap" type="red.sukun1899.model.Table" autoMapping="true">
+        <id property="name" column="name" />
+        <collection property="columns" ofType="red.sukun1899.model.Column" autoMapping="true" columnPrefix="column_">
+            <id column="name" property="name"  />
+        </collection>
+    </resultMap>
+
+    <select id="selectAll" resultMap="tableMap">
         SELECT
           `table_name` AS `name`
         FROM
@@ -13,14 +20,18 @@
           `table_schema` = #{schemaName}
     </select>
 
-    <select id="select" resultType="red.sukun1899.model.Table">
+    <select id="select" resultMap="tableMap">
         SELECT
-          `table_name` AS `name`
+          tab.table_name AS `name`
+          , col.column_name as `column_name`
         FROM
-          `information_schema`.`tables`
+          information_schema.tables tab
+          INNER JOIN
+          information_schema.columns col
+            ON tab.table_schema = col.table_schema and tab.TABLE_NAME = col.TABLE_NAME
         WHERE
-          `table_schema` = #{schemaName}
+          tab.table_schema = #{schemaName}
           AND
-          `table_name` = #{name}
+          tab.table_name = #{name}
     </select>
 </mapper>

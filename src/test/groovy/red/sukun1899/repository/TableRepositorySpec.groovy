@@ -72,6 +72,7 @@ class TableRepositorySpec extends Specification {
 
         then:
         table.getName() == tableName
+        table.getColumns().size() == 3
 
         where:
         tableName | _
