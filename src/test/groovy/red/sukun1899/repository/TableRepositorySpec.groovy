@@ -56,6 +56,7 @@ class TableRepositorySpec extends Specification {
     }
 
     def 'Get table'() {
+        // FIXME untested defaultValue, nullable
         given:
         new DbSetup(destination, sequenceOf(
                 sql('DROP TABLE IF EXISTS book'),
@@ -73,6 +74,27 @@ class TableRepositorySpec extends Specification {
         then:
         table.getName() == tableName
         table.getColumns().size() == 3
+
+        and:
+        table.getColumns().get(0).getName() == 'isbn'
+        table.getColumns().get(0).getType() == 'bigint(19)'
+        table.getColumns().get(0).getDefaultValue() == null
+        table.getColumns().get(0).getComment() == 'ISBN'
+        assert !table.getColumns().get(0).isNullable()
+
+        and:
+        table.getColumns().get(1).getName() == 'title'
+        table.getColumns().get(1).getType() == 'varchar(128)'
+        table.getColumns().get(1).getDefaultValue() == null
+        table.getColumns().get(1).getComment() == 'タイトル'
+        assert !table.getColumns().get(1).isNullable()
+
+        and:
+        table.getColumns().get(2).getName() == 'title'
+        table.getColumns().get(2).getType() == 'varchar(128)'
+        table.getColumns().get(2).getDefaultValue() == null
+        table.getColumns().get(2).getComment() == 'タイトル'
+        assert !table.getColumns().get(2).isNullable()
 
         where:
         tableName | _

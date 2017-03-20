@@ -26,6 +26,10 @@
         SELECT
           tab.table_name AS `name`
           , col.column_name as `column_name`
+          , col.column_type as `column_type`
+          , col.column_default as `column_defaultValue`
+          , col.is_nullable as `column_nullable`
+          , col.column_comment as `column_comment`
         FROM
           information_schema.tables tab
           INNER JOIN
