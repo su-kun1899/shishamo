@@ -41,7 +41,7 @@ class TableServiceSpec extends Specification {
     }
 
     def 'Get table detail'() {
-        given: '期待値'
+        given: 'Mocking repository'
         def expected = new Table(
                 name: 'sample_table',
                 columns: [
@@ -49,6 +49,7 @@ class TableServiceSpec extends Specification {
                         new Column(name: 'columnB', defaultValue: 'oracle', nullable: true, comment: 'test2'),
                 ]
         )
+        tableRepository.select(*_) >> expected
 
         when:
         def table = tableService.get(expected.getName())
