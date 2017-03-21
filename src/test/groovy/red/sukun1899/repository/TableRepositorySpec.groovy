@@ -90,10 +90,10 @@ class TableRepositorySpec extends Specification {
         assert !table.getColumns().get(1).isNullable()
 
         and:
-        table.getColumns().get(2).getName() == 'title'
-        table.getColumns().get(2).getType() == 'varchar(128)'
+        table.getColumns().get(2).getName() == 'publisherid'
+        table.getColumns().get(2).getType() == 'int(10) unsigned'
         table.getColumns().get(2).getDefaultValue() == null
-        table.getColumns().get(2).getComment() == 'タイトル'
+        table.getColumns().get(2).getComment() == '出版社ID'
         assert !table.getColumns().get(2).isNullable()
 
         where:

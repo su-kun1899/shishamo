@@ -61,11 +61,12 @@ class TablesRestControllerSpec extends Specification {
     }
 
     def 'Get table detail'() {
-        setup: 'Prepare expected value'
+        setup: 'Mock service'
         def table = new Table(
                 name: tableName,
                 columns: [new Column(name: columnNames[0]), new Column(name: columnNames[1])]
         )
+        Mockito.doReturn(table).when(tableService).get(Mockito.anyString())
 
         and: 'URL'
         def url = '/v1/tables/' + tableName
