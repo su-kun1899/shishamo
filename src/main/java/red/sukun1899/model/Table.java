@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class Table {
     private String name;
+    private String comment;
     private List<Column> columns;
 
     public String getName() {
@@ -23,5 +24,13 @@ public class Table {
 
     public void setColumns(List<Column> columns) {
         this.columns = columns;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

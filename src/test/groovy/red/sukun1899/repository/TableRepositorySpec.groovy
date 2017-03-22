@@ -51,7 +51,8 @@ class TableRepositorySpec extends Specification {
         then:
         tables.size() == 1
         tables.each {
-            it.getName() == 'book'
+            assert it.getName() == 'book'
+            assert it.getComment() == '書籍'
         }
     }
 
@@ -73,6 +74,7 @@ class TableRepositorySpec extends Specification {
 
         then:
         table.getName() == tableName
+        table.getComment() == '書籍'
         table.getColumns().size() == 3
 
         and:

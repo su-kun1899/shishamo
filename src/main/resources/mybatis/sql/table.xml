@@ -14,17 +14,19 @@
     <!--suppress SqlDialectInspection -->
     <select id="selectAll" resultMap="tableMap">
         SELECT
-          `table_name` AS `name`
+            tab.table_name AS `name`
+          , tab.table_comment AS `comment`
         FROM
-          `information_schema`.`tables`
+          information_schema.tables tab
         WHERE
-          `table_schema` = #{schemaName}
+          tab.table_schema = #{schemaName}
     </select>
 
     <!--suppress SqlDialectInspection -->
     <select id="select" resultMap="tableMap">
         SELECT
-          tab.table_name AS `name`
+            tab.table_name AS `name`
+          , tab.table_comment AS `comment`
           , col.column_name as `column_name`
           , col.column_type as `column_type`
           , col.column_default as `column_defaultValue`
