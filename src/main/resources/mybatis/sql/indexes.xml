@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="red.sukun1899.repository.IndexRepository">
+    <resultMap id="indexMap" type="red.sukun1899.model.Index" autoMapping="true">
+        <id property="name" column="name" />
+        <collection property="columns" ofType="red.sukun1899.model.Column" autoMapping="true" columnPrefix="column_">
+            <id column="name" property="name"  />
+        </collection>
+    </resultMap>
+
+    <!--suppress SqlDialectInspection -->
+    <select id="selectByTableName" resultMap="indexMap">
+      SELECT
+        idx.index_name    AS name
+        , CASE
+            WHEN idx.index_name = 'PRIMARY' THEN idx.index_name
+            WHEN idx.non_unique = 0 THEN 'UNIQUE'
+            ELSE 'PERFORMANCE'
+	      END AS category
+        , col.column_name AS column_name
+      FROM
+        information_schema.STATISTICS idx
+        INNER JOIN
+        information_schema.columns col
+          ON idx.table_schema = col.table_schema
+            AND idx.table_name = col.table_name
+            AND idx.column_name = col.column_name
+      WHERE
+        idx.table_schema = #{schemaName}
+        AND
+        idx.table_name = #{tableName}
+      ORDER BY
+        col.ordinal_position
+        , idx.seq_in_index
+    </select>
+</mapper>
