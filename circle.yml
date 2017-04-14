@@ -17,7 +17,7 @@ dependencies:
 test:
   override:
     - mvn integration-test -Dspring.profiles.active=circleci -Dmysqlvisualizer.embedded.mysql=false
-    - mvn mvn jacoco:report
+    - mvn jacoco:report
   post:
     - mkdir -p $CIRCLE_ARTIFACTS/site/jacoco
     - mv target/site/jacoco/ $CIRCLE_ARTIFACTS/site/jacoco
