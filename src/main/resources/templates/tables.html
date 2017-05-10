@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Tables</title>
 </head>
 <body>
 <h1>Tables</h1>
+<ul>
+    <li th:each="table : ${tables}">
+        <a href="table.html" th:href="@{'/tables/' + ${table.name}}"
+           th:text="${table.name} + ' (' + ${table.comment} + ')'">table1</a>
+    </li>
+</ul>
 </body>
 </html>
