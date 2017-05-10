@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Table</title>
 </head>
 <body>
-<h1>Table</h1>
+<h1 th:text="${table.name} + ' (' + ${table.comment} + ')'">Table</h1>
+<ul>
+    <li th:each="column : ${table.columns}"
+        th:text="${column.name} + ' (' + ${column.comment} + ')'">Column</li>
+</ul>
+<p><a href="tables.html" th:href="@{'/tables'}">戻る</a></p>
 </body>
 </html>
