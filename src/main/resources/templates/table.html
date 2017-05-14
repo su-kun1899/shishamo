@@ -2,14 +2,30 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Table</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- TODO テーブル名表示 -->
+    <title>MySQL Visualizer - Table sample.book</title>
+
+    <!-- Bootstrap -->
+    <link href="../static/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/bootstrap/3.3.7/css/bootstrap.min.css}">
 </head>
 <body>
-<h1 th:text="${table.name} + ' (' + ${table.comment} + ')'">Table</h1>
+<!-- TODO スキーマ名表示 -->
+<h1 th:text="'Table ' + ${table.name}">Table sample.book</h1>
+<h2 th:text="${table.comment}">書籍</h2>
 <ul>
     <li th:each="column : ${table.columns}"
-        th:text="${column.name} + ' (' + ${column.comment} + ')'">Column</li>
+        th:text="${column.name} + ' (' + ${column.comment} + ')'">Column
+    </li>
 </ul>
 <p><a href="tables.html" th:href="@{'/tables'}">戻る</a></p>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../static/bootstrap/3.3.7/js/bootstrap.min.js"
+        th:src="@{/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 </body>
 </html>
