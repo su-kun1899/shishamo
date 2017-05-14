@@ -14,8 +14,9 @@
 </head>
 <body>
 <!-- TODO スキーマ名表示 -->
-<h1 th:text="'Table ' + ${table.name}">Table sample.book</h1>
-<h2 th:text="${table.comment}">書籍</h2>
+<div class="page-header">
+    <h1><span th:text="'Table ' + ${table.name}">Table sample.book</span> <small th:text="${table.comment}">書籍</small></h1>
+</div>
 
 <div class="container" style="padding:20px 0">
     <table class="table table-striped table-bordered table-hover table-condensed">
