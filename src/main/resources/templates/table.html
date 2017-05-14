@@ -34,7 +34,7 @@
         <tr th:each="column : ${table.columns}">
             <td th:text="${column.name}">book</td>
             <td th:text="${column.type}">bigint(19)</td>
-            <td th:text="${column.nullable}">v</td>
+            <td><span class="glyphicon glyphicon-ok" aria-hidden="true" th:class="${column.nullable}? 'glyphicon glyphicon-ok'"></span></td>
             <td th:text="${column.defaultValue}"></td>
             <td></td>
             <td></td>
