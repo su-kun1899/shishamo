@@ -137,7 +137,7 @@
 						<include>**/*Spec.java</include>
 						<!--<include>**/*Test.java</include>-->
 					</includes>
-					<argLine>@{argLine}</argLine>
+					<!--<argLine>@{argLine}</argLine>-->
 				</configuration>
 			</plugin>
 			<plugin>

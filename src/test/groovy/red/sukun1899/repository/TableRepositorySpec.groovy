@@ -60,13 +60,26 @@ class TableRepositorySpec extends Specification {
         // FIXME untested defaultValue, nullable
         given:
         new DbSetup(destination, sequenceOf(
-                sql('DROP TABLE IF EXISTS book'),
-                sql('CREATE TABLE `book` (' +
-                        '  `isbn` bigint(19) NOT NULL COMMENT \'ISBN\',' +
-                        '  `title` varchar(128) NOT NULL COMMENT \'タイトル\',' +
-                        '  `publisherid` int(10) unsigned NOT NULL COMMENT \'出版社ID\',' +
-                        '  PRIMARY KEY (`isbn`)' +
-                        ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'書籍\'')
+                sql('DROP TABLE IF EXISTS `publisher`'),
+                sql("""
+                    CREATE TABLE `publisher` (
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `name` varchar(40) NOT NULL COMMENT '出版社名',
+                      PRIMARY KEY (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版社'
+                """),
+                sql('DROP TABLE IF EXISTS `book`'),
+                sql("""
+                    CREATE TABLE `book` (
+                      `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
+                      `title` varchar(128) NOT NULL COMMENT 'タイトル',
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `author` varchar(40) NOT NULL COMMENT '著者',
+                      PRIMARY KEY (`isbn`),
+                      KEY `publisherid` (`publisherid`),
+                      CONSTRAINT `book_ibfk_1` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
+                """)
         )).launch()
 
         when:
@@ -75,7 +88,7 @@ class TableRepositorySpec extends Specification {
         then:
         table.getName() == tableName
         table.getComment() == '書籍'
-        table.getColumns().size() == 3
+        table.getColumns().size() == 4
 
         and:
         table.getColumns().get(0).getName() == 'isbn'
@@ -97,6 +110,13 @@ class TableRepositorySpec extends Specification {
         table.getColumns().get(2).getDefaultValue() == null
         table.getColumns().get(2).getComment() == '出版社ID'
         assert !table.getColumns().get(2).isNullable()
+
+        and:
+        table.getColumns().get(3).getName() == 'author'
+        table.getColumns().get(3).getType() == 'varchar(40)'
+        table.getColumns().get(3).getDefaultValue() == null
+        table.getColumns().get(3).getComment() == '著者'
+        assert !table.getColumns().get(3).isNullable()
 
         where:
         tableName | _
