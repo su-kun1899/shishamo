@@ -5,12 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import red.sukun1899.embedded.mysql.EmbeddedMySqlUtil;
 
 @SpringBootApplication
-public class MysqlVisualizer {
+public class ShishamoApplication {
 	public static void main(String[] args) {
 		if (EmbeddedMySqlUtil.enable()) {
 			EmbeddedMySqlUtil.ready();
 		}
 
-		SpringApplication.run(MysqlVisualizer.class, args);
+		SpringApplication.run(ShishamoApplication.class, args);
 	}
 }

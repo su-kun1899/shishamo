@@ -7,7 +7,7 @@ machine:
     _JAVA_OPTIONS: "-Xms1024m -Xmx3072m"
 general:
   artifacts:
-    - "target/mysql-visualizer.jar"
+    - "target/shishamo.jar"
 database:
   post:
     - mysql -u root --execute "create database if not exists sample character set utf8"
@@ -16,7 +16,7 @@ dependencies:
     - mvn dependency:resolve
 test:
   override:
-    - mvn integration-test -Dspring.profiles.active=circleci -Dmysqlvisualizer.embedded.mysql=false
+    - mvn integration-test -Dspring.profiles.active=circleci -Dshishamo.embedded.mysql=false
     - mvn jacoco:report
   post:
     - mkdir -p $CIRCLE_ARTIFACTS/site/jacoco

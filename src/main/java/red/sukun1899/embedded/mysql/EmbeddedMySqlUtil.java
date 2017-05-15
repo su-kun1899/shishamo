@@ -47,7 +47,7 @@ public final class EmbeddedMySqlUtil {
     }
 
     public static boolean enable() {
-        final String property = System.getProperty("mysqlvisualizer.embedded.mysql");
+        final String property = System.getProperty("shishamo.embedded.mysql");
         if (property != null){
             return Boolean.valueOf(property);
         }

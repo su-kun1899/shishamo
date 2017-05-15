@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>red.sukun1899</groupId>
-	<artifactId>mysql-visualizer</artifactId>
+	<artifactId>shishamo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>mysql-visualizer</name>
+	<name>shishamo</name>
 	<description>Mysql Metadata Visualizer</description>
 
 	<parent>
