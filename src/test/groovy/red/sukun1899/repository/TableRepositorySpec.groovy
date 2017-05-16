@@ -123,4 +123,56 @@ class TableRepositorySpec extends Specification {
         tableName | _
         'book'    | _
     }
+
+    def 'Get child column'() {
+        given:
+        new DbSetup(destination, sequenceOf(
+                sql('DROP TABLE IF EXISTS `publisher`'),
+                sql("""
+                    CREATE TABLE `publisher` (
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `name` varchar(40) NOT NULL COMMENT '出版社名',
+                      PRIMARY KEY (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版社'
+                """),
+                sql('DROP TABLE IF EXISTS `book`'),
+                sql("""
+                    CREATE TABLE `book` (
+                      `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
+                      `title` varchar(128) NOT NULL COMMENT 'タイトル',
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `author` varchar(40) NOT NULL COMMENT '著者',
+                      PRIMARY KEY (`isbn`),
+                      KEY `publisherid` (`publisherid`),
+                      CONSTRAINT `book_ibfk_1` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
+                """),
+                sql('DROP TABLE IF EXISTS `book2`'),
+                sql("""
+                    CREATE TABLE `book2` (
+                      `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
+                      `title` varchar(128) NOT NULL COMMENT 'タイトル',
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `author` varchar(40) NOT NULL COMMENT '著者',
+                      PRIMARY KEY (`isbn`),
+                      KEY `publisherid` (`publisherid`),
+                      CONSTRAINT `book_ibfk_2` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
+                """)
+        )).launch()
+
+        when:
+        def table = tableRepository.select(appConfig.getSchemaName(), tableName)
+
+        then:
+        table.getName() == tableName
+        table.getColumns().get(0).name == 'publisherid'
+        table.getColumns().get(0).childColumns.size() == 2
+        table.getColumns().get(0).childColumns.get(0).getTableName() == 'book'
+        table.getColumns().get(0).childColumns.get(1).getTableName() == 'book2'
+
+        where:
+        tableName   | _
+        'publisher' | _
+    }
 }
