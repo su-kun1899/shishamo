@@ -9,6 +9,7 @@ public class Column {
     private boolean nullable;
     private String type;
     private String comment;
+    private ReferencedColumn parentColumn;
 
     public String getName() {
         return name;
@@ -48,5 +49,13 @@ public class Column {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public ReferencedColumn getParentColumn() {
+        return parentColumn;
+    }
+
+    public void setParentColumn(ReferencedColumn parentColumn) {
+        this.parentColumn = parentColumn;
     }
 }

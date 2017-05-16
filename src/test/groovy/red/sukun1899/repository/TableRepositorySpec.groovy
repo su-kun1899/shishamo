@@ -110,6 +110,7 @@ class TableRepositorySpec extends Specification {
         table.getColumns().get(2).getDefaultValue() == null
         table.getColumns().get(2).getComment() == '出版社ID'
         assert !table.getColumns().get(2).isNullable()
+        table.getColumns().get(2).getParentColumn().getTableName() == 'publisher'
 
         and:
         table.getColumns().get(3).getName() == 'author'
