@@ -42,7 +42,8 @@
                       th:class="${column.nullable}? 'glyphicon glyphicon-ok'"></span></td>
             <td th:text="${column.defaultValue}"></td>
             <td></td>
-            <td></td>
+            <td><a href="table.html" th:href="@{'/tables/' + ${column.parentColumn.tableName}}"
+                   th:text="${column.parentColumn.tableName}" th:if="${column.parentColumn != null}">hoge</a></td>
             <td th:text="${column.comment}">ISBN</td>
         </tr>
         <!--/*-->
