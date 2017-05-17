@@ -36,13 +36,15 @@ class TableRepositorySpec extends Specification {
     def 'Get tables'() {
         given: 'Prepare test tables.'
         new DbSetup(destination, sequenceOf(
+                sql('SET foreign_key_checks = 0'),
                 sql('DROP TABLE IF EXISTS book'),
                 sql('CREATE TABLE `book` (' +
                         '  `isbn` bigint(19) NOT NULL COMMENT \'ISBN\',' +
                         '  `title` varchar(128) NOT NULL COMMENT \'タイトル\',' +
                         '  `publisherid` int(10) unsigned NOT NULL COMMENT \'出版社ID\',' +
                         '  PRIMARY KEY (`isbn`)' +
-                        ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'書籍\'')
+                        ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'書籍\''),
+                sql('SET foreign_key_checks = 1'),
         )).launch()
 
         when:
@@ -60,6 +62,7 @@ class TableRepositorySpec extends Specification {
         // FIXME untested defaultValue, nullable
         given:
         new DbSetup(destination, sequenceOf(
+                sql('SET foreign_key_checks = 0'),
                 sql('DROP TABLE IF EXISTS `publisher`'),
                 sql("""
                     CREATE TABLE `publisher` (
@@ -79,7 +82,8 @@ class TableRepositorySpec extends Specification {
                       KEY `publisherid` (`publisherid`),
                       CONSTRAINT `book_ibfk_1` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
-                """)
+                """),
+                sql('SET foreign_key_checks = 1')
         )).launch()
 
         when:
@@ -110,6 +114,7 @@ class TableRepositorySpec extends Specification {
         table.getColumns().get(2).getDefaultValue() == null
         table.getColumns().get(2).getComment() == '出版社ID'
         assert !table.getColumns().get(2).isNullable()
+        table.getColumns().get(2).getParentColumn().getTableName() == 'publisher'
 
         and:
         table.getColumns().get(3).getName() == 'author'
@@ -121,5 +126,59 @@ class TableRepositorySpec extends Specification {
         where:
         tableName | _
         'book'    | _
+    }
+
+    def 'Get child column'() {
+        given:
+        new DbSetup(destination, sequenceOf(
+                sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `publisher`'),
+                sql("""
+                    CREATE TABLE `publisher` (
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `name` varchar(40) NOT NULL COMMENT '出版社名',
+                      PRIMARY KEY (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版社'
+                """),
+                sql('DROP TABLE IF EXISTS `book`'),
+                sql("""
+                    CREATE TABLE `book` (
+                      `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
+                      `title` varchar(128) NOT NULL COMMENT 'タイトル',
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `author` varchar(40) NOT NULL COMMENT '著者',
+                      PRIMARY KEY (`isbn`),
+                      KEY `publisherid` (`publisherid`),
+                      CONSTRAINT `book_ibfk_1` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
+                """),
+                sql('DROP TABLE IF EXISTS `book2`'),
+                sql("""
+                    CREATE TABLE `book2` (
+                      `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
+                      `title` varchar(128) NOT NULL COMMENT 'タイトル',
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `author` varchar(40) NOT NULL COMMENT '著者',
+                      PRIMARY KEY (`isbn`),
+                      KEY `publisherid` (`publisherid`),
+                      CONSTRAINT `book_ibfk_2` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
+                """),
+                sql('SET foreign_key_checks = 1')
+        )).launch()
+
+        when:
+        def table = tableRepository.select(appConfig.getSchemaName(), tableName)
+
+        then:
+        table.getName() == tableName
+        table.getColumns().get(0).name == 'publisherid'
+        table.getColumns().get(0).childColumns.size() == 2
+        table.getColumns().get(0).childColumns.get(0).getTableName() == 'book'
+        table.getColumns().get(0).childColumns.get(1).getTableName() == 'book2'
+
+        where:
+        tableName   | _
+        'publisher' | _
     }
 }

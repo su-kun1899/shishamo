@@ -5,9 +5,15 @@
 
 <mapper namespace="red.sukun1899.repository.TableRepository">
     <resultMap id="tableMap" type="red.sukun1899.model.Table" autoMapping="true">
-        <id property="name" column="name" />
+        <id property="name" column="name"/>
         <collection property="columns" ofType="red.sukun1899.model.Column" autoMapping="true" columnPrefix="column_">
-            <id column="name" property="name"  />
+            <id column="name" property="name"/>
+            <association property="parentColumn" javaType="red.sukun1899.model.ReferencedColumn" autoMapping="true"
+                         columnPrefix="parent_"/>
+            <collection property="childColumns" ofType="red.sukun1899.model.ReferencedColumn" autoMapping="true"
+                        columnPrefix="child_">
+                <id column="tableName" property="tableName"/>
+            </collection>
         </collection>
     </resultMap>
 
@@ -32,14 +38,29 @@
           , col.column_default as `column_defaultValue`
           , col.is_nullable as `column_nullable`
           , col.column_comment as `column_comment`
+          , parent.referenced_table_name as `column_parent_tableName`
+          , child.column_name as `column_child_name`
+          , child.table_name as `column_child_tableName`
         FROM
           information_schema.tables tab
           INNER JOIN
           information_schema.columns col
-            ON tab.table_schema = col.table_schema and tab.TABLE_NAME = col.TABLE_NAME
+            ON tab.table_schema = col.table_schema AND tab.table_name = col.table_name
+          LEFT OUTER JOIN
+          information_schema.key_column_usage parent
+            ON col.table_schema = parent.table_schema
+                AND col.table_name = parent.table_name
+                AND col.column_name = parent.column_name
+          LEFT OUTER JOIN
+          information_schema.key_column_usage child
+            ON col.table_schema = child.table_schema
+                AND col.table_name = child.referenced_table_name
+                AND col.column_name = child.referenced_column_name
         WHERE
           tab.table_schema = #{schemaName}
           AND
           tab.table_name = #{name}
+        ORDER BY
+          col.ordinal_position
     </select>
 </mapper>

@@ -41,8 +41,12 @@
             <td><span class="glyphicon glyphicon-ok" aria-hidden="true"
                       th:class="${column.nullable}? 'glyphicon glyphicon-ok'"></span></td>
             <td th:text="${column.defaultValue}"></td>
-            <td></td>
-            <td></td>
+            <td><p th:each="childColumn: ${column.childColumns}" th:if="${column.childColumns != null}">
+                <a href="table.html" th:href="@{'/tables/' + ${childColumn.tableName}}"
+                   th:text="${childColumn.tableName}">fuga</a></p>
+            </td>
+            <td><a href="table.html" th:href="@{'/tables/' + ${column.parentColumn.tableName}}"
+                   th:text="${column.parentColumn.tableName}" th:if="${column.parentColumn != null}">hoge</a></td>
             <td th:text="${column.comment}">ISBN</td>
         </tr>
         <!--/*-->
