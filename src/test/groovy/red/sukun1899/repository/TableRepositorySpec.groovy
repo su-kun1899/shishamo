@@ -218,4 +218,72 @@ class TableRepositorySpec extends Specification {
         actual.get('publisher').getCount() == 0
         actual.get('book').getCount() == 1
     }
+
+    def 'Get child table count'() {
+        given:
+        new DbSetup(destination, sequenceOf(
+                sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `publisher`'),
+                sql("""
+                    CREATE TABLE `publisher` (
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `name` varchar(40) NOT NULL COMMENT '出版社名',
+                      PRIMARY KEY (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版社'
+                """),
+                sql('DROP TABLE IF EXISTS `book`'),
+                sql("""
+                    CREATE TABLE `book` (
+                      `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
+                      `title` varchar(128) NOT NULL COMMENT 'タイトル',
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `author` varchar(40) NOT NULL COMMENT '著者',
+                      PRIMARY KEY (`isbn`),
+                      KEY `publisherid` (`publisherid`),
+                      CONSTRAINT `book_ibfk_1` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
+                """),
+                sql('DROP TABLE IF EXISTS `publisher2`'),
+                sql("""
+                    CREATE TABLE `publisher2` (
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `name` varchar(40) NOT NULL COMMENT '出版社名',
+                      PRIMARY KEY (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版社'
+                """),
+                sql('DROP TABLE IF EXISTS `book2`'),
+                sql("""
+                    CREATE TABLE `book2` (
+                      `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
+                      `title` varchar(128) NOT NULL COMMENT 'タイトル',
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `author` varchar(40) NOT NULL COMMENT '著者',
+                      PRIMARY KEY (`isbn`),
+                      KEY `publisherid` (`publisherid`),
+                      CONSTRAINT `book_ibfk_2` FOREIGN KEY (`publisherid`) REFERENCES `publisher2` (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
+                """),
+                sql('DROP TABLE IF EXISTS `book3`'),
+                sql("""
+                    CREATE TABLE `book3` (
+                      `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
+                      `title` varchar(128) NOT NULL COMMENT 'タイトル',
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `author` varchar(40) NOT NULL COMMENT '著者',
+                      PRIMARY KEY (`isbn`),
+                      KEY `publisherid` (`publisherid`),
+                      CONSTRAINT `book_ibfk_3` FOREIGN KEY (`publisherid`) REFERENCES `publisher2` (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
+                """),
+                sql('SET foreign_key_checks = 1')
+        )).launch()
+
+        when:
+        def actual = tableRepository.selectChildTableCountsByTableName(appConfig.getSchemaName())
+
+        then:
+        actual.size() == 2
+        actual.get('publisher').getCount() == 1
+        actual.get('publisher2').getCount() == 2
+    }
 }
