@@ -10,6 +10,7 @@ import red.sukun1899.repository.TableRepository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author su-kun1899
@@ -37,7 +38,13 @@ public class TableService {
   /**
    * @return Key: tableName, Value: Parent table's count
    */
-  public Map<String, ReferencedTableCount> getParentTableCountsByTableName() {
-    return tableRepository.selectParentTableCountsByTableName(appConfig.getSchemaName());
+  public Map<String, Long> getParentTableCountsByTableName() {
+    Map<String, ReferencedTableCount> referencedTableCountMap =
+        tableRepository.selectParentTableCountsByTableName(appConfig.getSchemaName());
+
+    return referencedTableCountMap.entrySet().stream()
+        .collect(
+            Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getCount())
+        );
   }
 }

@@ -80,7 +80,7 @@ class TableServiceSpec extends Specification {
 
         then:
         actual.size() == 2
-        actual.get('book').getCount() == 1
-        actual.get('publisher').getCount() == 0
+        actual.get('book') == 1
+        actual.get('publisher') == 0
     }
 }
