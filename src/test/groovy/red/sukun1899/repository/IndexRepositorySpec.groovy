@@ -57,6 +57,13 @@ class IndexRepositorySpec extends Specification {
         first.getColumns().size() == 1
         first.getColumns().get(0).getName() == 'isbn'
 
+        cleanup:
+        new DbSetup(destination, sequenceOf(
+                sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `book`'),
+                sql('SET foreign_key_checks = 1')
+        )).launch()
+
         where:
         tableName | _
         'book'    | _

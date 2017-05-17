@@ -1,7 +1,6 @@
 package red.sukun1899.repository
 
 import com.ninja_squad.dbsetup.DbSetup
-import com.ninja_squad.dbsetup.Operations
 import com.ninja_squad.dbsetup.destination.DataSourceDestination
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -10,9 +9,7 @@ import red.sukun1899.embedded.mysql.EmbeddedMySqlUtil
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.ninja_squad.dbsetup.Operations.insertInto
-import static com.ninja_squad.dbsetup.Operations.sequenceOf
-import static com.ninja_squad.dbsetup.Operations.sql
+import static com.ninja_squad.dbsetup.Operations.*
 
 /**
  * @author su-kun1899
@@ -131,6 +128,14 @@ class TableRepositorySpec extends Specification {
         table.getColumns().get(3).getComment() == '著者'
         assert !table.getColumns().get(3).isNullable()
 
+        cleanup:
+        new DbSetup(destination, sequenceOf(
+                sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `publisher`'),
+                sql('DROP TABLE IF EXISTS `book`'),
+                sql('SET foreign_key_checks = 1')
+        )).launch()
+
         where:
         tableName | _
         'book'    | _
@@ -185,6 +190,15 @@ class TableRepositorySpec extends Specification {
         table.getColumns().get(0).childColumns.get(0).getTableName() == 'book'
         table.getColumns().get(0).childColumns.get(1).getTableName() == 'book2'
 
+        cleanup:
+        new DbSetup(destination, sequenceOf(
+                sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `publisher`'),
+                sql('DROP TABLE IF EXISTS `book`'),
+                sql('DROP TABLE IF EXISTS `book2`'),
+                sql('SET foreign_key_checks = 1')
+        )).launch()
+
         where:
         tableName   | _
         'publisher' | _
@@ -225,6 +239,14 @@ class TableRepositorySpec extends Specification {
         actual.size() == 2
         actual.get('publisher').getCount() == 0
         actual.get('book').getCount() == 1
+
+        cleanup:
+        new DbSetup(destination, sequenceOf(
+                sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `publisher`'),
+                sql('DROP TABLE IF EXISTS `book`'),
+                sql('SET foreign_key_checks = 1')
+        )).launch()
     }
 
     def 'Get child table count'() {
@@ -293,6 +315,17 @@ class TableRepositorySpec extends Specification {
         actual.size() == 2
         actual.get('publisher').getCount() == 1
         actual.get('publisher2').getCount() == 2
+
+        cleanup:
+        new DbSetup(destination, sequenceOf(
+                sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `publisher`'),
+                sql('DROP TABLE IF EXISTS `publisher2`'),
+                sql('DROP TABLE IF EXISTS `book`'),
+                sql('DROP TABLE IF EXISTS `book2`'),
+                sql('DROP TABLE IF EXISTS `book3`'),
+                sql('SET foreign_key_checks = 1')
+        )).launch()
     }
 
     def 'Get column count'() {
@@ -329,5 +362,13 @@ class TableRepositorySpec extends Specification {
         actual.size() == 2
         actual.get('publisher').getCount() == 2
         actual.get('book').getCount() == 4
+
+        cleanup:
+        new DbSetup(destination, sequenceOf(
+                sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `publisher`'),
+                sql('DROP TABLE IF EXISTS `book`'),
+                sql('SET foreign_key_checks = 1')
+        )).launch()
     }
 }
