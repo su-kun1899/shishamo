@@ -2,6 +2,7 @@ package red.sukun1899.service
 
 import red.sukun1899.AppConfig
 import red.sukun1899.model.Column
+import red.sukun1899.model.ReferencedTableCount
 import red.sukun1899.model.Table
 import red.sukun1899.repository.TableRepository
 import spock.lang.Specification
@@ -67,14 +68,19 @@ class TableServiceSpec extends Specification {
 
     def 'Get parent table count'() {
         given:
-        tableRepository.selectParentTableCountsByTableName(_) >> ['book': 1, 'publisher': 0]
+        tableRepository.selectParentTableCountsByTableName(_) >> {
+            [
+                    'book'     : new ReferencedTableCount(baseTableName: 'book', count: 1),
+                    'publisher': new ReferencedTableCount(baseTableName: 'publisher', count: 0),
+            ]
+        }
 
         when:
         def actual = tableService.getParentTableCountsByTableName()
 
         then:
         actual.size() == 2
-        actual.get('book') == 1
-        actual.get('publisher') == 0
+        actual.get('book').getCount() == 1
+        actual.get('publisher').getCount() == 0
     }
 }

@@ -4,10 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import red.sukun1899.AppConfig;
+import red.sukun1899.model.ReferencedTableCount;
 import red.sukun1899.model.Table;
 import red.sukun1899.repository.TableRepository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public class TableService {
   /**
    * @return Key: tableName, Value: Parent table's count
    */
-  public Map<String, Long> getParentTableCountsByTableName() {
+  public Map<String, ReferencedTableCount> getParentTableCountsByTableName() {
     return tableRepository.selectParentTableCountsByTableName(appConfig.getSchemaName());
   }
 }

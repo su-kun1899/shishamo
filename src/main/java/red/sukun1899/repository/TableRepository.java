@@ -1,9 +1,12 @@
 package red.sukun1899.repository;
 
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import red.sukun1899.model.ReferencedTableCount;
 import red.sukun1899.model.Table;
 
 import java.util.List;
@@ -19,5 +22,6 @@ public interface TableRepository {
 
   Table select(@Param("schemaName") String schemaName, @Param("name") String name);
 
-  Map<String, Long> selectParentTableCountsByTableName(String schemaName);
+  @MapKey("baseTableName")
+  Map<String, ReferencedTableCount> selectParentTableCountsByTableName(String schemaName);
 }
