@@ -110,4 +110,19 @@
         GROUP BY
             table_name
     </select>
+
+    <select id="selectColumnCountsByTableName" resultMap="tableCountMap">
+        SELECT
+            tab.table_name  AS baseTableName,
+            count(col.column_name) AS count
+        FROM
+            information_schema.tables tab
+            INNER JOIN
+            information_schema.columns col
+                ON tab.table_schema = col.table_schema AND tab.table_name = col.table_name
+        WHERE
+            tab.table_schema = #{schemaName}
+        GROUP BY
+            tab.table_name
+    </select>
 </mapper>

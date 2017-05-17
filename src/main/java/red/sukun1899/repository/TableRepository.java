@@ -27,4 +27,7 @@ public interface TableRepository {
 
   @MapKey("baseTableName")
   Map<String, ReferencedTableCount> selectChildTableCountsByTableName(String schemaName);
+
+  @MapKey("baseTableName")
+  Map<String, ReferencedTableCount> selectColumnCountsByTableName(String schemaName);
 }
