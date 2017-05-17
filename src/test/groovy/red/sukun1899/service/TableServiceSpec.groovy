@@ -64,4 +64,17 @@ class TableServiceSpec extends Specification {
             assert column.getComment() == expected.getColumns().get(i).getComment()
         }
     }
+
+    def 'Get parent table count'() {
+        given:
+        tableRepository.selectParentTableCountsByTableName(_) >> ['book': 1, 'publisher': 0]
+
+        when:
+        def actual = tableService.getParentTableCountsByTableName()
+
+        then:
+        actual.size() == 2
+        actual.get('book') == 1
+        actual.get('publisher') == 0
+    }
 }
