@@ -48,4 +48,18 @@ public class TableService {
             Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getCount())
         );
   }
+
+  /**
+   * @return Key: tableName, Value: Parent table's count
+   */
+  public Map<String, Long> getChildTableCountsByTableName() {
+    Map<String, ReferencedTableCount> referencedTableCountMap =
+        tableRepository.selectChildTableCountsByTableName(appConfig.getSchemaName());
+
+    return referencedTableCountMap.entrySet().stream()
+        .filter(entry -> entry.getValue().getCount() > 0)
+        .collect(
+            Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getCount())
+        );
+  }
 }
