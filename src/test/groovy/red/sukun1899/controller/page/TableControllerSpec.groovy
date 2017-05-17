@@ -60,6 +60,11 @@ class TableControllerSpec extends Specification {
         Mockito.doReturn(childTableCounts)
                 .when(tableService).getChildTableCountsByTableName()
 
+        and: 'Mocking get column count'
+        def columnCounts = ['table1': 5, 'table2': 10]
+        Mockito.doReturn(columnCounts)
+                .when(tableService).getColumnCountsByTableName()
+
         and: 'URL'
         def url = '/tables'
 
@@ -70,5 +75,6 @@ class TableControllerSpec extends Specification {
         result.andReturn().modelAndView.modelMap.get('tables') == tables
         result.andReturn().modelAndView.modelMap.get('parentTableCounts') == parentTableCounts
         result.andReturn().modelAndView.modelMap.get('childTableCounts') == childTableCounts
+        result.andReturn().modelAndView.modelMap.get('columnCounts') == columnCounts
     }
 }

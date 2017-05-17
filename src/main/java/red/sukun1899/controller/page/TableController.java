@@ -37,6 +37,9 @@ public class TableController {
     Map<String, Long> childTableCounts = tableService.getChildTableCountsByTableName();
     model.addAttribute("childTableCounts", childTableCounts);
 
+    Map<String, Long> columnCounts = tableService.getColumnCountsByTableName();
+    model.addAttribute("columnCounts", columnCounts);
+
     return "tables";
   }
 
