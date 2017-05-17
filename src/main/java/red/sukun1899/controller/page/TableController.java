@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Map;
 
 import red.sukun1899.model.Table;
 import red.sukun1899.service.TableService;
@@ -29,6 +30,15 @@ public class TableController {
   public String get(Model model) {
     List<Table> tables = tableService.get();
     model.addAttribute("tables", tables);
+
+    Map<String, Long> parentTableCounts = tableService.getParentTableCountsByTableName();
+    model.addAttribute("parentTableCounts", parentTableCounts);
+
+    Map<String, Long> childTableCounts = tableService.getChildTableCountsByTableName();
+    model.addAttribute("childTableCounts", childTableCounts);
+
+    Map<String, Long> columnCounts = tableService.getColumnCountsByTableName();
+    model.addAttribute("columnCounts", columnCounts);
 
     return "tables";
   }

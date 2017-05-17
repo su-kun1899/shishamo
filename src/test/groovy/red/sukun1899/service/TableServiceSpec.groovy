@@ -2,6 +2,7 @@ package red.sukun1899.service
 
 import red.sukun1899.AppConfig
 import red.sukun1899.model.Column
+import red.sukun1899.model.ReferencedTableCount
 import red.sukun1899.model.Table
 import red.sukun1899.repository.TableRepository
 import spock.lang.Specification
@@ -63,5 +64,59 @@ class TableServiceSpec extends Specification {
             assert column.isNullable() == expected.getColumns().get(i).isNullable()
             assert column.getComment() == expected.getColumns().get(i).getComment()
         }
+    }
+
+    def 'Get parent table count'() {
+        given:
+        tableRepository.selectParentTableCountsByTableName(_) >> {
+            [
+                    'book'     : new ReferencedTableCount(baseTableName: 'book', count: 1),
+                    'publisher': new ReferencedTableCount(baseTableName: 'publisher', count: 0),
+            ]
+        }
+
+        when:
+        def actual = tableService.getParentTableCountsByTableName()
+
+        then:
+        actual.size() == 1
+        actual.get('book') == 1
+        actual.get('publisher') == null
+    }
+
+    def 'Get child table count'() {
+        given:
+        tableRepository.selectChildTableCountsByTableName(_) >> {
+            [
+                    'book'     : new ReferencedTableCount(baseTableName: 'book', count: 1),
+                    'publisher': new ReferencedTableCount(baseTableName: 'publisher', count: 0),
+            ]
+        }
+
+        when:
+        def actual = tableService.getChildTableCountsByTableName()
+
+        then:
+        actual.size() == 1
+        actual.get('book') == 1
+        actual.get('publisher') == null
+    }
+
+    def 'Get column count'() {
+        given:
+        tableRepository.selectColumnCountsByTableName(_) >> {
+            [
+                    'book'     : new ReferencedTableCount(baseTableName: 'book', count: 1),
+                    'publisher': new ReferencedTableCount(baseTableName: 'publisher', count: 0),
+            ]
+        }
+
+        when:
+        def actual = tableService.getColumnCountsByTableName()
+
+        then:
+        actual.size() == 1
+        actual.get('book') == 1
+        actual.get('publisher') == null
     }
 }

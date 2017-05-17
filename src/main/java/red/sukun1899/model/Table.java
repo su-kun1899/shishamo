@@ -8,6 +8,7 @@ import java.util.List;
 public class Table {
     private String name;
     private String comment;
+    private Long rowCount;
     private List<Column> columns;
 
     public String getName() {
@@ -32,5 +33,13 @@ public class Table {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Long getRowCount() {
+        return rowCount;
+    }
+
+    public void setRowCount(Long rowCount) {
+        this.rowCount = rowCount;
     }
 }
