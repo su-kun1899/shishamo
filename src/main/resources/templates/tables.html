@@ -38,7 +38,7 @@
             <td th:text="${childTableCounts[table.name]}"></td>
             <td th:text="${parentTableCounts[table.name]}">1</td>
             <td>4</td>
-            <td>0</td>
+            <td th:text="${table.rowCount}">0</td>
             <td th:text="${table.comment}">書籍</td>
         </tr>
         <!--/*-->
