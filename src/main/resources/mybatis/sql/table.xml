@@ -25,7 +25,8 @@
     <select id="selectAll" resultMap="tableMap">
         SELECT
             tab.table_name    AS `name`,
-            tab.table_comment AS `comment`
+            tab.table_comment AS `comment`,
+            tab.table_rows    AS `rowCount`
         FROM
             information_schema.tables tab
         WHERE
