@@ -101,4 +101,22 @@ class TableServiceSpec extends Specification {
         actual.get('book') == 1
         actual.get('publisher') == null
     }
+
+    def 'Get column count'() {
+        given:
+        tableRepository.selectColumnCountsByTableName(_) >> {
+            [
+                    'book'     : new ReferencedTableCount(baseTableName: 'book', count: 1),
+                    'publisher': new ReferencedTableCount(baseTableName: 'publisher', count: 0),
+            ]
+        }
+
+        when:
+        def actual = tableService.getColumnCountsByTableName()
+
+        then:
+        actual.size() == 1
+        actual.get('book') == 1
+        actual.get('publisher') == null
+    }
 }
