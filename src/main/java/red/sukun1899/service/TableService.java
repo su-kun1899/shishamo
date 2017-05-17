@@ -43,6 +43,7 @@ public class TableService {
         tableRepository.selectParentTableCountsByTableName(appConfig.getSchemaName());
 
     return referencedTableCountMap.entrySet().stream()
+        .filter(entry -> entry.getValue().getCount() > 0)
         .collect(
             Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getCount())
         );

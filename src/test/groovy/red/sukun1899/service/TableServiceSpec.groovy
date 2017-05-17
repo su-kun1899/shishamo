@@ -79,8 +79,8 @@ class TableServiceSpec extends Specification {
         def actual = tableService.getParentTableCountsByTableName()
 
         then:
-        actual.size() == 2
+        actual.size() == 1
         actual.get('book') == 1
-        actual.get('publisher') == 0
+        actual.get('publisher') == null
     }
 }
