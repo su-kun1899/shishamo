@@ -12,6 +12,7 @@ import red.sukun1899.model.Table
 import red.sukun1899.service.TableService
 import spock.lang.Specification
 import spock.lang.Unroll
+
 /**
  * @author su-kun1899
  */
@@ -66,5 +67,25 @@ class TableControllerSpec extends Specification {
         result.andReturn().modelAndView.modelMap.get('childTableCounts') == childTableCounts
         result.andReturn().modelAndView.modelMap.get('columnCounts') == columnCounts
         result.andReturn().modelAndView.modelMap.get('schemaName') == 'sample'
+    }
+
+    def 'Get table detail'() {
+        given: 'Mocking get table'
+        def table = new Table(name: 'table1')
+        Mockito.doReturn(table).when(tableService).get(tableName)
+
+        and: 'URL'
+        def url = '/tables/' + tableName
+
+        when:
+        def result = mockMvc.perform(MockMvcRequestBuilders.get(url))
+
+        then:
+        result.andReturn().modelAndView.modelMap.get('table') == table
+        result.andReturn().modelAndView.modelMap.get('schemaName') == 'sample'
+
+        where:
+        tableName | _
+        'table1'  | _
     }
 }

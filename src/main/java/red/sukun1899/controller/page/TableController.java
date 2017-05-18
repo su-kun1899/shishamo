@@ -50,6 +50,8 @@ public class TableController {
     Table table = tableService.get(tableName);
     model.addAttribute("table", table);
 
+    model.addAttribute("schemaName", appConfig.getSchemaName());
+
     return "table";
   }
 }

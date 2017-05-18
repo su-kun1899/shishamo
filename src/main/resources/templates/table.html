@@ -5,8 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <!-- TODO テーブル名表示 -->
-    <title>Shishamo - Table sample.book</title>
+    <title th:text="'shishamo - Table ' + ${schemaName} + '.' + ${table.name}">shishamo - Table sample.book</title>
 
     <!-- Bootstrap -->
     <link href="../static/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
@@ -15,9 +14,8 @@
 <body>
 
 <div class="container" style="padding:20px 0">
-    <!-- TODO スキーマ名表示 -->
     <div class="page-header">
-        <h1><span th:text="'Table ' + ${table.name}">Table sample.book</span>
+        <h1><span th:text="'Table ' + ${schemaName} + '.' + ${table.name}">Table sample.book</span>
             <small th:text="${table.comment}">書籍</small>
         </h1>
     </div>
