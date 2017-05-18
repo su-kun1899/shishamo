@@ -23,7 +23,7 @@ class IndexServiceSpec extends Specification {
         indexService = new IndexService(appConfig, indexRepository)
     }
 
-    def 'Get indexes by table name'() {
+    def 'Get indices by table name'() {
         given: 'Mocking repository'
         appConfig.getSchemaName() >> 'schema1'
         indexRepository.selectByTableName('schema1', 'table1') >> {

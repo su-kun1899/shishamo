@@ -8,7 +8,10 @@ import org.springframework.boot.test.mock.mockito.SpyBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import red.sukun1899.embedded.mysql.EmbeddedMySqlUtil
+import red.sukun1899.model.Column
+import red.sukun1899.model.Index
 import red.sukun1899.model.Table
+import red.sukun1899.service.IndexService
 import red.sukun1899.service.TableService
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -25,6 +28,9 @@ class TableControllerSpec extends Specification {
 
     @SpyBean
     TableService tableService
+
+    @SpyBean
+    IndexService indexService
 
     def setupSpec() {
         if (EmbeddedMySqlUtil.enable()) {
@@ -74,6 +80,13 @@ class TableControllerSpec extends Specification {
         def table = new Table(name: 'table1')
         Mockito.doReturn(table).when(tableService).get(tableName)
 
+        and: 'Mocking get indices'
+        def indices = [
+                new Index(name: 'index1', category: Index.Category.PRIMARY, columns: [new Column(name: 'hoge')]),
+                new Index(name: 'index1', category: Index.Category.PERFORMANCE, columns: [new Column(name: 'fuga')])
+        ]
+        Mockito.doReturn(indices).when(indexService).get(tableName)
+
         and: 'URL'
         def url = '/tables/' + tableName
 
@@ -83,6 +96,7 @@ class TableControllerSpec extends Specification {
         then:
         result.andReturn().modelAndView.modelMap.get('table') == table
         result.andReturn().modelAndView.modelMap.get('schemaName') == 'sample'
+        result.andReturn().modelAndView.modelMap.get('indices') == indices
 
         where:
         tableName | _

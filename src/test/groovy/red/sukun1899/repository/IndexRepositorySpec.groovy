@@ -34,7 +34,7 @@ class IndexRepositorySpec extends Specification {
         }
     }
 
-    def 'Get indexes by table name'() {
+    def 'Get indices by table name'() {
         given:
         new DbSetup(destination, sequenceOf(
                 sql('DROP TABLE IF EXISTS book'),
@@ -56,27 +56,27 @@ class IndexRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def indexes = indexRepository.selectByTableName(appConfig.getSchemaName(), tableName)
+        def indices = indexRepository.selectByTableName(appConfig.getSchemaName(), tableName)
 
         then:
-        indexes.size() == 5
+        indices.size() == 5
 
         and: 'Primary key'
-        def first = indexes.get(0)
+        def first = indices.get(0)
         first.getName() == 'PRIMARY'
         first.getCategory() == Index.Category.PRIMARY
         first.getColumns().size() == 1
         first.getColumns().get(0).getName() == 'isbn'
 
         and: 'Unique key'
-        def second = indexes.get(1)
+        def second = indices.get(1)
         second.getName() == 'uk_test'
         second.getCategory() == Index.Category.UNIQUE
         second.getColumns().size() == 1
         second.getColumns().get(0).getName() == 'title'
 
         and: 'Multi unique key'
-        def third = indexes.get(2)
+        def third = indices.get(2)
         third.getName() == 'uk_test_multi'
         third.getCategory() == Index.Category.UNIQUE
         third.getColumns().size() == 2
@@ -84,14 +84,14 @@ class IndexRepositorySpec extends Specification {
         third.getColumns().get(1).getName() == 'memo2'
 
         and: 'Performance key'
-        def forth = indexes.get(3)
+        def forth = indices.get(3)
         forth.getName() == '_key_test'
         forth.getCategory() == Index.Category.PERFORMANCE
         forth.getColumns().size() == 1
         forth.getColumns().get(0).getName() == 'remark'
 
         and: 'Multi performance key'
-        def fifth = indexes.get(4)
+        def fifth = indices.get(4)
         fifth.getName() == '_key_test_multi'
         fifth.getCategory() == Index.Category.PERFORMANCE
         fifth.getColumns().size() == 2
@@ -123,11 +123,11 @@ class IndexRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def indexes = indexRepository.selectByTableName(appConfig.getSchemaName(), tableName)
+        def indices = indexRepository.selectByTableName(appConfig.getSchemaName(), tableName)
 
         then:
-        indexes.size() == 1
-        def first = indexes.get(0)
+        indices.size() == 1
+        def first = indices.get(0)
         first.getName() == 'PRIMARY'
         first.getCategory() == Index.Category.PRIMARY
         first.getColumns().size() == 2
