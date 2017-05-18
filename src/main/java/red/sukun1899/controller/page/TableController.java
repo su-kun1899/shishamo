@@ -1,18 +1,16 @@
 package red.sukun1899.controller.page;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import red.sukun1899.AppConfig;
+import red.sukun1899.model.Table;
+import red.sukun1899.service.TableService;
 
 import java.util.List;
 import java.util.Map;
-
-import red.sukun1899.model.Table;
-import red.sukun1899.service.TableService;
 
 /**
  * @author su-kun1899
@@ -20,10 +18,12 @@ import red.sukun1899.service.TableService;
 @Controller
 @RequestMapping("tables")
 public class TableController {
+  private final AppConfig appConfig;
   private final TableService tableService;
 
-  public TableController(TableService tableService) {
+  public TableController(AppConfig appConfig, TableService tableService) {
     this.tableService = tableService;
+    this.appConfig = appConfig;
   }
 
   @GetMapping
@@ -39,6 +39,8 @@ public class TableController {
 
     Map<String, Long> columnCounts = tableService.getColumnCountsByTableName();
     model.addAttribute("columnCounts", columnCounts);
+
+    model.addAttribute("schemaName", appConfig.getSchemaName());
 
     return "tables";
   }
