@@ -35,8 +35,18 @@ public class Index {
     }
 
     public enum Category {
-        PRIMARY,
-        UNIQUE,
-        PERFORMANCE
+        PRIMARY(10),
+        UNIQUE(20),
+        PERFORMANCE(30);
+
+        private int order;
+
+        Category(int order) {
+            this.order = order;
+        }
+
+        public int order() {
+            return order;
+        }
     }
 }

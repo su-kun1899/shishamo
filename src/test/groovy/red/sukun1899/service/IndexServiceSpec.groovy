@@ -4,10 +4,8 @@ import red.sukun1899.AppConfig
 import red.sukun1899.model.Column
 import red.sukun1899.model.Index
 import red.sukun1899.repository.IndexRepository
-import red.sukun1899.repository.TableRepository
 import spock.lang.Specification
 import spock.lang.Unroll
-
 /**
  * @author su-kun1899
  */
@@ -45,5 +43,49 @@ class IndexServiceSpec extends Specification {
         actual.size() == 2
         actual.get(0).getName() == 'index1'
         actual.get(1).getName() == 'index2'
+    }
+
+    def 'Indices order by category and name'() {
+        given: 'Shuffle indices'
+        def indices = [
+                new Index(
+                        name: 'a_pk', category: Index.Category.PRIMARY,
+                        columns: [new Column(name: 'hoge')]
+                ),
+                new Index(
+                        name: 'b_pk', category: Index.Category.PRIMARY,
+                        columns: [new Column(name: 'fuga')]),
+                new Index(
+                        name: 'a_uk', category: Index.Category.UNIQUE,
+                        columns: [new Column(name: 'piyo')]
+                ),
+                new Index(
+                        name: 'b_uk', category: Index.Category.UNIQUE,
+                        columns: [new Column(name: 'hogehoge')]),
+                new Index(
+                        name: 'a_k', category: Index.Category.PERFORMANCE,
+                        columns: [new Column(name: 'fugafugafuga')]
+                ),
+                new Index(
+                        name: 'b_k', category: Index.Category.PERFORMANCE,
+                        columns: [new Column(name: 'piyopiyo')])
+        ]
+        Collections.shuffle(indices)
+
+        and: 'Mocking repository'
+        appConfig.getSchemaName() >> 'schema1'
+        indexRepository.selectByTableName('schema1', 'table1') >> indices
+
+        when:
+        def actual = indexService.get('table1')
+
+        then:
+        actual.get(0).getName() == 'a_pk'
+        actual.get(1).getName() == 'b_pk'
+        actual.get(2).getName() == 'a_uk'
+        actual.get(3).getName() == 'b_uk'
+        actual.get(4).getName() == 'a_k'
+        actual.get(5).getName() == 'b_k'
+
     }
 }
