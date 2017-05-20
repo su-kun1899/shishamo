@@ -113,7 +113,7 @@
 
     <select id="selectColumnCountsByTableName" resultMap="tableCountMap">
         SELECT
-            tab.table_name  AS baseTableName,
+            tab.table_name         AS baseTableName,
             count(col.column_name) AS count
         FROM
             information_schema.tables tab
@@ -124,5 +124,13 @@
             tab.table_schema = #{schemaName}
         GROUP BY
             tab.table_name
+    </select>
+
+    <resultMap id="createTableMap" type="red.sukun1899.model.CreateTableStatement">
+        <result column="table" property="tableName"/>
+        <result column="create table" property="ddl"/>
+    </resultMap>
+    <select id="showCreateTableStatement" resultMap="createTableMap">
+        SHOW CREATE TABLE ${name}
     </select>
 </mapper>
