@@ -2,6 +2,7 @@ package red.sukun1899.service
 
 import red.sukun1899.DataSourceConfig
 import red.sukun1899.model.Column
+import red.sukun1899.model.CreateTableStatement
 import red.sukun1899.model.ReferencedTableCount
 import red.sukun1899.model.Table
 import red.sukun1899.repository.TableRepository
@@ -118,5 +119,18 @@ class TableServiceSpec extends Specification {
         actual.size() == 1
         actual.get('book') == 1
         actual.get('publisher') == null
+    }
+
+    def 'Get create table statement'() {
+        given:
+        def createTableStatement = new CreateTableStatement(tableName: 'book', ddl: 'Create table book')
+        tableRepository.showCreateTableStatement(_) >> createTableStatement
+
+        when:
+        def actual = tableService.getCreateTableStatement(new Table(name: 'book'))
+
+        then:
+        actual.getTableName() == createTableStatement.getTableName()
+        actual.getDdl() == createTableStatement.getDdl()
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import red.sukun1899.DataSourceConfig;
+import red.sukun1899.model.CreateTableStatement;
 import red.sukun1899.model.ReferencedTableCount;
 import red.sukun1899.model.Table;
 import red.sukun1899.repository.TableRepository;
@@ -33,6 +34,11 @@ public class TableService {
   @Transactional(readOnly = true)
   public Table get(String tableName) {
     return tableRepository.select(dataSourceConfig.getSchemaName(), tableName);
+  }
+
+  @Transactional(readOnly = true)
+  public CreateTableStatement getCreateTableStatement(Table table) {
+    return tableRepository.showCreateTableStatement(table);
   }
 
   /**
