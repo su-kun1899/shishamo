@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>shishamo - header</title>
+
+    <!-- Bootstrap -->
+    <link href="../static/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default" th:fragment="navbar (activeMenu)">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="tables.html" th:href="@{'/tables'}">shihamo</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active" th:class="${activeMenu == 'table'}? 'active'"><a href="tables.html" th:href="@{'/tables'}">Table</a></li>
+                <li><a href="#">Data Source</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+</body>
+
+</html>
