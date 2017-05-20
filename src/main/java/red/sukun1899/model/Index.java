@@ -34,6 +34,15 @@ public class Index {
         this.category = category;
     }
 
+    public Category getCategoryByColumn(Column target) {
+        boolean contains = columns.stream()
+                .anyMatch(column -> column.getName().equals(target.getName()));
+        if (contains) {
+            return category;
+        }
+        return null;
+    }
+
     public enum Category {
         PRIMARY(10),
         UNIQUE(20),
