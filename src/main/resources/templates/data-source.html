@@ -19,15 +19,15 @@
     <div th:replace="header :: navbar (activeMenu='dataSource')"></div>
 
     <div class="page-header">
-        <h1><span th:text="'Data source ' + ${schemaName}">Data source sample</span></h1>
+        <h1><span th:text="'Data source ' + ${dataSourceConfig.schemaName}">Data source sample</span></h1>
     </div>
 
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title">URL</h2>
         </div>
-        <div class="panel-body">
-            jdbc:mysql://localhost:2215/sample?useSSL=true
+        <div class="panel-body" th:text="${dataSourceConfig.url}">
+            jdbc:mysql://localhost:3306/sample
         </div>
     </div>
 
@@ -35,7 +35,7 @@
         <div class="panel-heading">
             <h2 class="panel-title">Schema</h2>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" th:text="${dataSourceConfig.schemaName}">
             sample
         </div>
     </div>
@@ -44,7 +44,7 @@
         <div class="panel-heading">
             <h2 class="panel-title">User</h2>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" th:text="${dataSourceConfig.userName}">
             sampleUser
         </div>
     </div>

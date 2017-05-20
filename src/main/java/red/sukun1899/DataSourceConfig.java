@@ -11,6 +11,9 @@ public class DataSourceConfig {
     @Value("${spring.datasource.schema}")
     private String schemaName;
 
+    @Value("${spring.datasource.url}")
+    private String url;
+
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
 
@@ -27,5 +30,9 @@ public class DataSourceConfig {
 
     public String getUserName() {
         return userName;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }
