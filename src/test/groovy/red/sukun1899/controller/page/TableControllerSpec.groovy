@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import red.sukun1899.embedded.mysql.EmbeddedMySqlUtil
 import red.sukun1899.model.Column
+import red.sukun1899.model.CreateTableStatement
 import red.sukun1899.model.Index
 import red.sukun1899.model.Table
 import red.sukun1899.service.IndexService
@@ -87,6 +88,10 @@ class TableControllerSpec extends Specification {
         ]
         Mockito.doReturn(indices).when(indexService).get(tableName)
 
+        and: 'Mocking get createTableStatement'
+        def createTableStatement = new CreateTableStatement(tableName: 'table1', ddl: 'dummy')
+        Mockito.doReturn(createTableStatement).when(tableService).getCreateTableStatement(table)
+
         and: 'URL'
         def url = '/tables/' + tableName
 
@@ -97,6 +102,7 @@ class TableControllerSpec extends Specification {
         result.andReturn().modelAndView.modelMap.get('table') == table
         result.andReturn().modelAndView.modelMap.get('schemaName') == 'sample'
         result.andReturn().modelAndView.modelMap.get('indices') == indices
+        result.andReturn().modelAndView.modelMap.get('createTableStatement') == createTableStatement
 
         where:
         tableName | _

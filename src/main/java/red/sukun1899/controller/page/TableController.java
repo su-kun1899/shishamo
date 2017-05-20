@@ -5,8 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import red.sukun1899.DataSourceConfig;
+import red.sukun1899.model.CreateTableStatement;
 import red.sukun1899.model.Index;
 import red.sukun1899.model.Table;
 import red.sukun1899.service.IndexService;
@@ -21,45 +21,48 @@ import java.util.Map;
 @Controller
 @RequestMapping("tables")
 public class TableController {
-  private final DataSourceConfig dataSourceConfig;
-  private final TableService tableService;
-  private final IndexService indexService;
+    private final DataSourceConfig dataSourceConfig;
+    private final TableService tableService;
+    private final IndexService indexService;
 
-  public TableController(DataSourceConfig dataSourceConfig, TableService tableService, IndexService indexService) {
-    this.tableService = tableService;
-    this.dataSourceConfig = dataSourceConfig;
-    this.indexService = indexService;
-  }
+    public TableController(DataSourceConfig dataSourceConfig, TableService tableService, IndexService indexService) {
+        this.tableService = tableService;
+        this.dataSourceConfig = dataSourceConfig;
+        this.indexService = indexService;
+    }
 
-  @GetMapping
-  public String get(Model model) {
-    List<Table> tables = tableService.get();
-    model.addAttribute("tables", tables);
+    @GetMapping
+    public String get(Model model) {
+        List<Table> tables = tableService.get();
+        model.addAttribute("tables", tables);
 
-    Map<String, Long> parentTableCounts = tableService.getParentTableCountsByTableName();
-    model.addAttribute("parentTableCounts", parentTableCounts);
+        Map<String, Long> parentTableCounts = tableService.getParentTableCountsByTableName();
+        model.addAttribute("parentTableCounts", parentTableCounts);
 
-    Map<String, Long> childTableCounts = tableService.getChildTableCountsByTableName();
-    model.addAttribute("childTableCounts", childTableCounts);
+        Map<String, Long> childTableCounts = tableService.getChildTableCountsByTableName();
+        model.addAttribute("childTableCounts", childTableCounts);
 
-    Map<String, Long> columnCounts = tableService.getColumnCountsByTableName();
-    model.addAttribute("columnCounts", columnCounts);
+        Map<String, Long> columnCounts = tableService.getColumnCountsByTableName();
+        model.addAttribute("columnCounts", columnCounts);
 
-    model.addAttribute("schemaName", dataSourceConfig.getSchemaName());
+        model.addAttribute("schemaName", dataSourceConfig.getSchemaName());
 
-    return "tables";
-  }
+        return "tables";
+    }
 
-  @GetMapping(path = "{tableName}")
-  public String get(@PathVariable String tableName, Model model) {
-    Table table = tableService.get(tableName);
-    model.addAttribute("table", table);
+    @GetMapping(path = "{tableName}")
+    public String get(@PathVariable String tableName, Model model) {
+        Table table = tableService.get(tableName);
+        model.addAttribute("table", table);
 
-    List<Index> indices = indexService.get(tableName);
-    model.addAttribute("indices", indices);
+        CreateTableStatement createTableStatement = tableService.getCreateTableStatement(table);
+        model.addAttribute("createTableStatement", createTableStatement);
 
-    model.addAttribute("schemaName", dataSourceConfig.getSchemaName());
+        List<Index> indices = indexService.get(tableName);
+        model.addAttribute("indices", indices);
 
-    return "table";
-  }
+        model.addAttribute("schemaName", dataSourceConfig.getSchemaName());
+
+        return "table";
+    }
 }
