@@ -77,21 +77,27 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="index : ${indices}"
+        <tr class="success"
+                th:each="index : ${indices}"
             th:class="${index.category == T(red.sukun1899.model.Index.Category).PRIMARY}? 'success'
                 : (${index.category == T(red.sukun1899.model.Index.Category).UNIQUE}? 'info'
                 : (${index.category == T(red.sukun1899.model.Index.Category).PERFORMANCE}? 'warning'))">
             <td th:text="${index.category}">PRIMARY</td>
             <td th:text="${index.name}">PRIMARY</td>
             <td><span th:each="column, iterStat : ${index.columns}"
-                      th:text="!${iterStat.last} ? ${column.name} + ',': ${column.name}">piyo</span>
+                      th:text="!${iterStat.last} ? ${column.name} + ', ': ${column.name}">piyo</span>
             </td>
         </tr>
         <!--/*-->
-        <tr>
+        <tr class="info">
             <td>UNIQUE</td>
-            <td>sample_key</td>
+            <td>sample unique_key</td>
             <td><span>hoge,</span><span>fuga</span></td>
+        </tr>
+        <tr class="warning">
+            <td>PERFORMANCE</td>
+            <td>sample_key</td>
+            <td><span>hoge,</span><span>fuga,</span><span>piyo</span></td>
         </tr>
         <!--*/-->
         </tbody>
