@@ -6,6 +6,7 @@ import red.sukun1899.model.Index
 import red.sukun1899.repository.IndexRepository
 import spock.lang.Specification
 import spock.lang.Unroll
+
 /**
  * @author su-kun1899
  */
@@ -86,6 +87,5 @@ class IndexServiceSpec extends Specification {
         actual.get(3).getName() == 'b_uk'
         actual.get(4).getName() == 'a_k'
         actual.get(5).getName() == 'b_k'
-
     }
 }
