@@ -34,7 +34,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="danger" th:each="column : ${table.columns}">
+        <tr class="danger"
+            th:class="${column.getIndexCategory(indices) == T(red.sukun1899.model.Index.Category).PRIMARY}? 'danger'
+                : (${column.getIndexCategory(indices) == T(red.sukun1899.model.Index.Category).UNIQUE}? 'warning'
+                : (${column.getIndexCategory(indices) == T(red.sukun1899.model.Index.Category).PERFORMANCE}? 'warning'))"
+            th:each="column : ${table.columns}">
             <td th:text="${column.name}">book</td>
             <td th:text="${column.type}">bigint(19)</td>
             <td><span class="glyphicon glyphicon-ok" aria-hidden="true"
@@ -78,7 +82,7 @@
             <td></td>
             <td>タイトル</td>
         </tr>
-        <tr class="info">
+        <tr class="warning">
             <td>title</td>
             <td>varchar(128)</td>
             <td></td>
@@ -123,10 +127,10 @@
         </thead>
         <tbody>
         <tr class="danger"
-                th:each="index : ${indices}"
+            th:each="index : ${indices}"
             th:class="${index.category == T(red.sukun1899.model.Index.Category).PRIMARY}? 'danger'
                 : (${index.category == T(red.sukun1899.model.Index.Category).UNIQUE}? 'warning'
-                : (${index.category == T(red.sukun1899.model.Index.Category).PERFORMANCE}? 'info'))">
+                : (${index.category == T(red.sukun1899.model.Index.Category).PERFORMANCE}? 'warning'))">
             <td th:text="${index.category}">PRIMARY</td>
             <td th:text="${index.name}">PRIMARY</td>
             <td><span th:each="column, iterStat : ${index.columns}"
@@ -139,7 +143,7 @@
             <td>sample unique_key</td>
             <td><span>hoge,</span><span>fuga</span></td>
         </tr>
-        <tr class="info">
+        <tr class="warning">
             <td>PERFORMANCE</td>
             <td>sample_key</td>
             <td><span>hoge,</span><span>fuga,</span><span>piyo</span></td>
