@@ -1,5 +1,6 @@
 package red.sukun1899.model;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -68,5 +69,13 @@ public class Column {
 
     public void setChildColumns(List<ReferencedColumn> childColumns) {
         this.childColumns = childColumns;
+    }
+
+    public Index.Category getIndexCategory(Collection<Index> indices) {
+        return indices.stream()
+                .filter(index -> index.getColumns().stream().anyMatch(column -> column.getName().equals(this.getName())))
+                .map(Index::getCategory)
+                .findFirst()
+                .orElse(null);
     }
 }
