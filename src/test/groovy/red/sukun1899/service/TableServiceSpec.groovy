@@ -1,6 +1,6 @@
 package red.sukun1899.service
 
-import red.sukun1899.AppConfig
+import red.sukun1899.DataSourceConfig
 import red.sukun1899.model.Column
 import red.sukun1899.model.ReferencedTableCount
 import red.sukun1899.model.Table
@@ -14,7 +14,7 @@ import spock.lang.Unroll
 @Unroll
 class TableServiceSpec extends Specification {
     TableService tableService
-    AppConfig appConfig
+    DataSourceConfig appConfig
     TableRepository tableRepository
 
     def setup() {

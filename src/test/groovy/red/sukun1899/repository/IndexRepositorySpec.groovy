@@ -4,7 +4,7 @@ import com.ninja_squad.dbsetup.DbSetup
 import com.ninja_squad.dbsetup.destination.DataSourceDestination
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import red.sukun1899.AppConfig
+import red.sukun1899.DataSourceConfig
 import red.sukun1899.embedded.mysql.EmbeddedMySqlUtil
 import red.sukun1899.model.Index
 import spock.lang.Specification
@@ -23,7 +23,7 @@ class IndexRepositorySpec extends Specification {
     IndexRepository indexRepository
 
     @Autowired
-    AppConfig appConfig
+    DataSourceConfig appConfig
 
     @Autowired
     DataSourceDestination destination

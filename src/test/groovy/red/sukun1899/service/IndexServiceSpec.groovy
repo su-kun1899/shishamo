@@ -1,6 +1,6 @@
 package red.sukun1899.service
 
-import red.sukun1899.AppConfig
+import red.sukun1899.DataSourceConfig
 import red.sukun1899.model.Column
 import red.sukun1899.model.Index
 import red.sukun1899.repository.IndexRepository
@@ -13,7 +13,7 @@ import spock.lang.Unroll
 @Unroll
 class IndexServiceSpec extends Specification {
     IndexService indexService
-    AppConfig appConfig
+    DataSourceConfig appConfig
     IndexRepository indexRepository
 
     def setup() {

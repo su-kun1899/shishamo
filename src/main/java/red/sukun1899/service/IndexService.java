@@ -2,7 +2,7 @@ package red.sukun1899.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import red.sukun1899.AppConfig;
+import red.sukun1899.DataSourceConfig;
 import red.sukun1899.model.Index;
 import red.sukun1899.repository.IndexRepository;
 
@@ -14,17 +14,17 @@ import java.util.stream.Collectors;
  */
 @Service
 public class IndexService {
-    private AppConfig appConfig;
+    private DataSourceConfig dataSourceConfig;
     private IndexRepository indexRepository;
 
-    public IndexService(AppConfig appConfig, IndexRepository indexRepository) {
-        this.appConfig = appConfig;
+    public IndexService(DataSourceConfig dataSourceConfig, IndexRepository indexRepository) {
+        this.dataSourceConfig = dataSourceConfig;
         this.indexRepository = indexRepository;
     }
 
     @Transactional(readOnly = true)
     public List<Index> get(String tableName) {
-        return indexRepository.selectByTableName(appConfig.getSchemaName(), tableName).stream()
+        return indexRepository.selectByTableName(dataSourceConfig.getSchemaName(), tableName).stream()
                 .sorted((index1, index2) -> {
                     if (index1.getCategory().order() - index2.getCategory().order() != 0) {
                         return index1.getCategory().order() - index2.getCategory().order();
