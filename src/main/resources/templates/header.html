@@ -22,8 +22,12 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active" th:class="${activeMenu == 'table'}? 'active'"><a href="tables.html" th:href="@{'/tables'}">Table</a></li>
-                <li><a href="#">Data Source</a></li>
+                <li class="active" th:class="${activeMenu == 'table'}? 'active'">
+                    <a href="tables.html" th:href="@{'/tables'}">Table</a>
+                </li>
+                <li th:class="${activeMenu == 'dataSource'}? 'active'">
+                    <a href="data-source.html" th:href="@{'/data-source'}">Data Source</a>
+                </li>
             </ul>
         </div>
     </div>

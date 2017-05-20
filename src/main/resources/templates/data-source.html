@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title th:text="'shishamo - Data source ' + ${schemaName}">
+        shishamo - Data source sample
+    </title>
+
+    <!-- Bootstrap -->
+    <link href="../static/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div class="container" style="padding:20px 0">
+    <div th:replace="header :: navbar (activeMenu='dataSource')"></div>
+
+    <div class="page-header">
+        <h1><span th:text="'Data source ' + ${schemaName}">Data source sample</span></h1>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">URL</h2>
+        </div>
+        <div class="panel-body">
+            jdbc:mysql://localhost:2215/sample?useSSL=true
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">Schema</h2>
+        </div>
+        <div class="panel-body">
+            sample
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">User</h2>
+        </div>
+        <div class="panel-body">
+            sampleUser
+        </div>
+    </div>
+
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../static/bootstrap/3.3.7/js/bootstrap.min.js"
+        th:src="@{/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>
