@@ -31,6 +31,8 @@
             information_schema.tables tab
         WHERE
             tab.table_schema = #{schemaName}
+            AND
+            tab.table_type = 'BASE TABLE'
     </select>
 
     <!--suppress SqlDialectInspection -->
@@ -38,6 +40,7 @@
         SELECT
             tab.table_name               AS `name`,
             tab.table_comment            AS `comment`,
+            tab.table_rows               AS `rowCount`,
             col.column_name              AS `column_name`,
             col.column_type              AS `column_type`,
             col.column_default           AS `column_defaultValue`,
@@ -65,6 +68,8 @@
             tab.table_schema = #{schemaName}
             AND
             tab.table_name = #{name}
+            AND
+            tab.table_type = 'BASE TABLE'
         ORDER BY
             col.ordinal_position
     </select>
@@ -122,6 +127,8 @@
                 ON tab.table_schema = col.table_schema AND tab.table_name = col.table_name
         WHERE
             tab.table_schema = #{schemaName}
+            AND
+            tab.table_type = 'BASE TABLE'
         GROUP BY
             tab.table_name
     </select>

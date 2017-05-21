@@ -89,6 +89,11 @@ class TableRepositorySpec extends Specification {
                       CONSTRAINT `book_ibfk_1` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
                 """),
+                insertInto('book')
+                        .columns('isbn', 'title', 'publisherid', 'author')
+                        .values(123, 'FRA', 1, 'zidane')
+                        .values(456, 'USA', 2, 'donoban')
+                        .build(),
                 sql('SET foreign_key_checks = 1')
         )).launch()
 
@@ -99,6 +104,7 @@ class TableRepositorySpec extends Specification {
         table.getName() == tableName
         table.getComment() == '書籍'
         table.getColumns().size() == 4
+        table.getRowCount() == 2
 
         and:
         table.getColumns().get(0).getName() == 'isbn'
