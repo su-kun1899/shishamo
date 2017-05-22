@@ -38,9 +38,9 @@
         <tbody>
         <tr th:each="column : ${table.columns}">
             <td class="danger" th:text="${column.name}"
-                th:class="${column.getIndexCategory(indices) == T(red.sukun1899.model.Index.Category).PRIMARY}? 'danger'
-                : (${column.getIndexCategory(indices) == T(red.sukun1899.model.Index.Category).UNIQUE}? 'info'
-                : (${column.getIndexCategory(indices) == T(red.sukun1899.model.Index.Category).PERFORMANCE}? 'warning'))">
+                th:class="${column.getIndexCategory(indices) == T(red.sukun1899.shishamo.model.Index.Category).PRIMARY}? 'danger'
+                : (${column.getIndexCategory(indices) == T(red.sukun1899.shishamo.model.Index.Category).UNIQUE}? 'info'
+                : (${column.getIndexCategory(indices) == T(red.sukun1899.shishamo.model.Index.Category).PERFORMANCE}? 'warning'))">
                 book
             </td>
             <td th:text="${column.type}">bigint(19)</td>
@@ -133,9 +133,9 @@
         <tbody>
         <tr th:each="index : ${indices}">
             <td class="danger" th:text="${index.category}"
-                th:class="${index.category == T(red.sukun1899.model.Index.Category).PRIMARY}? 'danger'
-                : (${index.category == T(red.sukun1899.model.Index.Category).UNIQUE}? 'info'
-                : (${index.category == T(red.sukun1899.model.Index.Category).PERFORMANCE}? 'warning'))">
+                th:class="${index.category == T(red.sukun1899.shishamo.model.Index.Category).PRIMARY}? 'danger'
+                : (${index.category == T(red.sukun1899.shishamo.model.Index.Category).UNIQUE}? 'info'
+                : (${index.category == T(red.sukun1899.shishamo.model.Index.Category).PERFORMANCE}? 'warning'))">
                 PRIMARY
             </td>
             <td th:text="${index.name}">PRIMARY</td>

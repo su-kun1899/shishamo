@@ -3,10 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="red.sukun1899.repository.IndexRepository">
-    <resultMap id="indexMap" type="red.sukun1899.model.Index" autoMapping="true">
+<mapper namespace="red.sukun1899.shishamo.repository.IndexRepository">
+    <resultMap id="indexMap" type="red.sukun1899.shishamo.model.Index" autoMapping="true">
         <id property="name" column="name"/>
-        <collection property="columns" ofType="red.sukun1899.model.Column" autoMapping="true" columnPrefix="column_">
+        <collection property="columns" ofType="red.sukun1899.shishamo.model.Column" autoMapping="true" columnPrefix="column_">
             <id column="name" property="name"/>
         </collection>
     </resultMap>

@@ -3,23 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="red.sukun1899.repository.TableRepository">
-    <resultMap id="tableMap" type="red.sukun1899.model.Table" autoMapping="true">
+<mapper namespace="red.sukun1899.shishamo.repository.TableRepository">
+    <resultMap id="tableMap" type="red.sukun1899.shishamo.model.Table" autoMapping="true">
         <id property="name" column="name"/>
-        <collection property="columns" ofType="red.sukun1899.model.Column" autoMapping="true"
+        <collection property="columns" ofType="red.sukun1899.shishamo.model.Column" autoMapping="true"
                     columnPrefix="column_">
             <id column="name" property="name"/>
-            <association property="parentColumn" javaType="red.sukun1899.model.ReferencedColumn"
+            <association property="parentColumn" javaType="red.sukun1899.shishamo.model.ReferencedColumn"
                          autoMapping="true"
                          columnPrefix="parent_"/>
-            <collection property="childColumns" ofType="red.sukun1899.model.ReferencedColumn"
+            <collection property="childColumns" ofType="red.sukun1899.shishamo.model.ReferencedColumn"
                         autoMapping="true"
                         columnPrefix="child_">
                 <id column="tableName" property="tableName"/>
             </collection>
         </collection>
     </resultMap>
-    <resultMap id="tableCountMap" type="red.sukun1899.model.ReferencedTableCount"/>
+    <resultMap id="tableCountMap" type="red.sukun1899.shishamo.model.ReferencedTableCount"/>
 
     <!--suppress SqlDialectInspection -->
     <select id="selectAll" resultMap="tableMap">
@@ -133,7 +133,7 @@
             tab.table_name
     </select>
 
-    <resultMap id="createTableMap" type="red.sukun1899.model.CreateTableStatement">
+    <resultMap id="createTableMap" type="red.sukun1899.shishamo.model.CreateTableStatement">
         <result column="table" property="tableName"/>
         <result column="create table" property="ddl"/>
     </resultMap>
