@@ -3,15 +3,14 @@ package red.sukun1899.shishamo.repository
 import com.ninja_squad.dbsetup.DbSetup
 import com.ninja_squad.dbsetup.destination.DataSourceDestination
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import org.springframework.boot.test.context.SpringBootTest
-import red.sukun1899.shishamo.DataSourceConfig
 import red.sukun1899.shishamo.embedded.mysql.EmbeddedMySqlUtil
 import red.sukun1899.shishamo.model.Table
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import static com.ninja_squad.dbsetup.Operations.*
-
 /**
  * @author su-kun1899
  */
@@ -22,7 +21,7 @@ class TableRepositorySpec extends Specification {
     TableRepository tableRepository
 
     @Autowired
-    DataSourceConfig appConfig
+    DataSourceProperties dataSourceProperties
 
     @Autowired
     DataSourceDestination destination
@@ -53,14 +52,14 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def tables = tableRepository.selectAll(appConfig.getSchemaName())
+        def tables = tableRepository.selectAll(dataSourceProperties.getSchema())
 
         then:
         tables.size() == 1
         tables.each {
             assert it.getName() == 'book'
             assert it.getComment() == '書籍'
-            assert it.getRowCount() == 2
+            assert it.getRowCount() == 2L
         }
     }
 
@@ -98,13 +97,13 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def table = tableRepository.select(appConfig.getSchemaName(), tableName)
+        def table = tableRepository.select(dataSourceProperties.getSchema(), tableName)
 
         then:
         table.getName() == tableName
         table.getComment() == '書籍'
         table.getColumns().size() == 4
-        table.getRowCount() == 2
+        table.getRowCount() == 2L
 
         and:
         table.getColumns().get(0).getName() == 'isbn'
@@ -188,7 +187,7 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def table = tableRepository.select(appConfig.getSchemaName(), tableName)
+        def table = tableRepository.select(dataSourceProperties.getSchema(), tableName)
 
         then:
         table.getName() == tableName
@@ -240,12 +239,12 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def actual = tableRepository.selectParentTableCountsByTableName(appConfig.getSchemaName())
+        def actual = tableRepository.selectParentTableCountsByTableName(dataSourceProperties.getSchema())
 
         then:
         actual.size() == 2
-        actual.get('publisher').getCount() == 0
-        actual.get('book').getCount() == 1
+        actual.get('publisher').getCount() == 0L
+        actual.get('book').getCount() == 1L
 
         cleanup:
         new DbSetup(destination, sequenceOf(
@@ -316,12 +315,12 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def actual = tableRepository.selectChildTableCountsByTableName(appConfig.getSchemaName())
+        def actual = tableRepository.selectChildTableCountsByTableName(dataSourceProperties.getSchema())
 
         then:
         actual.size() == 2
-        actual.get('publisher').getCount() == 1
-        actual.get('publisher2').getCount() == 2
+        actual.get('publisher').getCount() == 1L
+        actual.get('publisher2').getCount() == 2L
 
         cleanup:
         new DbSetup(destination, sequenceOf(
@@ -363,12 +362,12 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def actual = tableRepository.selectColumnCountsByTableName(appConfig.getSchemaName())
+        def actual = tableRepository.selectColumnCountsByTableName(dataSourceProperties.getSchema())
 
         then:
         actual.size() == 2
-        actual.get('publisher').getCount() == 2
-        actual.get('book').getCount() == 4
+        actual.get('publisher').getCount() == 2L
+        actual.get('book').getCount() == 4L
 
         cleanup:
         new DbSetup(destination, sequenceOf(

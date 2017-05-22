@@ -1,27 +1,26 @@
 package red.sukun1899.shishamo.service
 
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import red.sukun1899.shishamo.model.Column
 import red.sukun1899.shishamo.model.CreateTableStatement
 import red.sukun1899.shishamo.model.ReferencedTableCount
 import red.sukun1899.shishamo.model.Table
-import red.sukun1899.shishamo.DataSourceConfig
 import red.sukun1899.shishamo.repository.TableRepository
 import spock.lang.Specification
 import spock.lang.Unroll
-
 /**
  * @author su-kun1899
  */
 @Unroll
 class TableServiceSpec extends Specification {
     TableService tableService
-    DataSourceConfig appConfig
+    DataSourceProperties dataSourceProperties
     TableRepository tableRepository
 
     def setup() {
-        appConfig = Mock()
+        dataSourceProperties = Mock()
         tableRepository = Mock()
-        tableService = new TableService(appConfig, tableRepository)
+        tableService = new TableService(dataSourceProperties, tableRepository)
     }
 
     def 'Get table list'() {
@@ -81,7 +80,7 @@ class TableServiceSpec extends Specification {
 
         then:
         actual.size() == 1
-        actual.get('book') == 1
+        actual.get('book') == 1L
         actual.get('publisher') == null
     }
 
@@ -99,7 +98,7 @@ class TableServiceSpec extends Specification {
 
         then:
         actual.size() == 1
-        actual.get('book') == 1
+        actual.get('book') == 1L
         actual.get('publisher') == null
     }
 
@@ -117,7 +116,7 @@ class TableServiceSpec extends Specification {
 
         then:
         actual.size() == 1
-        actual.get('book') == 1
+        actual.get('book') == 1L
         actual.get('publisher') == null
     }
 

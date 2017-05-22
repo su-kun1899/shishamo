@@ -1,8 +1,8 @@
 package red.sukun1899.shishamo.service;
 
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import red.sukun1899.shishamo.DataSourceConfig;
 import red.sukun1899.shishamo.model.Index;
 import red.sukun1899.shishamo.repository.IndexRepository;
 
@@ -14,17 +14,17 @@ import java.util.stream.Collectors;
  */
 @Service
 public class IndexService {
-    private DataSourceConfig dataSourceConfig;
+    private DataSourceProperties dataSourceProperties;
     private IndexRepository indexRepository;
 
-    public IndexService(DataSourceConfig dataSourceConfig, IndexRepository indexRepository) {
-        this.dataSourceConfig = dataSourceConfig;
+    public IndexService(DataSourceProperties dataSourceProperties, IndexRepository indexRepository) {
+        this.dataSourceProperties = dataSourceProperties;
         this.indexRepository = indexRepository;
     }
 
     @Transactional(readOnly = true)
     public List<Index> get(String tableName) {
-        return indexRepository.selectByTableName(dataSourceConfig.getSchemaName(), tableName).stream()
+        return indexRepository.selectByTableName(dataSourceProperties.getSchema(), tableName).stream()
                 .sorted((index1, index2) -> {
                     if (index1.getCategory().order() - index2.getCategory().order() != 0) {
                         return index1.getCategory().order() - index2.getCategory().order();
