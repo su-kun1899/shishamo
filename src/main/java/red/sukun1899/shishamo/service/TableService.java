@@ -1,9 +1,8 @@
 package red.sukun1899.shishamo.service;
 
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import red.sukun1899.shishamo.DataSourceConfig;
 import red.sukun1899.shishamo.model.CreateTableStatement;
 import red.sukun1899.shishamo.model.ReferencedTableCount;
 import red.sukun1899.shishamo.model.Table;
@@ -18,22 +17,22 @@ import java.util.stream.Collectors;
  */
 @Service
 public class TableService {
-  private final DataSourceConfig dataSourceConfig;
+  private final DataSourceProperties dataSourceProperties;
   private final TableRepository tableRepository;
 
-  public TableService(DataSourceConfig dataSourceConfig, TableRepository tableRepository) {
-    this.dataSourceConfig = dataSourceConfig;
+  public TableService(DataSourceProperties dataSourceProperties, TableRepository tableRepository) {
+    this.dataSourceProperties = dataSourceProperties;
     this.tableRepository = tableRepository;
   }
 
   @Transactional(readOnly = true)
   public List<Table> get() {
-    return tableRepository.selectAll(dataSourceConfig.getSchemaName());
+    return tableRepository.selectAll(dataSourceProperties.getSchema());
   }
 
   @Transactional(readOnly = true)
   public Table get(String tableName) {
-    return tableRepository.select(dataSourceConfig.getSchemaName(), tableName);
+    return tableRepository.select(dataSourceProperties.getSchema(), tableName);
   }
 
   @Transactional(readOnly = true)
@@ -46,7 +45,7 @@ public class TableService {
    */
   public Map<String, Long> getParentTableCountsByTableName() {
     Map<String, ReferencedTableCount> referencedTableCountMap =
-        tableRepository.selectParentTableCountsByTableName(dataSourceConfig.getSchemaName());
+        tableRepository.selectParentTableCountsByTableName(dataSourceProperties.getSchema());
 
     return referencedTableCountMap.entrySet().stream()
         .filter(entry -> entry.getValue().getCount() > 0)
@@ -60,7 +59,7 @@ public class TableService {
    */
   public Map<String, Long> getChildTableCountsByTableName() {
     Map<String, ReferencedTableCount> referencedTableCountMap =
-        tableRepository.selectChildTableCountsByTableName(dataSourceConfig.getSchemaName());
+        tableRepository.selectChildTableCountsByTableName(dataSourceProperties.getSchema());
 
     return referencedTableCountMap.entrySet().stream()
         .filter(entry -> entry.getValue().getCount() > 0)
@@ -74,7 +73,7 @@ public class TableService {
    */
   public Map<String, Long> getColumnCountsByTableName() {
     Map<String, ReferencedTableCount> referencedTableCountMap =
-        tableRepository.selectColumnCountsByTableName(dataSourceConfig.getSchemaName());
+        tableRepository.selectColumnCountsByTableName(dataSourceProperties.getSchema());
 
     return referencedTableCountMap.entrySet().stream()
         .filter(entry -> entry.getValue().getCount() > 0)

@@ -1,30 +1,29 @@
 package red.sukun1899.shishamo.service
 
-import red.sukun1899.shishamo.repository.IndexRepository
-import red.sukun1899.shishamo.DataSourceConfig
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import red.sukun1899.shishamo.model.Column
 import red.sukun1899.shishamo.model.Index
+import red.sukun1899.shishamo.repository.IndexRepository
 import spock.lang.Specification
 import spock.lang.Unroll
-
 /**
  * @author su-kun1899
  */
 @Unroll
 class IndexServiceSpec extends Specification {
     IndexService indexService
-    DataSourceConfig appConfig
+    DataSourceProperties dataSourceProperties
     IndexRepository indexRepository
 
     def setup() {
-        appConfig = Mock()
+        dataSourceProperties = Mock()
         indexRepository = Mock()
-        indexService = new IndexService(appConfig, indexRepository)
+        indexService = new IndexService(dataSourceProperties, indexRepository)
     }
 
     def 'Get indices by table name'() {
         given: 'Mocking repository'
-        appConfig.getSchemaName() >> 'schema1'
+        dataSourceProperties.getSchema() >> 'schema1'
         indexRepository.selectByTableName('schema1', 'table1') >> {
             [
                     new Index(
@@ -74,7 +73,7 @@ class IndexServiceSpec extends Specification {
         Collections.shuffle(indices)
 
         and: 'Mocking repository'
-        appConfig.getSchemaName() >> 'schema1'
+        dataSourceProperties.getSchema() >> 'schema1'
         indexRepository.selectByTableName('schema1', 'table1') >> indices
 
         when:

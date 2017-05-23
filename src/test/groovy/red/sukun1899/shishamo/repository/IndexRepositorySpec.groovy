@@ -3,8 +3,8 @@ package red.sukun1899.shishamo.repository
 import com.ninja_squad.dbsetup.DbSetup
 import com.ninja_squad.dbsetup.destination.DataSourceDestination
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import org.springframework.boot.test.context.SpringBootTest
-import red.sukun1899.shishamo.DataSourceConfig
 import red.sukun1899.shishamo.embedded.mysql.EmbeddedMySqlUtil
 import red.sukun1899.shishamo.model.Index
 import spock.lang.Specification
@@ -12,7 +12,6 @@ import spock.lang.Unroll
 
 import static com.ninja_squad.dbsetup.Operations.sequenceOf
 import static com.ninja_squad.dbsetup.Operations.sql
-
 /**
  * @author su-kun1899
  */
@@ -23,7 +22,7 @@ class IndexRepositorySpec extends Specification {
     IndexRepository indexRepository
 
     @Autowired
-    DataSourceConfig appConfig
+    DataSourceProperties dataSourceProperties
 
     @Autowired
     DataSourceDestination destination
@@ -56,7 +55,7 @@ class IndexRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def indices = indexRepository.selectByTableName(appConfig.getSchemaName(), tableName)
+        def indices = indexRepository.selectByTableName(dataSourceProperties.getSchema(), tableName)
 
         then:
         indices.size() == 5
@@ -123,7 +122,7 @@ class IndexRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def indices = indexRepository.selectByTableName(appConfig.getSchemaName(), tableName)
+        def indices = indexRepository.selectByTableName(dataSourceProperties.getSchema(), tableName)
 
         then:
         indices.size() == 1

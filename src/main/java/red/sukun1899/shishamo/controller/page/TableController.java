@@ -1,11 +1,11 @@
 package red.sukun1899.shishamo.controller.page;
 
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import red.sukun1899.shishamo.DataSourceConfig;
 import red.sukun1899.shishamo.model.CreateTableStatement;
 import red.sukun1899.shishamo.model.Index;
 import red.sukun1899.shishamo.model.Table;
@@ -21,13 +21,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("tables")
 public class TableController {
-    private final DataSourceConfig dataSourceConfig;
+    private final DataSourceProperties dataSourceProperties;
     private final TableService tableService;
     private final IndexService indexService;
 
-    public TableController(DataSourceConfig dataSourceConfig, TableService tableService, IndexService indexService) {
+    public TableController(DataSourceProperties dataSourceProperties, TableService tableService, IndexService indexService) {
         this.tableService = tableService;
-        this.dataSourceConfig = dataSourceConfig;
+        this.dataSourceProperties = dataSourceProperties;
         this.indexService = indexService;
     }
 
@@ -45,7 +45,7 @@ public class TableController {
         Map<String, Long> columnCounts = tableService.getColumnCountsByTableName();
         model.addAttribute("columnCounts", columnCounts);
 
-        model.addAttribute("schemaName", dataSourceConfig.getSchemaName());
+        model.addAttribute("schemaName", dataSourceProperties.getSchema());
 
         return "tables";
     }
@@ -61,7 +61,7 @@ public class TableController {
         List<Index> indices = indexService.get(tableName);
         model.addAttribute("indices", indices);
 
-        model.addAttribute("schemaName", dataSourceConfig.getSchemaName());
+        model.addAttribute("schemaName", dataSourceProperties.getSchema());
 
         return "table";
     }
