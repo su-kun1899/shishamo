@@ -7,6 +7,31 @@ shishamo is [MySQL](https://www.mysql.com/) metadata visualizer.
 "shishamo" means capelin in Japanese, which is known as dolphin's bait.  
 Sakila will definitely like it too.
 
+## Quick Start
+
+```
+git clone git@github.com:su-kun1899/shishamo.git
+cd shishamo/
+./mvnw spring-boot:run \
+    -Dspring.datasource.url=jdbc:mysql://<Your mysql host: localhost>>:<Your mysql port: 2215>/<Your mysql schema> \
+    -Dspring.datasource.schema=<Your mysql schema> \
+    -Dspring.datasource.username=<Your mysql user> \
+    -Dspring.datasource.password=<Your mysql password>
+```
+
+URL:
+http://localhost:8080/
+
+### Demo with embedded MySql
+
+```
+./mvnw spring-boot:run -Dshishamo.embedded.mysql=true`
+```
+
+URL:
+http://localhost:8080/
+
+
 ## Embedded MySql
 
 You can use embedded mysql server for demo, testing, development.
