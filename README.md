@@ -7,7 +7,7 @@ shishamo is [MySQL](https://www.mysql.com/) metadata visualizer.
 "shishamo" means capelin in Japanese, which is known as dolphin's bait.  
 Sakila will definitely like it too.
 
-## Quick Start
+## Quick Start
 
 ```
 git clone git@github.com:su-kun1899/shishamo.git
