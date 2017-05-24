@@ -25,7 +25,7 @@ http://localhost:8080/
 ### Demo with embedded MySql
 
 ```
-./mvnw spring-boot:run -Dshishamo.embedded.mysql=true`
+./mvnw spring-boot:run -Dshishamo.embedded.mysql=true
 ```
 
 URL:
