@@ -17,7 +17,4 @@ dependencies:
 test:
   override:
     - mvn integration-test -Dspring.profiles.active=circleci -Dshishamo.embedded.mysql=false
-    - mvn jacoco:report
-  post:
-    - mkdir -p $CIRCLE_ARTIFACTS/site/jacoco
-    - mv target/site/jacoco/ $CIRCLE_ARTIFACTS/site/jacoco
+    - mvn -e sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=su-kun1899-github -Dsonar.login=${SONAR_QUBE_TOKEN}

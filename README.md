@@ -1,14 +1,11 @@
 # shishamo
+[![CircleCI](https://circleci.com/gh/su-kun1899/shishamo/tree/master.svg?style=svg)](https://circleci.com/gh/su-kun1899/shishamo/tree/master)
+[![Quality Gate](https://sonarqube.com/api/badges/gate?key=red.sukun1899:shishamo)](https://sonarqube.com/dashboard?id=red.sukun1899%3Ashishamo)
 
 shishamo is [MySQL](https://www.mysql.com/) metadata visualizer.
 
 "shishamo" means capelin in Japanese, which is known as dolphin's bait.  
 Sakila will definitely like it too.
-
-## Build status
-
-Defalut branch:   
-* [![CircleCI](https://circleci.com/gh/su-kun1899/shishamo/tree/master.svg?style=svg)](https://circleci.com/gh/su-kun1899/shishamo/tree/master)
 
 ## Embedded MySql
 
