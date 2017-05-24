@@ -23,7 +23,6 @@ public class EmbeddedMySqlConfig {
         this.port = 3306;
         this.version = Version.v5_7_latest;
         this.username = "root";
-        this.password = "";
         this.schemaName = "test";
     }
 
@@ -68,11 +67,11 @@ public class EmbeddedMySqlConfig {
     }
 
     public Charset getWixCharset() {
-        if (this.charset.equalsIgnoreCase(UTF8.getCharset())) {
+        if (getCharset().equalsIgnoreCase(UTF8.getCharset())) {
             return UTF8;
-        } else if (this.charset.equalsIgnoreCase(UTF8MB4.getCharset())) {
+        } else if (getCharset().equalsIgnoreCase(UTF8MB4.getCharset())) {
             return UTF8MB4;
-        } else if (this.charset.equalsIgnoreCase(LATIN1.getCharset())) {
+        } else if (getCharset().equalsIgnoreCase(LATIN1.getCharset())) {
             return LATIN1;
         } else {
             // default
