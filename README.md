@@ -7,8 +7,11 @@ Sakila will definitely like it too.
 
 ## Build status
 
-Defalut branch:   
+Defalut branch: master
+
 * [![CircleCI](https://circleci.com/gh/su-kun1899/shishamo/tree/master.svg?style=svg)](https://circleci.com/gh/su-kun1899/shishamo/tree/master)
+
+* [![Quality Gate](https://sonarqube.com/api/badges/gate?key=red.sukun1899:shishamo)](https://sonarqube.com/dashboard?id=red.sukun1899%3Ashishamo)
 
 ## Embedded MySql
 
