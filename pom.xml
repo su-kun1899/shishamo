@@ -83,15 +83,13 @@
 		<dependency>
 			<groupId>org.spockframework</groupId>
 			<artifactId>spock-core</artifactId>
-			<!-- Boot 1.4 対応のために RC1 を使用する必要がある -->
-			<version>1.1-groovy-2.4-rc-1</version>
+			<version>1.1-groovy-2.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.spockframework</groupId>
 			<artifactId>spock-spring</artifactId>
-			<!-- Boot 1.4 対応のために RC1 を使用する必要がある -->
-			<version>1.1-groovy-2.4-rc-1</version>
+			<version>1.1-groovy-2.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
