@@ -8,7 +8,6 @@ import red.sukun1899.shishamo.model.Table;
 import red.sukun1899.shishamo.model.json.TableOverview;
 import red.sukun1899.shishamo.service.TableService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
