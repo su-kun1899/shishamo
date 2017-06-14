@@ -6,8 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import red.sukun1899.shishamo.model.CreateTableStatement;
 import red.sukun1899.shishamo.model.ReferencedTableCount;
 import red.sukun1899.shishamo.model.Table;
+import red.sukun1899.shishamo.model.json.TableOverview;
 import red.sukun1899.shishamo.repository.TableRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,6 +30,11 @@ public class TableService {
   @Transactional(readOnly = true)
   public List<Table> get() {
     return tableRepository.selectAll(dataSourceProperties.getSchema());
+  }
+
+  @Transactional(readOnly = true)
+  public List<TableOverview> getOverView() {
+    return new ArrayList<>();
   }
 
   @Transactional(readOnly = true)

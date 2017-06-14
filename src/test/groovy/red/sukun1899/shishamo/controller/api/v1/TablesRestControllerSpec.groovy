@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import red.sukun1899.shishamo.embedded.mysql.EmbeddedMySqlUtil
 import red.sukun1899.shishamo.model.Column
 import red.sukun1899.shishamo.model.Table
+import red.sukun1899.shishamo.model.json.TableOverview
 import red.sukun1899.shishamo.service.TableService
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -33,7 +34,7 @@ class TablesRestControllerSpec extends Specification {
     TableService tableService
 
     def setupSpec() {
-        if (EmbeddedMySqlUtil.enable()){
+        if (EmbeddedMySqlUtil.enable()) {
             EmbeddedMySqlUtil.ready()
         }
     }
@@ -41,12 +42,12 @@ class TablesRestControllerSpec extends Specification {
     def 'Get table list'() {
         setup: 'Prepare expected value'
         def tables = [
-                new Table(name: 'table1'),
-                new Table(name: 'table2'),
+                new TableOverview(name: 'table1'),
+                new TableOverview(name: 'table2'),
         ]
 
         and: 'Mocking service'
-        Mockito.doReturn(tables).when(tableService).get()
+        Mockito.doReturn(tables).when(tableService).getOverView()
 
         and: 'URL'
         def url = '/v1/tables'
@@ -58,6 +59,39 @@ class TablesRestControllerSpec extends Specification {
                 .andExpect(jsonPath('$', Matchers.hasSize(tables.size())))
                 .andExpect(jsonPath('$[0].name').value(tables[0].getName()))
                 .andExpect(jsonPath('$[1].name').value(tables[1].getName()))
+    }
+
+    def "Test table overview items"() {
+        given:
+        def table = new TableOverview(
+                name: 'table1',
+                comment: 'comment1',
+                countOfRows: 1L,
+                countOfChildren: 2L,
+                countOfParents: 3L,
+                countOfColumns: 4L,
+                url: '/api/v1/tables/table1'
+        )
+
+        and: 'Mocking service'
+        Mockito.doReturn([table]).when(tableService).getOverView()
+
+        and: 'URL'
+        def url = '/v1/tables'
+
+        when:
+        def actual = mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+
+        then:
+        actual.andExpect(jsonPath('$').isNotEmpty())
+        actual.andExpect(jsonPath('$[0].name').value(table.getName()))
+        actual.andExpect(jsonPath('$[0].comment').value(table.getComment()))
+        actual.andExpect(jsonPath('$[0].countOfRows').value(table.getCountOfRows()))
+        actual.andExpect(jsonPath('$[0].countOfChildren').value(table.getCountOfChildren()))
+        actual.andExpect(jsonPath('$[0].countOfParents').value(table.getCountOfParents()))
+        actual.andExpect(jsonPath('$[0].countOfColumns').value(table.getCountOfColumns()))
+        actual.andExpect(jsonPath('$[0].url').value(table.getUrl()))
+
     }
 
     def 'Get table detail'() {
