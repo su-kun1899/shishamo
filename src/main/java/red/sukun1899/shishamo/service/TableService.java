@@ -39,11 +39,23 @@ public class TableService {
         Map<String, Long> columnCounts = getColumnCountsByTableName();
 
         return tables.stream()
-                .map(table -> {
-                    TableOverview tableOverview = new TableOverview(table);
-                    tableOverview.setCountOfParents(parentTableCounts.get(tableOverview.getName()));
-                    tableOverview.setCountOfChildren(childTableCounts.get(tableOverview.getName()));
-                    tableOverview.setCountOfColumns(columnCounts.get(tableOverview.getName()));
+                .map(TableOverview::new)
+                .map(tableOverview -> {
+                    if (parentTableCounts.containsKey(tableOverview.getName())) {
+                        tableOverview.setCountOfParents(parentTableCounts.get(tableOverview.getName()));
+                    }
+                    return tableOverview;
+                })
+                .map(tableOverview -> {
+                    if (childTableCounts.containsKey(tableOverview.getName())) {
+                        tableOverview.setCountOfChildren(childTableCounts.get(tableOverview.getName()));
+                    }
+                    return tableOverview;
+                })
+                .map(tableOverview -> {
+                    if (columnCounts.containsKey(tableOverview.getName())) {
+                        tableOverview.setCountOfColumns(columnCounts.get(tableOverview.getName()));
+                    }
                     return tableOverview;
                 })
                 .collect(

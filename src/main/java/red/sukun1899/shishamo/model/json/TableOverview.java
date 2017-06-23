@@ -9,9 +9,9 @@ public class TableOverview {
     private String name;
     private String comment;
     private long countOfRows;
-    private Long countOfChildren;
-    private Long countOfParents;
-    private Long countOfColumns;
+    private long countOfChildren;
+    private long countOfParents;
+    private long countOfColumns;
     private String url;
 
     public TableOverview(Table table) {
@@ -33,27 +33,27 @@ public class TableOverview {
         return countOfRows;
     }
 
-    public Long getCountOfChildren() {
+    public long getCountOfChildren() {
         return countOfChildren;
     }
 
-    public void setCountOfChildren(Long countOfChildren) {
+    public void setCountOfChildren(long countOfChildren) {
         this.countOfChildren = countOfChildren;
     }
 
-    public Long getCountOfParents() {
+    public long getCountOfParents() {
         return countOfParents;
     }
 
-    public void setCountOfParents(Long countOfParents) {
+    public void setCountOfParents(long countOfParents) {
         this.countOfParents = countOfParents;
     }
 
-    public Long getCountOfColumns() {
+    public long getCountOfColumns() {
         return countOfColumns;
     }
 
-    public void setCountOfColumns(Long countOfColumns) {
+    public void setCountOfColumns(long countOfColumns) {
         this.countOfColumns = countOfColumns;
     }
 

@@ -73,6 +73,33 @@ class TableServiceSpec extends Specification {
         assert overviews.get(0).getUrl() == '/api/v1/tables/' + expected.getName()
     }
 
+    def 'Get table overview which has no relation'() {
+        given: 'Spy service'
+        tableService = Spy(TableService, constructorArgs: [dataSourceProperties, tableRepository])
+        tableService.getParentTableCountsByTableName() >> ['hoge': 1L]
+        tableService.getChildTableCountsByTableName() >> ['fuga': 2L]
+        tableService.getColumnCountsByTableName() >> ['piyo': 10L]
+
+        and: 'Mocking repository'
+        def expected = new Table(
+                name: 'sample_table',
+                rowCount: 10L,
+                columns: [
+                        new Column(name: 'columnA', defaultValue: 'mysql', nullable: false, comment: 'test1'),
+                        new Column(name: 'columnB', defaultValue: 'oracle', nullable: true, comment: 'test2'),
+                ]
+        )
+        tableRepository.selectAll(*_) >> [expected]
+
+        when:
+        def overviews = tableService.getOverView()
+
+        then:
+        assert overviews.get(0).getCountOfParents() == 0L
+        assert overviews.get(0).getCountOfChildren() == 0L
+        assert overviews.get(0).getCountOfColumns() == 0L
+    }
+
     def 'Get table detail'() {
         given: 'Mocking repository'
         def expected = new Table(
