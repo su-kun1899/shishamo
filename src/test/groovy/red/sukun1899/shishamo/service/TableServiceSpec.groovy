@@ -8,6 +8,7 @@ import red.sukun1899.shishamo.model.Table
 import red.sukun1899.shishamo.repository.TableRepository
 import spock.lang.Specification
 import spock.lang.Unroll
+
 /**
  * @author su-kun1899
  */
@@ -39,6 +40,31 @@ class TableServiceSpec extends Specification {
         tables.size() == 2
         tables[0].getName() == 'table1'
         tables[1].getName() == 'table2'
+    }
+
+    def 'Get table overview'() {
+        given: 'Mocking repository'
+        def expected = new Table(
+                name: 'sample_table',
+                columns: [
+                        new Column(name: 'columnA', defaultValue: 'mysql', nullable: false, comment: 'test1'),
+                        new Column(name: 'columnB', defaultValue: 'oracle', nullable: true, comment: 'test2'),
+                ]
+        )
+        tableRepository.selectAll(*_) >> [expected]
+
+        when:
+        def overviews = tableService.getOverView()
+
+        then:
+        assert overviews.get(0).getName() == expected.getName()
+        assert overviews.get(0).getComment() == expected.getComment()
+        assert overviews.get(0).getCountOfRows() == expected.getRowCount()
+        // TODO
+        //        assert overviews.get(0).getCountOfChildren() ==
+//        assert overviews.get(0).getCountOfParents() ==
+//        assert overviews.get(0).getCountOfColumns() ==
+        assert overviews.get(0).getUrl() == '/api/v1/tables/' + expected.getName()
     }
 
     def 'Get table detail'() {

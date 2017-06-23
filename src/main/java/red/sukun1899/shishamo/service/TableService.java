@@ -34,7 +34,8 @@ public class TableService {
 
   @Transactional(readOnly = true)
   public List<TableOverview> getOverView() {
-    return new ArrayList<>();
+    List<Table> tables = tableRepository.selectAll(dataSourceProperties.getSchema());
+    return tables.stream().map(TableOverview::new).collect(Collectors.toList());
   }
 
   @Transactional(readOnly = true)

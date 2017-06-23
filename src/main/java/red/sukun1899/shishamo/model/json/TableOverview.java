@@ -1,5 +1,7 @@
 package red.sukun1899.shishamo.model.json;
 
+import red.sukun1899.shishamo.model.Table;
+
 /**
  * @author su-kun1899
  */
@@ -12,20 +14,19 @@ public class TableOverview {
     private Long countOfColumns;
     private String url;
 
+    public TableOverview(Table table) {
+        name = table.getName();
+        comment = table.getComment();
+        countOfRows = table.getRowCount();
+        url = "/api/v1/tables/" + name;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getComment() {
         return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public Long getCountOfRows() {
@@ -64,7 +65,4 @@ public class TableOverview {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }
