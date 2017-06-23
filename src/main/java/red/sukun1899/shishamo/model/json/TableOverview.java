@@ -33,10 +33,6 @@ public class TableOverview {
         return countOfRows;
     }
 
-    public void setCountOfRows(long countOfRows) {
-        this.countOfRows = countOfRows;
-    }
-
     public Long getCountOfChildren() {
         return countOfChildren;
     }
