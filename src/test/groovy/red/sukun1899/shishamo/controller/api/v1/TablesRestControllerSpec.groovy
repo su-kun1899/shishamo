@@ -42,8 +42,8 @@ class TablesRestControllerSpec extends Specification {
     def 'Get table list'() {
         setup: 'Prepare expected value'
         def tables = [
-                new TableOverview(name: 'table1'),
-                new TableOverview(name: 'table2'),
+                new TableOverview(new Table(name: 'table1')),
+                new TableOverview(new Table(name: 'table2')),
         ]
 
         and: 'Mocking service'
@@ -64,14 +64,15 @@ class TablesRestControllerSpec extends Specification {
     def "Test table overview items"() {
         given:
         def table = new TableOverview(
-                name: 'table1',
-                comment: 'comment1',
-                countOfRows: 1L,
-                countOfChildren: 2L,
-                countOfParents: 3L,
-                countOfColumns: 4L,
-                url: '/api/v1/tables/table1'
+                new Table(
+                        name: 'table1',
+                        comment: 'comment1',
+                        rowCount: 1L
+                )
         )
+        table.countOfChildren = 2L
+        table.countOfParents = 3L
+        table.countOfColumns = 4L
 
         and: 'Mocking service'
         Mockito.doReturn([table]).when(tableService).getOverView()

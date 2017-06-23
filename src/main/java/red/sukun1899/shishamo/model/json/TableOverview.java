@@ -8,7 +8,7 @@ import red.sukun1899.shishamo.model.Table;
 public class TableOverview {
     private String name;
     private String comment;
-    private Long countOfRows;
+    private long countOfRows;
     private Long countOfChildren;
     private Long countOfParents;
     private Long countOfColumns;
@@ -17,7 +17,7 @@ public class TableOverview {
     public TableOverview(Table table) {
         name = table.getName();
         comment = table.getComment();
-        countOfRows = table.getRowCount();
+        countOfRows = table.getRowCount() == null ? 0 : table.getRowCount();
         url = "/api/v1/tables/" + name;
     }
 
@@ -29,11 +29,11 @@ public class TableOverview {
         return comment;
     }
 
-    public Long getCountOfRows() {
+    public long getCountOfRows() {
         return countOfRows;
     }
 
-    public void setCountOfRows(Long countOfRows) {
+    public void setCountOfRows(long countOfRows) {
         this.countOfRows = countOfRows;
     }
 

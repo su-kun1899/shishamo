@@ -52,6 +52,7 @@ class TableServiceSpec extends Specification {
         and: 'Mocking repository'
         def expected = new Table(
                 name: 'sample_table',
+                rowCount: 10L,
                 columns: [
                         new Column(name: 'columnA', defaultValue: 'mysql', nullable: false, comment: 'test1'),
                         new Column(name: 'columnB', defaultValue: 'oracle', nullable: true, comment: 'test2'),
