@@ -9,7 +9,6 @@ import red.sukun1899.shishamo.model.Table;
 import red.sukun1899.shishamo.model.json.TableOverview;
 import red.sukun1899.shishamo.repository.TableRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,74 +18,88 @@ import java.util.stream.Collectors;
  */
 @Service
 public class TableService {
-  private final DataSourceProperties dataSourceProperties;
-  private final TableRepository tableRepository;
+    private final DataSourceProperties dataSourceProperties;
+    private final TableRepository tableRepository;
 
-  public TableService(DataSourceProperties dataSourceProperties, TableRepository tableRepository) {
-    this.dataSourceProperties = dataSourceProperties;
-    this.tableRepository = tableRepository;
-  }
+    public TableService(DataSourceProperties dataSourceProperties, TableRepository tableRepository) {
+        this.dataSourceProperties = dataSourceProperties;
+        this.tableRepository = tableRepository;
+    }
 
-  @Transactional(readOnly = true)
-  public List<Table> get() {
-    return tableRepository.selectAll(dataSourceProperties.getSchema());
-  }
+    @Transactional(readOnly = true)
+    public List<Table> get() {
+        return tableRepository.selectAll(dataSourceProperties.getSchema());
+    }
 
-  @Transactional(readOnly = true)
-  public List<TableOverview> getOverView() {
-    List<Table> tables = tableRepository.selectAll(dataSourceProperties.getSchema());
-    return tables.stream().map(TableOverview::new).collect(Collectors.toList());
-  }
+    @Transactional(readOnly = true)
+    public List<TableOverview> getOverView() {
+        List<Table> tables = tableRepository.selectAll(dataSourceProperties.getSchema());
+        Map<String, Long> parentTableCounts = getParentTableCountsByTableName();
+        Map<String, Long> childTableCounts = getChildTableCountsByTableName();
+        Map<String, Long> columnCounts = getColumnCountsByTableName();
 
-  @Transactional(readOnly = true)
-  public Table get(String tableName) {
-    return tableRepository.select(dataSourceProperties.getSchema(), tableName);
-  }
+        return tables.stream()
+                .map(table -> {
+                    TableOverview tableOverview = new TableOverview(table);
+                    tableOverview.setCountOfParents(parentTableCounts.get(tableOverview.getName()));
+                    tableOverview.setCountOfChildren(childTableCounts.get(tableOverview.getName()));
+                    tableOverview.setCountOfColumns(columnCounts.get(tableOverview.getName()));
+                    return tableOverview;
+                })
+                .collect(
+                        Collectors.toList()
+                );
+    }
 
-  @Transactional(readOnly = true)
-  public CreateTableStatement getCreateTableStatement(Table table) {
-    return tableRepository.showCreateTableStatement(table);
-  }
+    @Transactional(readOnly = true)
+    public Table get(String tableName) {
+        return tableRepository.select(dataSourceProperties.getSchema(), tableName);
+    }
 
-  /**
-   * @return Key: tableName, Value: Parent table's count
-   */
-  public Map<String, Long> getParentTableCountsByTableName() {
-    Map<String, ReferencedTableCount> referencedTableCountMap =
-        tableRepository.selectParentTableCountsByTableName(dataSourceProperties.getSchema());
+    @Transactional(readOnly = true)
+    public CreateTableStatement getCreateTableStatement(Table table) {
+        return tableRepository.showCreateTableStatement(table);
+    }
 
-    return referencedTableCountMap.entrySet().stream()
-        .filter(entry -> entry.getValue().getCount() > 0)
-        .collect(
-            Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getCount())
-        );
-  }
+    /**
+     * @return Key: tableName, Value: Parent table's count
+     */
+    public Map<String, Long> getParentTableCountsByTableName() {
+        Map<String, ReferencedTableCount> referencedTableCountMap =
+                tableRepository.selectParentTableCountsByTableName(dataSourceProperties.getSchema());
 
-  /**
-   * @return Key: tableName, Value: Child table's count
-   */
-  public Map<String, Long> getChildTableCountsByTableName() {
-    Map<String, ReferencedTableCount> referencedTableCountMap =
-        tableRepository.selectChildTableCountsByTableName(dataSourceProperties.getSchema());
+        return referencedTableCountMap.entrySet().stream()
+                .filter(entry -> entry.getValue().getCount() > 0)
+                .collect(
+                        Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getCount())
+                );
+    }
 
-    return referencedTableCountMap.entrySet().stream()
-        .filter(entry -> entry.getValue().getCount() > 0)
-        .collect(
-            Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getCount())
-        );
-  }
+    /**
+     * @return Key: tableName, Value: Child table's count
+     */
+    public Map<String, Long> getChildTableCountsByTableName() {
+        Map<String, ReferencedTableCount> referencedTableCountMap =
+                tableRepository.selectChildTableCountsByTableName(dataSourceProperties.getSchema());
 
-  /**
-   * @return Key: tableName, Value: Column count
-   */
-  public Map<String, Long> getColumnCountsByTableName() {
-    Map<String, ReferencedTableCount> referencedTableCountMap =
-        tableRepository.selectColumnCountsByTableName(dataSourceProperties.getSchema());
+        return referencedTableCountMap.entrySet().stream()
+                .filter(entry -> entry.getValue().getCount() > 0)
+                .collect(
+                        Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getCount())
+                );
+    }
 
-    return referencedTableCountMap.entrySet().stream()
-        .filter(entry -> entry.getValue().getCount() > 0)
-        .collect(
-            Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getCount())
-        );
-  }
+    /**
+     * @return Key: tableName, Value: Column count
+     */
+    public Map<String, Long> getColumnCountsByTableName() {
+        Map<String, ReferencedTableCount> referencedTableCountMap =
+                tableRepository.selectColumnCountsByTableName(dataSourceProperties.getSchema());
+
+        return referencedTableCountMap.entrySet().stream()
+                .filter(entry -> entry.getValue().getCount() > 0)
+                .collect(
+                        Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getCount())
+                );
+    }
 }

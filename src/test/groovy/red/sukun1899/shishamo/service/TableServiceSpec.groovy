@@ -43,7 +43,13 @@ class TableServiceSpec extends Specification {
     }
 
     def 'Get table overview'() {
-        given: 'Mocking repository'
+        given: 'Spy service'
+        tableService = Spy(TableService, constructorArgs: [dataSourceProperties, tableRepository])
+        tableService.getParentTableCountsByTableName() >> ['sample_table': 1L]
+        tableService.getChildTableCountsByTableName() >> ['sample_table': 2L]
+        tableService.getColumnCountsByTableName() >> ['sample_table': 10L]
+
+        and: 'Mocking repository'
         def expected = new Table(
                 name: 'sample_table',
                 columns: [
@@ -60,10 +66,9 @@ class TableServiceSpec extends Specification {
         assert overviews.get(0).getName() == expected.getName()
         assert overviews.get(0).getComment() == expected.getComment()
         assert overviews.get(0).getCountOfRows() == expected.getRowCount()
-        // TODO
-        //        assert overviews.get(0).getCountOfChildren() ==
-//        assert overviews.get(0).getCountOfParents() ==
-//        assert overviews.get(0).getCountOfColumns() ==
+        assert overviews.get(0).getCountOfParents() == 1L
+        assert overviews.get(0).getCountOfChildren() == 2L
+        assert overviews.get(0).getCountOfColumns() == 10L
         assert overviews.get(0).getUrl() == '/api/v1/tables/' + expected.getName()
     }
 
