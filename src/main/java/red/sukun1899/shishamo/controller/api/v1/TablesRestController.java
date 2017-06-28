@@ -14,7 +14,7 @@ import java.util.List;
  * @author su-kun1899
  */
 @RestController
-@RequestMapping("v1/tables")
+@RequestMapping("api/v1/tables")
 public class TablesRestController {
     private final TableService tableService;
 

@@ -50,7 +50,7 @@ class TablesRestControllerSpec extends Specification {
         Mockito.doReturn(tables).when(tableService).getOverView()
 
         and: 'URL'
-        def url = '/v1/tables'
+        def url = '/api/v1/tables'
 
         expect:
         mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
@@ -78,7 +78,7 @@ class TablesRestControllerSpec extends Specification {
         Mockito.doReturn([table]).when(tableService).getOverView()
 
         and: 'URL'
-        def url = '/v1/tables'
+        def url = '/api/v1/tables'
 
         when:
         def actual = mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
@@ -104,7 +104,7 @@ class TablesRestControllerSpec extends Specification {
         Mockito.doReturn(table).when(tableService).get(Mockito.anyString())
 
         and: 'URL'
-        def url = '/v1/tables/' + tableName
+        def url = '/api/v1/tables/' + tableName
 
         expect:
         mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
@@ -134,7 +134,7 @@ class TablesRestControllerSpec extends Specification {
         )
 
         and: 'URL'
-        def url = '/v1/tables/' + table.getName()
+        def url = '/api/v1/tables/' + table.getName()
 
         and: 'Mocking service'
         Mockito.doReturn(table).when(tableService).get(table.getName())
