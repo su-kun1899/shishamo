@@ -1,11 +1,10 @@
 package red.sukun1899.shishamo.service
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
-import red.sukun1899.shishamo.model.Column
-import red.sukun1899.shishamo.model.CreateTableStatement
-import red.sukun1899.shishamo.model.ReferencedTableCount
-import red.sukun1899.shishamo.model.Table
+import red.sukun1899.shishamo.model.*
 import red.sukun1899.shishamo.model.json.ColumnDetail
+import red.sukun1899.shishamo.model.json.ColumnOverview
+import red.sukun1899.shishamo.model.json.IndexDetail
 import red.sukun1899.shishamo.repository.TableRepository
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -18,11 +17,17 @@ class TableServiceSpec extends Specification {
     TableService tableService
     DataSourceProperties dataSourceProperties
     TableRepository tableRepository
+    IndexService indexService
 
     def setup() {
         dataSourceProperties = Mock()
         tableRepository = Mock()
-        tableService = new TableService(dataSourceProperties, tableRepository)
+        indexService = Mock()
+        tableService = new TableService(dataSourceProperties, tableRepository, indexService)
+    }
+
+    def spyTableService() {
+        return Spy(TableService, constructorArgs: [dataSourceProperties, tableRepository, indexService])
     }
 
     def 'Get table list'() {
@@ -45,7 +50,7 @@ class TableServiceSpec extends Specification {
 
     def 'Get table overview'() {
         given: 'Spy service'
-        tableService = Spy(TableService, constructorArgs: [dataSourceProperties, tableRepository])
+        tableService = spyTableService()
         tableService.getParentTableCountsByTableName() >> ['sample_table': 1L]
         tableService.getChildTableCountsByTableName() >> ['sample_table': 2L]
         tableService.getColumnCountsByTableName() >> ['sample_table': 10L]
@@ -76,7 +81,7 @@ class TableServiceSpec extends Specification {
 
     def 'Get table overview which has no relation'() {
         given: 'Spy service'
-        tableService = Spy(TableService, constructorArgs: [dataSourceProperties, tableRepository])
+        tableService = spyTableService()
         tableService.getParentTableCountsByTableName() >> ['hoge': 1L]
         tableService.getChildTableCountsByTableName() >> ['fuga': 2L]
         tableService.getColumnCountsByTableName() >> ['piyo': 10L]
@@ -127,7 +132,7 @@ class TableServiceSpec extends Specification {
     }
 
     def 'Get table detail'() {
-        given:'Prepare table'
+        given: 'Prepare table'
         def table = new Table(
                 name: 'sample_table',
                 columns: [
@@ -138,9 +143,22 @@ class TableServiceSpec extends Specification {
                 rowCount: 10
         )
 
-        and: 'Spy service'
-        tableService = Spy(TableService, constructorArgs: [dataSourceProperties, tableRepository])
+        and: 'Prepare indices'
+        def indices = [
+                new Index(
+                        name: 'index1', columns: [new Column(name: 'columnA')],
+                        category: Index.Category.PRIMARY
+                ),
+                new Index(
+                        name: 'index2', columns: [new Column(name: 'columnA'), new Column(name: 'columnB')],
+                        category: Index.Category.PERFORMANCE
+                )
+        ]
+
+        and: 'Spy and mock service'
+        tableService = spyTableService()
         tableService.get('table1') >> table
+        indexService.get('table1') >> indices
 
         when:
         def detail = tableService.getDetail('table1')
@@ -157,6 +175,15 @@ class TableServiceSpec extends Specification {
             assert column.getType() == table.getColumns().get(i).getType()
             assert column.isNullable() == table.getColumns().get(i).isNullable()
             assert column.getComment() == table.getColumns().get(i).getComment()
+        }
+        detail.getIndices().size() == indices.size()
+        detail.getIndices().eachWithIndex { IndexDetail index, int i ->
+            assert index.getName() == indices[i].getName()
+            assert index.getCategory() == indices[i].getCategory()
+            assert index.columns.size() == indices[i].getColumns().size()
+            index.columns.eachWithIndex { ColumnOverview column, int j ->
+                assert column.getName() == indices[i].getColumns()[j].getName()
+            }
         }
     }
 

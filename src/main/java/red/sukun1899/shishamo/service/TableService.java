@@ -21,10 +21,12 @@ import java.util.stream.Collectors;
 public class TableService {
     private final DataSourceProperties dataSourceProperties;
     private final TableRepository tableRepository;
+    private final IndexService indexService;
 
-    public TableService(DataSourceProperties dataSourceProperties, TableRepository tableRepository) {
+    public TableService(DataSourceProperties dataSourceProperties, TableRepository tableRepository, IndexService indexService) {
         this.dataSourceProperties = dataSourceProperties;
         this.tableRepository = tableRepository;
+        this.indexService = indexService;
     }
 
     @Transactional(readOnly = true)
@@ -71,7 +73,7 @@ public class TableService {
 
     @Transactional(readOnly = true)
     public TableDetail getDetail(String tableName) {
-        return new TableDetail(get(tableName), null);
+        return new TableDetail(get(tableName), indexService.get(tableName));
     }
 
     @Transactional(readOnly = true)
