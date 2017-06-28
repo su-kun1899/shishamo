@@ -5,6 +5,7 @@ import red.sukun1899.shishamo.model.Column
 import red.sukun1899.shishamo.model.CreateTableStatement
 import red.sukun1899.shishamo.model.ReferencedTableCount
 import red.sukun1899.shishamo.model.Table
+import red.sukun1899.shishamo.model.json.ColumnDetail
 import red.sukun1899.shishamo.repository.TableRepository
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -149,13 +150,14 @@ class TableServiceSpec extends Specification {
         detail.getComment() == table.getComment()
         detail.getCountOfRows() == table.getRowCount()
         detail.getUrl() == "/api/v1/tables/${table.getName()}"
-//        detail.getColumns().size() == table.getColumns().size()
-//        table.getColumns().eachWithIndex { Column column, int i ->
-//            assert column.getName() == expected.getColumns().get(i).getName()
-//            assert column.getDefaultValue() == expected.getColumns().get(i).getDefaultValue()
-//            assert column.isNullable() == expected.getColumns().get(i).isNullable()
-//            assert column.getComment() == expected.getColumns().get(i).getComment()
-//        }
+        detail.getColumns().size() == table.getColumns().size()
+        detail.getColumns().eachWithIndex { ColumnDetail column, int i ->
+            assert column.getName() == table.getColumns().get(i).getName()
+            assert column.getDefaultValue() == table.getColumns().get(i).getDefaultValue()
+            assert column.getType() == table.getColumns().get(i).getType()
+            assert column.isNullable() == table.getColumns().get(i).isNullable()
+            assert column.getComment() == table.getColumns().get(i).getComment()
+        }
     }
 
     def 'Get parent table count'() {
