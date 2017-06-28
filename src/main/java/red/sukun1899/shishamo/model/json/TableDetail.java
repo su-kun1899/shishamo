@@ -11,7 +11,6 @@ public class TableDetail {
     private String name;
     private String comment;
     private long countOfRows;
-    private long countOfColumns;
     private String url;
 // TODO    private List<Column> columns;
     // TODO Indices
@@ -33,10 +32,6 @@ public class TableDetail {
 
     public long getCountOfRows() {
         return countOfRows;
-    }
-
-    public long getCountOfColumns() {
-        return countOfColumns;
     }
 
     public String getUrl() {
