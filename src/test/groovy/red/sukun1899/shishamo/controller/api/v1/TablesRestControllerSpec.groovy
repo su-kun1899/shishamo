@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import red.sukun1899.shishamo.embedded.mysql.EmbeddedMySqlUtil
 import red.sukun1899.shishamo.model.Column
+import red.sukun1899.shishamo.model.Index
 import red.sukun1899.shishamo.model.Table
 import red.sukun1899.shishamo.model.json.TableDetail
 import red.sukun1899.shishamo.model.json.TableOverview
@@ -105,7 +106,16 @@ class TablesRestControllerSpec extends Specification {
                         rowCount: 10,
                         comment: 'Sample comment.'
                 ),
-                null)
+                [
+                        new Index(
+                                name: 'index1', columns: [new Column(name: columnNames[0])],
+                                category: Index.Category.PRIMARY
+                        ),
+                        new Index(
+                                name: 'index2', columns: [new Column(name: columnNames[0]), new Column(name: columnNames[1])],
+                                category: Index.Category.PERFORMANCE
+                        )
+                ])
         Mockito.doReturn(table).when(tableService).getDetail(Mockito.anyString())
 
         and: 'URL'
@@ -122,6 +132,10 @@ class TablesRestControllerSpec extends Specification {
                 .andExpect(jsonPath('$.columns', Matchers.hasSize(table.getColumns().size())))
                 .andExpect(jsonPath('$.columns[0].name').value(table.getColumns().get(0).getName()))
                 .andExpect(jsonPath('$.columns[1].name').value(table.getColumns().get(1).getName()))
+                .andExpect(jsonPath('$.indices').isArray())
+                .andExpect(jsonPath('$.indices', Matchers.hasSize(table.getIndices().size())))
+                .andExpect(jsonPath('$.indices[0].name').value(table.getIndices().get(0).getName()))
+                .andExpect(jsonPath('$.indices[1].name').value(table.getIndices().get(1).getName()))
 
         where:
         tableName      | columnNames
