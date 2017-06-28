@@ -71,7 +71,7 @@ public class TableService {
 
     @Transactional(readOnly = true)
     public TableDetail getDetail(String tableName) {
-        return new TableDetail(get(tableName));
+        return new TableDetail(get(tableName), null);
     }
 
     @Transactional(readOnly = true)

@@ -98,12 +98,14 @@ class TablesRestControllerSpec extends Specification {
 
     def 'Get table detail'() {
         setup: 'Mock service'
-        def table = new TableDetail(new Table(
-                name: tableName,
-                columns: [new Column(name: columnNames[0]), new Column(name: columnNames[1])],
-                rowCount: 10,
-                comment: 'Sample comment.'
-        ))
+        def table = new TableDetail(
+                new Table(
+                        name: tableName,
+                        columns: [new Column(name: columnNames[0]), new Column(name: columnNames[1])],
+                        rowCount: 10,
+                        comment: 'Sample comment.'
+                ),
+                null)
         Mockito.doReturn(table).when(tableService).getDetail(Mockito.anyString())
 
         and: 'URL'
@@ -136,7 +138,8 @@ class TablesRestControllerSpec extends Specification {
                         nullable: nullable,
                         type: type,
                         comment: comment
-                )]
+                )],
+                rowCount: 10
         )
 
         and: 'URL'

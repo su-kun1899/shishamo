@@ -1,5 +1,6 @@
 package red.sukun1899.shishamo.model.json;
 
+import red.sukun1899.shishamo.model.Index;
 import red.sukun1899.shishamo.model.Table;
 
 import java.util.List;
@@ -14,9 +15,9 @@ public class TableDetail {
     private long countOfRows;
     private String url;
     private List<ColumnDetail> columns;
-    // TODO Indices
+    private List<IndexDetail> Indices;
 
-    public TableDetail(Table table) {
+    public TableDetail(Table table, List<Index> indices) {
         this.name = table.getName();
         this.comment = table.getComment();
         this.countOfRows = table.getRowCount();
@@ -44,5 +45,9 @@ public class TableDetail {
 
     public List<ColumnDetail> getColumns() {
         return columns;
+    }
+
+    public List<IndexDetail> getIndices() {
+        return Indices;
     }
 }
