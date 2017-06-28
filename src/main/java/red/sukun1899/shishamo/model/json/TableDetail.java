@@ -25,7 +25,7 @@ public class TableDetail {
         this.columns = table.getColumns().stream()
                 .map(ColumnDetail::new)
                 .collect(Collectors.toList());
-        this.Indices = indices.stream()
+        this.Indices = indices == null ? null : indices.stream()
                 .map(IndexDetail::new)
                 .collect(Collectors.toList());
     }

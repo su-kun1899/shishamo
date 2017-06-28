@@ -144,7 +144,7 @@ class TablesRestControllerSpec extends Specification {
 
     def 'Get column detail'() {
         setup: 'Prepare expected value'
-        def table = new Table(
+        def table = new TableDetail(new Table(
                 name: 'sample_table',
                 columns: [new Column(
                         name: name,
@@ -154,13 +154,13 @@ class TablesRestControllerSpec extends Specification {
                         comment: comment
                 )],
                 rowCount: 10
-        )
+        ), null)
 
         and: 'URL'
         def url = '/api/v1/tables/' + table.getName()
 
         and: 'Mocking service'
-        Mockito.doReturn(table).when(tableService).get(table.getName())
+        Mockito.doReturn(table).when(tableService).getDetail(table.getName())
 
         expect:
         mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
@@ -174,5 +174,42 @@ class TablesRestControllerSpec extends Specification {
         where:
         name      | defaultValue     | nullable | type          | comment
         'columnA' | 'default_sample' | true     | 'varchar(40)' | 'comment_sample'
+    }
+
+    def 'Get index detail'() {
+        setup: 'Prepare expected value'
+        def columnNames = ['columnA', 'columnB']
+        def table = new TableDetail(
+                new Table(
+                        name: 'sample',
+                        columns: [new Column(name: columnNames[0]), new Column(name: columnNames[1])],
+                        rowCount: 10,
+                        comment: 'Sample comment.'
+                ),
+                [
+                        new Index(
+                                name: 'index2', columns: [new Column(name: columnNames[0]), new Column(name: columnNames[1])],
+                                category: Index.Category.PERFORMANCE
+                        )
+                ])
+        Mockito.doReturn(table).when(tableService).getDetail(Mockito.anyString())
+
+        and: 'URL'
+        def url = '/api/v1/tables/' + table.getName()
+
+        and: 'Mocking service'
+        Mockito.doReturn(table).when(tableService).getDetail(table.getName())
+
+        expect:
+        mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+                .andExpect(jsonPath('$').isNotEmpty())
+                .andExpect(jsonPath('$.indices').isArray())
+                .andExpect(jsonPath('$.indices', Matchers.hasSize(table.getIndices().size())))
+                .andExpect(jsonPath('$.indices[0].name').value(table.getIndices().get(0).getName()))
+                .andExpect(jsonPath('$.indices[0].category').value(table.getIndices().get(0).getCategory().toString()))
+                .andExpect(jsonPath('$.indices[0].columns').isArray())
+                .andExpect(jsonPath('$.indices[0].columns', Matchers.hasSize(table.getIndices().get(0).getColumns().size())))
+                .andExpect(jsonPath('$.indices[0].columns[0].name').value(table.getIndices().get(0).getColumns().get(0).getName()))
+                .andExpect(jsonPath('$.indices[0].columns[1].name').value(table.getIndices().get(0).getColumns().get(1).getName()))
     }
 }
