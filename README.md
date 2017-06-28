@@ -44,3 +44,41 @@ Also you can change the configuration in `src/main/resources/embedded-mysql.yml`
 
 Notice:
 You can override the default configuration by providing arguments on the command line.
+
+## REST API
+
+### List tables
+
+```
+GET /api/v1/tables
+```
+
+### Response
+
+```json
+[ {
+  "name" : "book",
+  "comment" : "書籍",
+  "countOfRows" : 5,
+  "countOfChildren" : 0,
+  "countOfParents" : 1,
+  "countOfColumns" : 4,
+  "url" : "/api/v1/tables/book"
+}, {
+  "name" : "publisher",
+  "comment" : "出版社",
+  "countOfRows" : 3,
+  "countOfChildren" : 1,
+  "countOfParents" : 0,
+  "countOfColumns" : 2,
+  "url" : "/api/v1/tables/publisher"
+}, {
+  "name" : "schema_version",
+  "comment" : "",
+  "countOfRows" : 3,
+  "countOfChildren" : 0,
+  "countOfParents" : 0,
+  "countOfColumns" : 11,
+  "url" : "/api/v1/tables/schema_version"
+} ]
+```
