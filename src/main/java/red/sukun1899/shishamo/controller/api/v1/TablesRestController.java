@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import red.sukun1899.shishamo.model.Table;
+import red.sukun1899.shishamo.model.json.TableDetail;
 import red.sukun1899.shishamo.model.json.TableOverview;
 import red.sukun1899.shishamo.service.TableService;
 
@@ -28,7 +29,7 @@ public class TablesRestController {
     }
 
     @GetMapping(path = "{tableName}")
-    public Table get(@PathVariable String tableName) {
-        return tableService.get(tableName);
+    public TableDetail get(@PathVariable String tableName) {
+        return tableService.getDetail(tableName);
     }
 }

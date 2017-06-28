@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import red.sukun1899.shishamo.embedded.mysql.EmbeddedMySqlUtil
 import red.sukun1899.shishamo.model.Column
 import red.sukun1899.shishamo.model.Table
+import red.sukun1899.shishamo.model.json.TableDetail
 import red.sukun1899.shishamo.model.json.TableOverview
 import red.sukun1899.shishamo.service.TableService
 import spock.lang.Specification
@@ -97,11 +98,13 @@ class TablesRestControllerSpec extends Specification {
 
     def 'Get table detail'() {
         setup: 'Mock service'
-        def table = new Table(
+        def table = new TableDetail(new Table(
                 name: tableName,
-                columns: [new Column(name: columnNames[0]), new Column(name: columnNames[1])]
-        )
-        Mockito.doReturn(table).when(tableService).get(Mockito.anyString())
+                columns: [new Column(name: columnNames[0]), new Column(name: columnNames[1])],
+                rowCount: 10,
+                comment: 'Sample comment.'
+        ))
+        Mockito.doReturn(table).when(tableService).getDetail(Mockito.anyString())
 
         and: 'URL'
         def url = '/api/v1/tables/' + tableName
@@ -110,6 +113,9 @@ class TablesRestControllerSpec extends Specification {
         mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(jsonPath('$').isNotEmpty())
                 .andExpect(jsonPath('$.name').value(table.getName()))
+                .andExpect(jsonPath('$.url').value(url))
+                .andExpect(jsonPath('$.comment').value(table.getComment()))
+                .andExpect(jsonPath('$.countOfRows').value(table.getCountOfRows()))
                 .andExpect(jsonPath('$.columns').isArray())
                 .andExpect(jsonPath('$.columns', Matchers.hasSize(table.getColumns().size())))
                 .andExpect(jsonPath('$.columns[0].name').value(table.getColumns().get(0).getName()))
