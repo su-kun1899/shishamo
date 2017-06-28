@@ -18,6 +18,9 @@ public class TableDetail {
 
     public TableDetail(Table table) {
         this.table = table;
+        this.name = table.getName();
+        this.comment = table.getComment();
+        this.countOfRows = table.getRowCount();
     }
 
     public String getName() {

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import red.sukun1899.shishamo.model.CreateTableStatement;
 import red.sukun1899.shishamo.model.ReferencedTableCount;
 import red.sukun1899.shishamo.model.Table;
+import red.sukun1899.shishamo.model.json.TableDetail;
 import red.sukun1899.shishamo.model.json.TableOverview;
 import red.sukun1899.shishamo.repository.TableRepository;
 
@@ -66,6 +67,11 @@ public class TableService {
     @Transactional(readOnly = true)
     public Table get(String tableName) {
         return tableRepository.select(dataSourceProperties.getSchema(), tableName);
+    }
+
+    @Transactional(readOnly = true)
+    public TableDetail getDetail(String tableName) {
+        return new TableDetail(get(tableName));
     }
 
     @Transactional(readOnly = true)

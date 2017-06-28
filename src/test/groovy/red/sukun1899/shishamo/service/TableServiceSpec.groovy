@@ -100,7 +100,7 @@ class TableServiceSpec extends Specification {
         assert overviews.get(0).getCountOfColumns() == 0L
     }
 
-    def 'Get table detail'() {
+    def 'Get table'() {
         given: 'Mocking repository'
         def expected = new Table(
                 name: 'sample_table',
@@ -123,6 +123,38 @@ class TableServiceSpec extends Specification {
             assert column.isNullable() == expected.getColumns().get(i).isNullable()
             assert column.getComment() == expected.getColumns().get(i).getComment()
         }
+    }
+
+    def 'Get table detail'() {
+        given:'Prepare table'
+        def table = new Table(
+                name: 'sample_table',
+                columns: [
+                        new Column(name: 'columnA', defaultValue: 'mysql', nullable: false, comment: 'test1'),
+                        new Column(name: 'columnB', defaultValue: 'oracle', nullable: true, comment: 'test2'),
+                ],
+                comment: 'Sample comment.',
+                rowCount: 10
+        )
+
+        and: 'Spy service'
+        tableService = Spy(TableService, constructorArgs: [dataSourceProperties, tableRepository])
+        tableService.get('table1') >> table
+
+        when:
+        def detail = tableService.getDetail('table1')
+
+        then:
+        detail.getName() == table.getName()
+        detail.getComment() == table.getComment()
+        detail.getCountOfRows() == table.getRowCount()
+//        detail.getColumns().size() == table.getColumns().size()
+//        table.getColumns().eachWithIndex { Column column, int i ->
+//            assert column.getName() == expected.getColumns().get(i).getName()
+//            assert column.getDefaultValue() == expected.getColumns().get(i).getDefaultValue()
+//            assert column.isNullable() == expected.getColumns().get(i).isNullable()
+//            assert column.getComment() == expected.getColumns().get(i).getComment()
+//        }
     }
 
     def 'Get parent table count'() {
