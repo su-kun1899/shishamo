@@ -12,7 +12,8 @@ public class TableDetail {
     private String comment;
     private long countOfRows;
     private String url;
-// TODO    private List<Column> columns;
+    // TODO columns
+//    private List<Column> columns;
     // TODO Indices
 
     public TableDetail(Table table) {
@@ -20,6 +21,7 @@ public class TableDetail {
         this.name = table.getName();
         this.comment = table.getComment();
         this.countOfRows = table.getRowCount();
+        this.url = new TableOverview(table).getUrl();
     }
 
     public String getName() {

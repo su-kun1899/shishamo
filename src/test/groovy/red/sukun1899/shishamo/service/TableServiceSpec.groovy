@@ -148,6 +148,7 @@ class TableServiceSpec extends Specification {
         detail.getName() == table.getName()
         detail.getComment() == table.getComment()
         detail.getCountOfRows() == table.getRowCount()
+        detail.getUrl() == "/api/v1/tables/${table.getName()}"
 //        detail.getColumns().size() == table.getColumns().size()
 //        table.getColumns().eachWithIndex { Column column, int i ->
 //            assert column.getName() == expected.getColumns().get(i).getName()
