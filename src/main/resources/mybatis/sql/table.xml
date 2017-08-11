@@ -138,6 +138,6 @@
         <result column="create table" property="ddl"/>
     </resultMap>
     <select id="showCreateTableStatement" resultMap="createTableMap">
-        SHOW CREATE TABLE ${name}
+        SHOW CREATE TABLE `${name}`
     </select>
 </mapper>
