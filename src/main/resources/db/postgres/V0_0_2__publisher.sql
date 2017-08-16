@@ -2,7 +2,7 @@ CREATE TABLE `publisher` (
   `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
   `name` varchar(40) NOT NULL COMMENT '出版社名',
   PRIMARY KEY (`publisherid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版社';
+) COMMENT='出版社';
 
 DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book` (
@@ -11,6 +11,5 @@ CREATE TABLE `book` (
   `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
   `author` varchar(40) NOT NULL COMMENT '著者',
   PRIMARY KEY (`isbn`),
-  KEY `publisherid` (`publisherid`),
   CONSTRAINT `book_ibfk_1` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍';
+) COMMENT='書籍';

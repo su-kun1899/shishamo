@@ -3,4 +3,4 @@ CREATE TABLE `book` (
   `title` varchar(128) NOT NULL COMMENT 'タイトル',
   `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
   PRIMARY KEY (`isbn`)
-) DEFAULT CHARSET=utf8 COMMENT='書籍';
+) COMMENT='書籍';
