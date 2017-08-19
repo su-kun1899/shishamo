@@ -12,7 +12,7 @@ import java.util.Properties;
 @Configuration
 public class MyBatisConfig {
     @Bean
-    VendorDatabaseIdProvider vendorDatabaseIdProvider() {
+    public VendorDatabaseIdProvider vendorDatabaseIdProvider() {
         VendorDatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
         Properties vendorProperties = new Properties();
         vendorProperties.put("PostgreSQL", "postgresql");
