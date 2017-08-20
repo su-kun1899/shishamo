@@ -8,7 +8,7 @@ spring:
 
 flyway:
   enabled: false
-  locations: db/sample
+  locations: db/mysql
 
 mybatis:
   mapper-locations: mybatis/mysql/*.xml
