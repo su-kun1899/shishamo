@@ -13,4 +13,4 @@ flyway:
   locations: db/sample
 
 mybatis:
-  mapper-locations: mybatis/sql/*.xml
+  mapper-locations: mybatis/mysql/*.xml
