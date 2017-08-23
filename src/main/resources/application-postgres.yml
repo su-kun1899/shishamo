@@ -8,3 +8,6 @@ spring:
 flyway:
   enabled: true
   locations: db/postgres
+
+mybatis:
+  mapper-locations: mybatis/postgresql/*.xml

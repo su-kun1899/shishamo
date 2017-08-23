@@ -22,20 +22,7 @@
     <resultMap id="tableCountMap" type="red.sukun1899.shishamo.model.ReferencedTableCount"/>
 
     <!--suppress SqlDialectInspection -->
-    <select id="selectAll" resultMap="tableMap" databaseId="mysql">
-        SELECT
-            tab.table_name    AS `name`,
-            tab.table_comment AS `comment`,
-            tab.table_rows    AS `rowCount`
-        FROM
-            information_schema.tables tab
-        WHERE
-            tab.table_schema = #{schemaName}
-            AND
-            tab.table_type = 'BASE TABLE'
-    </select>
-
-    <select id="selectAll" resultMap="tableMap" databaseId="postgresql">
+    <select id="selectAll" resultMap="tableMap">
         SELECT
             tab.table_name    AS name
         FROM
