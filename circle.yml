@@ -11,6 +11,7 @@ general:
 database:
   post:
     - mysql -u root --execute "create database if not exists sample character set utf8"
+    - psql -d circle_test -U ubuntu -f .circleci/setup_postgresql.sql
 dependencies:
   override:
     - mvn dependency:resolve
