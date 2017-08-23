@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/testdb?currentSchema=sample
+    username: shishamo
+    password:
+
+flyway:
+  enabled: false
+
+mybatis:
+  mapper-locations: mybatis/postgresql/*.xml
