@@ -4,9 +4,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/testdb?currentSchema=sample
     username: shishamo
     password:
-  h2:
-    console:
-      enabled: true
+
 flyway:
   enabled: true
   locations: db/postgres
