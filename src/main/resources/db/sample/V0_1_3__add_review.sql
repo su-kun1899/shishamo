@@ -1,6 +1,6 @@
 CREATE TABLE `review` (
   `review_id` INT(10) UNSIGNED NOT NULL
-  COMMENT 'レビュー',
+  COMMENT 'レビューID',
   `book_id`   INT(10) UNSIGNED NOT NULL
   COMMENT '書籍ID',
   `member_id` INT(10) UNSIGNED NOT NULL
