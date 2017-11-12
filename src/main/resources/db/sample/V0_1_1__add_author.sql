@@ -6,5 +6,5 @@ CREATE TABLE `author` (
 
 DELETE FROM book;
 ALTER TABLE `book` DROP COLUMN `author`;
-ALTER TABLE `book` ADD `author_id`  int(10) unsigned NOT NULL COMMENT '著者ID' AFTER `publisherid`;
+ALTER TABLE `book` ADD `author_id`  int(10) unsigned NOT NULL COMMENT '著者ID' AFTER `publisher_id`;
 ALTER TABLE `book` ADD CONSTRAINT `book_fk_author` FOREIGN KEY (`author_id`) REFERENCES author(`author_id`);
