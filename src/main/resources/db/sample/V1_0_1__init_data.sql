@@ -1,11 +1,12 @@
-INSERT INTO `address` (address_id, city_name) VALUES (1, 'Tokyo');
-INSERT INTO `address` (address_id, city_name) VALUES (2, 'Osaka');
-
 INSERT INTO author (author_id, name) VALUES (1, "Takashi Kadokura");
 INSERT INTO author (author_id, name) VALUES (2, "Yusuke Aiba");
 INSERT INTO author (author_id, name) VALUES (3, "Yoshiaki Kaneyama");
 INSERT INTO author (author_id, name) VALUES (4, "Grant Si Burton");
 INSERT INTO author (author_id, name) VALUES (5, "Oscar V. Hasan");
+
+INSERT INTO publisher (publisher_id, name) VALUES (1, 'A社');
+INSERT INTO publisher (publisher_id, name) VALUES (2, 'B社');
+INSERT INTO publisher (publisher_id, name) VALUES (3, 'C社');
 
 INSERT INTO book (book_id, isbn, title, publisher_id, author_id) VALUES (1, 123, 'Momotaro', 1, 1);
 INSERT INTO book (book_id, isbn, title, publisher_id, author_id) VALUES (2, 456, 'Kintaro', 1, 2);
@@ -17,6 +18,9 @@ INSERT INTO book (book_id, isbn, title, publisher_id, author_id) VALUES (7, 345,
 INSERT INTO book (book_id, isbn, title, publisher_id, author_id) VALUES (8, 678, 'Turunoongaeshi', 3, 3);
 INSERT INTO book (book_id, isbn, title, publisher_id, author_id) VALUES (9, 901, 'Kasajizo', 3, 4);
 INSERT INTO book (book_id, isbn, title, publisher_id, author_id) VALUES (10, 112, 'Issunboshi', 3, 5);
+
+INSERT INTO `address` (address_id, city_name) VALUES (1, 'Tokyo');
+INSERT INTO `address` (address_id, city_name) VALUES (2, 'Osaka');
 
 INSERT INTO hobby (hobby_id, name) VALUES (1, "football");
 INSERT INTO hobby (hobby_id, name) VALUES (2, "running");
