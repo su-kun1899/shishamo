@@ -47,6 +47,7 @@
             col.is_nullable              AS `column_nullable`,
             col.column_comment           AS `column_comment`,
             parent.referenced_table_name AS `column_parent_tableName`,
+            parent.referenced_column_name AS `column_parent_name`,
             child.column_name            AS `column_child_name`,
             child.table_name             AS `column_child_tableName`
         FROM
