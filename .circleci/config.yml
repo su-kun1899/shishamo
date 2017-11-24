@@ -9,6 +9,7 @@ jobs:
       - image: mysql:5.7
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: sample
 
     steps:
       - checkout
@@ -16,8 +17,6 @@ jobs:
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
-
-      - run: mysql -u root --execute "create database if not exists sample character set utf8"
 
       - restore_cache:
           key: shishamo-{{ checksum "pom.xml" }}
