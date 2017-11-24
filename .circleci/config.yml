@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  build:
+
+    working_directory: ~/shishamo
+
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+
+    steps:
+
+      - checkout
+
+      - restore_cache:
+          key: shishamo-{{ checksum "pom.xml" }}
+
+      - run: ./mvnw dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: shishamo-{{ checksum "pom.xml" }}
+
+      - run: ./mvnw package
+
+      - store_test_results:
+          path: target/surefire-reports
+
+      - store_artifacts:
+          path: target/shishamo.jar
