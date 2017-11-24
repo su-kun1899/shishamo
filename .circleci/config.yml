@@ -14,7 +14,7 @@ jobs:
       - restore_cache:
           key: shishamo-{{ checksum "pom.xml" }}
 
-      - run: ./mvnw dependency:go-offline
+      - run: ./mvnw dependency:resolve
 
       - save_cache:
           paths:
