@@ -1,0 +1,38 @@
+version: 2
+jobs:
+  build:
+
+    working_directory: ~/shishamo
+
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+      - image: mysql:5.7
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: sample
+        command: [--character-set-server=utf8, --collation-server=utf8_general_ci, --default-storage-engine=innodb]
+
+    steps:
+      - checkout
+
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+
+      - restore_cache:
+          key: shishamo-{{ checksum "pom.xml" }}
+
+      - run: ./mvnw clean integration-test -Dspring.profiles.active=circleci -Dshishamo.embedded.mysql=false
+      - run: ./mvnw sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=su-kun1899-github -Dsonar.login=${SONAR_QUBE_TOKEN}
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: shishamo-{{ checksum "pom.xml" }}
+
+
+      - store_test_results:
+          path: target/surefire-reports
+
+      - store_artifacts:
+          path: target/shishamo.jar
