@@ -23,6 +23,7 @@ jobs:
           key: shishamo-{{ checksum "pom.xml" }}
 
       - run: ./mvnw clean integration-test -Dspring.profiles.active=circleci -Dshishamo.embedded.mysql=false
+      - run: ./mvnw sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=su-kun1899-github -Dsonar.login=${SONAR_QUBE_TOKEN}
 
       - save_cache:
           paths:
