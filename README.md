@@ -44,3 +44,11 @@ Also you can change the configuration in `src/main/resources/embedded-mysql.yml`
 
 Notice:
 You can override the default configuration by providing arguments on the command line.
+
+## SonarCloud
+
+Shishamo uses [SonarCloud](https://about.sonarcloud.io/) to anlyze project.
+
+It requires to sign up and link up with [CircleCI](https://circleci.com/).
+
+Please refer to the help for details.
