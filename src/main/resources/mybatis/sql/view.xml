@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="red.sukun1899.shishamo.repository.ViewRepository">
+    <resultMap id="viewMap" type="red.sukun1899.shishamo.model.View" autoMapping="true">
+        <id property="name" column="name"/>
+    </resultMap>
+
+    <!--suppress SqlDialectInspection -->
+    <select id="selectAll" resultMap="viewMap">
+        SELECT
+            viw.table_name    AS `name`
+        FROM
+            information_schema.tables viw
+        WHERE
+            viw.table_schema = #{schemaName}
+            AND
+            viw.table_type = 'VIEW'
+    </select>
+
+</mapper>
