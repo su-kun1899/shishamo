@@ -39,8 +39,8 @@ class ViewRepositorySpec extends Specification {
                 sql('DROP TABLE IF EXISTS book'),
                 sql('CREATE TABLE `book` (' +
                         '  `isbn` bigint(19) NOT NULL COMMENT \'ISBN\',' +
-                        '  `title` varchar(128) NOT NULL COMMENT \'タイトル\',' +
-                        '  `publisher_id` int(10) unsigned NOT NULL COMMENT \'出版社ID\',' +
+                        '  `title` varchar(128) COMMENT \'タイトル\',' +
+                        '  `publisher_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT \'出版社ID\',' +
                         '  PRIMARY KEY (`isbn`)' +
                         ') ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'書籍\''),
                 insertInto('book')
@@ -84,10 +84,21 @@ class ViewRepositorySpec extends Specification {
         def firstView = views[0]
         firstView.name == 'view_book1'
         firstView.columns.size() == 2
+        firstView.columns[0].name == 'number'
+        firstView.columns[0].type == 'bigint(19)'
+        firstView.columns[0].defaultValue == null
+        !firstView.columns[0].nullable
+        firstView.columns[0].comment == 'ISBN'
+
+        and:
+        firstView.columns[1].name == 'name'
+        firstView.columns[1].type == 'varchar(128)'
+        firstView.columns[1].nullable
 
         and:
         def secondView = views[1]
         secondView.name == 'view_book2'
+        secondView.columns[1].defaultValue == '0'
 
         cleanup:
         new DbSetup(destination, sequenceOf(
