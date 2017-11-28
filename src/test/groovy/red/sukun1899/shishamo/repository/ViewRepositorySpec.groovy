@@ -79,11 +79,7 @@ class ViewRepositorySpec extends Specification {
 
         then:
         views.size() == 2
-//        tables.each {
-//            assert it.getName() == 'book'
-//            assert it.getComment() == '書籍'
-//            assert it.getRowCount() == 2L
-//        }
+
         and:
         def firstView = views[0]
         firstView.name == 'view_book1'
