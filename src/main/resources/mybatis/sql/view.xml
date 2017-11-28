@@ -6,18 +6,30 @@
 <mapper namespace="red.sukun1899.shishamo.repository.ViewRepository">
     <resultMap id="viewMap" type="red.sukun1899.shishamo.model.View" autoMapping="true">
         <id property="name" column="name"/>
+        <collection property="columns" ofType="red.sukun1899.shishamo.model.Column" autoMapping="true"
+                    columnPrefix="column_">
+            <id column="name" property="name"/>
+        </collection>
     </resultMap>
 
     <!--suppress SqlDialectInspection -->
     <select id="selectAll" resultMap="viewMap">
         SELECT
-            viw.table_name    AS `name`
+            viw.`table_name`      AS `name`,
+            col.`column_name`     AS `column_name`,
+            col.`column_type`     AS `column_type`,
+            col.`column_default`  AS `column_defaultValue`,
+            col.`is_nullable`     AS `column_nullable`,
+            col.`column_comment`  AS `column_comment`
         FROM
-            information_schema.tables viw
+            `information_schema`.`tables` viw
+            INNER JOIN
+            `information_schema`.`columns` col
+                ON viw.`table_schema` = col.`table_schema` AND viw.`table_name` = col.`table_name`
         WHERE
-            viw.table_schema = #{schemaName}
+            viw.`table_schema` = #{schemaName}
             AND
-            viw.table_type = 'VIEW'
+            viw.`table_type` = 'VIEW'
     </select>
 
 </mapper>

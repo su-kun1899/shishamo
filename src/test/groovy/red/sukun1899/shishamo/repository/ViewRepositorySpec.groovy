@@ -87,6 +87,7 @@ class ViewRepositorySpec extends Specification {
         and:
         def firstView = views[0]
         firstView.name == 'view_book1'
+        firstView.columns.size() == 2
 
         and:
         def secondView = views[1]
