@@ -13,7 +13,7 @@
     </resultMap>
 
     <!--suppress SqlDialectInspection -->
-    <select id="selectAll" resultMap="viewMap">
+    <select id="select" resultMap="viewMap">
         SELECT
             viw.`table_name`      AS `name`,
             col.`column_name`     AS `column_name`,

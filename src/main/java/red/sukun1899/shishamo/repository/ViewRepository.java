@@ -12,5 +12,5 @@ import java.util.List;
 @Repository
 @Mapper
 public interface ViewRepository {
-    List<View> selectAll(String schemaName);
+    List<View> select(String schemaName);
 }

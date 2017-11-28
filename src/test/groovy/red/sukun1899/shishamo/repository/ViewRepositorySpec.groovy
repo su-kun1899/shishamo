@@ -75,7 +75,7 @@ class ViewRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def views = viewRepository.selectAll(dataSourceProperties.getSchema())
+        def views = viewRepository.select(dataSourceProperties.getSchema())
 
         then:
         views.size() == 2
