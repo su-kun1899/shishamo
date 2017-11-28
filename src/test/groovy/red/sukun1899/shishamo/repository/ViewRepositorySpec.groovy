@@ -84,6 +84,13 @@ class ViewRepositorySpec extends Specification {
 //            assert it.getComment() == '書籍'
 //            assert it.getRowCount() == 2L
 //        }
+        and:
+        def firstView = views[0]
+        firstView.name == 'view_book1'
+
+        and:
+        def secondView = views[1]
+        secondView.name == 'view_book2'
 
         cleanup:
         new DbSetup(destination, sequenceOf(
