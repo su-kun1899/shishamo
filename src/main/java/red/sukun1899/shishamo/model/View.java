@@ -7,7 +7,6 @@ import java.util.List;
  */
 public class View {
     private String name;
-    private Long rowCount;
     private List<Column> columns;
 
     public String getName() {
@@ -16,14 +15,6 @@ public class View {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getRowCount() {
-        return rowCount;
-    }
-
-    public void setRowCount(Long rowCount) {
-        this.rowCount = rowCount;
     }
 
     public List<Column> getColumns() {
