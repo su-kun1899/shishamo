@@ -1,6 +1,7 @@
 package red.sukun1899.shishamo.repository;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import red.sukun1899.shishamo.model.View;
 
@@ -12,5 +13,8 @@ import java.util.List;
 @Repository
 @Mapper
 public interface ViewRepository {
-    List<View> select(String schemaName);
+    List<View> select(@Param("schemaName") String schemaName, Condition condition);
+
+    class Condition {
+    }
 }

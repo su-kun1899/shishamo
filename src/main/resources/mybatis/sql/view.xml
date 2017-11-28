@@ -13,7 +13,7 @@
     </resultMap>
 
     <!--suppress SqlDialectInspection -->
-    <select id="select" resultMap="viewMap">
+    <select id="select" resultMap="viewMap" parameterType="red.sukun1899.shishamo.repository.ViewRepository$Condition">
         SELECT
             viw.`table_name`      AS `name`,
             col.`column_name`     AS `column_name`,

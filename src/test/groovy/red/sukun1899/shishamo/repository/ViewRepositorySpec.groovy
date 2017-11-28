@@ -10,6 +10,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static com.ninja_squad.dbsetup.Operations.*
+import static red.sukun1899.shishamo.repository.ViewRepository.*
 
 /**
  * @author su-kun1899
@@ -75,7 +76,7 @@ class ViewRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def views = viewRepository.select(dataSourceProperties.getSchema())
+        def views = viewRepository.select(dataSourceProperties.getSchema(),new Condition())
 
         then:
         views.size() == 2
