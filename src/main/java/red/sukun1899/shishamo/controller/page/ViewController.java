@@ -1,5 +1,6 @@
 package red.sukun1899.shishamo.controller.page;
 
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/views")
 public class ViewController {
+    private final DataSourceProperties dataSourceProperties;
+
+    public ViewController(DataSourceProperties dataSourceProperties) {
+        this.dataSourceProperties = dataSourceProperties;
+    }
 
     @GetMapping
     public String get(Model model) {
@@ -52,7 +58,7 @@ public class ViewController {
         };
         model.addAttribute("views", views);
 
-        model.addAttribute("schemaName", "sample");
+        model.addAttribute("schemaName", dataSourceProperties.getSchema());
 
         return "views";
     }
