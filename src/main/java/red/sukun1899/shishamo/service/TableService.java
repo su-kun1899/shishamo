@@ -40,23 +40,20 @@ public class TableService {
 
         return tables.stream()
                 .map(TableOverview::new)
-                .map(tableOverview -> {
+                .peek(tableOverview -> {
                     if (parentTableCounts.containsKey(tableOverview.getName())) {
                         tableOverview.setCountOfParents(parentTableCounts.get(tableOverview.getName()));
                     }
-                    return tableOverview;
                 })
-                .map(tableOverview -> {
+                .peek(tableOverview -> {
                     if (childTableCounts.containsKey(tableOverview.getName())) {
                         tableOverview.setCountOfChildren(childTableCounts.get(tableOverview.getName()));
                     }
-                    return tableOverview;
                 })
-                .map(tableOverview -> {
+                .peek(tableOverview -> {
                     if (columnCounts.containsKey(tableOverview.getName())) {
                         tableOverview.setCountOfColumns(columnCounts.get(tableOverview.getName()));
                     }
-                    return tableOverview;
                 })
                 .collect(
                         Collectors.toList()
