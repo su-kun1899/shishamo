@@ -25,6 +25,7 @@ public class ViewController {
 
     @GetMapping
     public String get(Model model) {
+        // TODO Serviceから取得する
         List<View> views = new ArrayList<View>() {
             {
                 add(new View() {

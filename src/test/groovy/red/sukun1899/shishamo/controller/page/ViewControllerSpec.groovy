@@ -44,6 +44,7 @@ class ViewControllerSpec extends Specification {
 
         then:
         result.andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+        // TODO Serviceから取るようにしたら == でassertする
         result.andReturn().modelAndView.modelMap.get('views') != null
         result.andReturn().modelAndView.modelMap.get('schemaName') == 'sample'
     }
