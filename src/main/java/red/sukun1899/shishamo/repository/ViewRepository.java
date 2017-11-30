@@ -15,6 +15,8 @@ import java.util.List;
 public interface ViewRepository {
     List<View> select(@Param("schemaName") String schemaName, Condition condition);
 
+    View selectByName(@Param("schemaName") String schemaName, @Param("name") String name);
+
     class Condition {
     }
 }
