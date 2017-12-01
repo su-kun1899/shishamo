@@ -5,11 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import red.sukun1899.shishamo.model.Column;
-import red.sukun1899.shishamo.model.View;
-
-import java.util.ArrayList;
-import java.util.List;
+import red.sukun1899.shishamo.service.ViewService;
 
 /**
  * @author su-kun1899
@@ -17,48 +13,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/views")
 public class ViewController {
+    private final ViewService viewService;
     private final DataSourceProperties dataSourceProperties;
 
-    public ViewController(DataSourceProperties dataSourceProperties) {
+    public ViewController(ViewService viewService, DataSourceProperties dataSourceProperties) {
+        this.viewService = viewService;
         this.dataSourceProperties = dataSourceProperties;
     }
 
     @GetMapping
     public String get(Model model) {
-        // TODO Serviceから取得する
-        List<View> views = new ArrayList<View>() {
-            {
-                add(new View() {
-                    {
-                        setName("view1");
-                        setColumns(new ArrayList<Column>() {{
-                            add(new Column());
-                        }});
-                    }
-                });
-                add(new View() {
-                    {
-                        setName("view2");
-                        setColumns(new ArrayList<Column>() {{
-                            add(new Column());
-                            add(new Column());
-                        }});
-                    }
-                });
-                add(new View() {
-                    {
-                        setName("view3");
-                        setColumns(new ArrayList<Column>() {{
-                            add(new Column());
-                            add(new Column());
-                            add(new Column());
-                        }});
-                    }
-                });
-            }
-        };
-        model.addAttribute("views", views);
-
+        model.addAttribute("views", viewService.getAll());
         model.addAttribute("schemaName", dataSourceProperties.getSchema());
 
         return "views";
