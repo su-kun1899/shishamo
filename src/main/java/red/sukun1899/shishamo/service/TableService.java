@@ -50,10 +50,11 @@ public class TableService {
                         tableOverview.setCountOfChildren(childTableCounts.get(tableOverview.getName()));
                     }
                 })
-                .peek(tableOverview -> {
+                .map(tableOverview -> {
                     if (columnCounts.containsKey(tableOverview.getName())) {
                         tableOverview.setCountOfColumns(columnCounts.get(tableOverview.getName()));
                     }
+                    return tableOverview;
                 })
                 .collect(
                         Collectors.toList()
