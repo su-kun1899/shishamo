@@ -12,7 +12,7 @@
         </collection>
     </resultMap>
 
-    <select id="select" resultMap="viewMap" parameterType="red.sukun1899.shishamo.repository.ViewRepository$Condition">
+    <select id="select" resultMap="viewMap">
         SELECT
             viw.`table_name`      AS `name`,
             col.`column_name`     AS `column_name`,

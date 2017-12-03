@@ -13,10 +13,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface ViewRepository {
-    List<View> select(@Param("schemaName") String schemaName, Condition condition);
+    List<View> select(@Param("schemaName") String schemaName);
 
     View selectByName(@Param("schemaName") String schemaName, @Param("name") String name);
-
-    class Condition {
-    }
 }

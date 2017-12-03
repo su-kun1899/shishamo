@@ -21,6 +21,6 @@ public class ViewService {
     }
 
     public List<View> getAll() {
-        return viewRepository.select(dataSourceProperties.getSchema(), new ViewRepository.Condition());
+        return viewRepository.select(dataSourceProperties.getSchema());
     }
 }

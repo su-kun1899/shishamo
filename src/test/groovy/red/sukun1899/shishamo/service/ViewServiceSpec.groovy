@@ -5,9 +5,6 @@ import red.sukun1899.shishamo.model.View
 import red.sukun1899.shishamo.repository.ViewRepository
 import spock.lang.Specification
 import spock.lang.Unroll
-
-import static red.sukun1899.shishamo.repository.ViewRepository.*
-
 /**
  * @author su-kun1899
  */
@@ -25,7 +22,7 @@ class ViewServiceSpec extends Specification {
 
     def 'Get all view list'() {
         given: 'Mocking repository'
-        viewRepository.select('sample', _ as Condition) >> {
+        viewRepository.select('sample') >> {
             [
                     new View(name: 'view1'),
                     new View(name: 'view2'),
