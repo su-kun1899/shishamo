@@ -23,4 +23,8 @@ public class ViewService {
     public List<View> getAll() {
         return viewRepository.select(dataSourceProperties.getSchema());
     }
+
+    public View getByName(String name) {
+        return viewRepository.selectByName(dataSourceProperties.getSchema(), name);
+    }
 }

@@ -5,6 +5,7 @@ import red.sukun1899.shishamo.model.View
 import red.sukun1899.shishamo.repository.ViewRepository
 import spock.lang.Specification
 import spock.lang.Unroll
+
 /**
  * @author su-kun1899
  */
@@ -37,6 +38,22 @@ class ViewServiceSpec extends Specification {
 
         then:
         views.size() == 2
-        views.collect {it.name} == ['view1','view2']
+        views.collect { it.name } == ['view1', 'view2']
+    }
+
+    def 'Get view by name'() {
+        given:
+        def viewName = 'view_by_name'
+        def expected = new View(name: 'view_by_name')
+
+        and:
+        viewRepository.selectByName('sample', viewName) >> expected
+        dataSourceProperties.getSchema() >> 'sample'
+
+        when:
+        def view = viewService.getByName(viewName)
+
+        then:
+        view == expected
     }
 }
