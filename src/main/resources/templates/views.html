@@ -29,13 +29,13 @@
         </thead>
         <tbody>
         <tr th:each="view : ${views}">
-            <td><a href="view.html" th:href="@{'/tables/' + ${view.name}}"
+            <td><a href="view.html" th:href="@{'/views/' + ${view.name}}"
                    th:text="${view.name}">view1</a></td>
             <td th:text="${#lists.size(view.columns)}">4</td>
         </tr>
         <!--/*-->
         <tr>
-            <td><a href="table.html">publisher</a></td>
+            <td><a href="view.html">publisher</a></td>
             <td>2</td>
         </tr>
         <!--*/-->
