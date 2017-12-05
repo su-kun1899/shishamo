@@ -34,7 +34,7 @@ class ViewControllerSpec extends Specification {
         }
     }
 
-    def 'Get all table list'() {
+    def 'Get all view list'() {
         given:
         def views = [
                 new View(name: 'view1', columns: [new Column()]),
@@ -55,4 +55,20 @@ class ViewControllerSpec extends Specification {
         result.andReturn().modelAndView.modelMap.get('schemaName') == 'sample'
     }
 
+    def 'Get view detail'() {
+        given: 'Mocking get view'
+        def view = new View(name: 'view1')
+        Mockito.doReturn(view).when(viewService).getByName(view.name)
+
+        and: 'URL'
+        def url = '/views/' + view.name
+
+        when:
+        def result = mockMvc.perform(MockMvcRequestBuilders.get(url))
+
+        then:
+        result.andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
+        result.andReturn().modelAndView.modelMap.get('view') == view
+        result.andReturn().modelAndView.modelMap.get('schemaName') == 'sample'
+    }
 }

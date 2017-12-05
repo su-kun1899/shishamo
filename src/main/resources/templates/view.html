@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <title th:text="'shishamo - View ' + ${schemaName} + '.' + ${table.name}">shishamo - Table
+    <title th:text="'shishamo - View ' + ${schemaName} + '.' + ${view.name}">shishamo - Table
         sample.book</title>
 
     <!-- Bootstrap -->
@@ -33,7 +33,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="column : ${table.columns}">
+        <tr th:each="column : ${view.columns}">
             <td th:text="${column.name}">
                 view_book
             </td>
