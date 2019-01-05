@@ -5,7 +5,9 @@ jobs:
     working_directory: ~/shishamo
 
     docker:
-      - image: circleci/openjdk:8-jdk-browsers
+      - image: circleci/openjdk:8-jdk
+        environment:
+          MAVEN_OPTS: -Xmx3200m
       - image: mysql:5.7
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
